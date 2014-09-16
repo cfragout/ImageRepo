@@ -8,3 +8,33 @@ body {
 	display: inline-block;
 	vertical-align: middle;
 }
+
+.sidebar-bottom {
+	margin-top: 90px !important;
+	z-index: 0 !important;
+}
+
+.sidebar-top {
+	z-index: 0 !important;
+}
+
+.sidebar-top .actions {
+	float:left;
+	padding:5px 8px 5px 8px;
+}
+
+.sidebar-top .no-hover:hover{
+	background-color: white !important;
+}
+
+.sidebar-top .no-hover a{
+	cursor:default;
+}
+
+.sidebar-top .actions:hover {
+	background-color: #e5e5e5;
+}
+
+.sidebar-top .actions a {
+	padding:0px 10px 0px 10px !important;
+}
