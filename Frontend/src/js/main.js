@@ -1,14 +1,30 @@
+function createImageElement(path, name) {
+	var imageElement = $('<div class="image-container image-element"></div>');
+	imageElement.append('<img src="'+ path +'" alt="' + name +'">');
+
+	return imageElement;
+};
+
 function addToImageBoard(image) {
-	$('.image-board').append('<div class="image-container">' +
-							 '<img src="'+ image.path +'" alt="' + image.name +'">' +
-							 '</div>');
+	var image = createImageElement(image.path, image.name);
+	var $container = $('#image-board');
+	$container.isotope('insert', image)
+}
+
+function addImageArrayToBoard(imagesObjArray) {
+	var $container = $('#image-board');
+	var imageArray = [];
+
+	$.each(imagesObjArray, function(index, image){
+		imageArray.push(createImageElement(image.path, image.name)[0]);
+	});
+
+	$container.isotope('insert', imageArray)
 }
 
 function loadImages() {
 	$.get('http://localhost:53079/api/Imagenes', function( data ) {
-		$.each(data, function(index, image){
-			addToImageBoard(image);
-		});
+		addImageArrayToBoard(data)
 	});
 }
 
@@ -20,11 +36,24 @@ function getImageFromImageContainer(imageContainer) {
 	return $(imageContainer).find('img')[0];
 }
 
-$(function(){
+function bindEvents() {
+	$("#secondary-image-board").mCustomScrollbar({
+		axis:'x',
+		autoHideScrollbar: true
+	});
 
-	loadImages();
 
-	$('.image-board').on('click', '.image-container', function(){
+	$('#secondary-image-board-toggle').click(function(){
+		$(this).hide();
+		$('#secondary-image-board, #secondary-image-board-title').show();
+	});
+
+	$('#secondary-image-board-title span').click(function(){
+		$('#secondary-image-board-toggle').show();
+		$('#secondary-image-board, #secondary-image-board-title').hide();
+	});
+
+	$('#image-board').on('click', '.image-container', function(){
 		$(this).toggleClass('selected');
 
 
@@ -42,6 +71,8 @@ $(function(){
 
 	});
 
+
+
 	$('.icon-link').parent().click(function(){
 		var link = $(this);
 		var selectedImages = getSelectedImagesHTML();
@@ -54,4 +85,32 @@ $(function(){
 		var imageHTML = getImageFromImageContainer(selectedImages[0]);
 		link.attr('href', imageHTML.src);
 	});
+
+
+	var $container = $('#image-board');
+	// init
+	$container.isotope({
+	// options
+		itemSelector: '.image-element',
+		masonry: {
+			columnWidth: 5
+		}
+	});
+
+
+	$('#refresh').click(function() {
+		location.reload();
+	});
+
+}
+
+function initApp() {
+	bindEvents();
+	loadImages();
+}
+
+$(function(){
+
+	initApp();
+
 });

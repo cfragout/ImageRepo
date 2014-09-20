@@ -5,6 +5,8 @@
 			<link rel="stylesheet" href="../vendor/Metro UI/css/iconFont.min.css" type="text/css" />
 			<link rel="stylesheet" href="../vendor/Metro UI/css/metro-bootstrap.min.css" type="text/css" />
 			<link rel="stylesheet" href="../vendor/Metro UI/css/metro-bootstrap-responsive.min.css" type="text/css" />
+			<link rel="stylesheet" href="../vendor/Scrollbar/jquery.mCustomScrollbar.css" />
+
 			<link rel="stylesheet" href="css/main.css" type="text/css" />
 
 
@@ -28,7 +30,7 @@
         </div>
  
         <span class="element-divider"></span>
-        <a class="element brand" href="#"><span class="icon-spin"></span></a>
+        <a id="refresh" class="element brand" href="#"><span class="icon-spin"></span></a>
         <a class="element brand" href="#"><span class="icon-printer"></span></a>
         <span class="element-divider"></span>
  
@@ -41,8 +43,7 @@
             </form>
         </div>
  
-        <a class="element place-right" href="#"><span class="icon-remove"></span></a>
-        <span class="element-divider place-right"></span>
+		<!-- Configurations dropdown and icon -->
         <div class="element place-right">
             <a class="dropdown-toggle" href="#">
                 <span class="icon-cog"></span>
@@ -54,6 +55,9 @@
                 <li><a href="#">Buy Now</a></li>
             </ul>
         </div>
+		<!-- End configurations dropdown and icon -->
+        <span class="element-divider place-right"></span>
+        <a class="element place-right" href="#"><span class="icon-alarm"></span></a>
         <span class="element-divider place-right"></span>
         <button class="element image-button image-left place-right">
             Carlos Francisco Ragout
@@ -67,9 +71,10 @@
 
 			<div class="grid fluid">
 				<div class="row">
-				<!-- image-board -->
-					<div class="span10 image-board"></div>
-				<!-- End image-board -->
+				<!-- Primary image-board -->
+					<div id="image-board" class="span10 image-board">
+					</div>
+				<!-- End primary image-board -->
 
 				<!-- Side bar container-->
 					<div class="span2">
@@ -102,12 +107,144 @@
 			</div>
 
 
+			<div class="row">
+					<div id="secondary-image-board-toggle">
+						<span class="icon-arrow-up-5"></span>
+					</div>
+					<div id="secondary-image-board-title">
+						Agregadas recientemente
+						<span class="icon-cancel-2 pull-right"></span>
+					</div>
+				<!-- Secondary image-board -->
+					<div id="secondary-image-board" class="secondary-image-board">
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div><div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/2501075816_c95e131d9f.jpg">
+						</div>
+						<div class="secondary-image-element">
+							<img src="http://localhost:53079/Content/images/zooey_deschanel_4828_635x.jpg">
+						</div>
 
+					</div>
+				<!-- End secondary image-board -->
+			</div>
 
 			<script type="text/javascript" src="../vendor/jquery-2.1.1.min.js"></script>
 			<script type="text/javascript" src="../vendor/Metro UI/js/jquery.widget.min.js"></script>
 			<script type="text/javascript" src="../vendor/jquery.mousewheel.min.js"></script>
 			<script type="text/javascript" src="../vendor/Metro UI/js/metro.min.js"></script>
+			<script type="text/javascript" src="../vendor/isotope.pkgd.min.js"></script>
+			<script type="text/javascript" src="../vendor/Scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+
 
 			<script type="text/javascript" src="js/main.js"></script>
 

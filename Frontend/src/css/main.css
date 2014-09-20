@@ -9,6 +9,78 @@ body {
 	vertical-align: middle;
 }
 
+#secondary-image-board-title {
+	background-color: rgb(17,17,17);
+	color: #646464;
+	position: fixed;
+	height: 25px;
+	bottom: 145px;
+	width: 100%;
+	padding-left:10px;
+}
+
+#secondary-image-board-title span {
+	float: right;
+	margin-right: 5px;
+	margin-top: 5px;
+	font-size: 12px;
+}
+
+#secondary-image-board-title span:hover {
+	color:white;
+	cursor:pointer;
+}
+
+#secondary-image-board-toggle {
+	margin-left:50%;
+	position: fixed;
+	bottom: 0px;
+	color:white;
+	cursor:pointer;
+	padding: 5px 20px 0px 20px;
+	font-size: 17px;
+	background-color: rgb(17,17,17);
+}
+
+#secondary-image-board {
+	background-color: rgb(17,17,17);
+	position: fixed;
+	height: 145px;
+	bottom: 0px;
+	width: 15000px;
+}
+
+/* Override scrollbar plugin CSS */
+.mCSB_horizontal.mCSB_inside {
+	width: 1920px !important;
+}
+
+.mCSB_container {
+	width: 15000px !important;
+}
+
+.mCSB_dragger_bar {
+	height: 13px !important;
+	border-radius: 0px !important;
+	margin: 3px 0px 0px 0px !important;
+
+}
+
+.mCSB_draggerRail {
+	border-radius: 0px !important;
+	height: 13px !important;
+	margin-top: 3px !important;
+}
+/**/
+
+.secondary-image-element {
+	height: 110px;
+	margin: 10px 0px 10px 10px;
+	width: 195px;
+	float:left;
+	overflow: hidden;
+}
+
 .sidebar-bottom {
 	margin-top: 90px !important;
 	z-index: 0 !important;
