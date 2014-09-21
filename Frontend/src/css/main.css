@@ -19,20 +19,8 @@ body {
 	padding-left:10px;
 }
 
-#secondary-image-board-title span {
-	float: right;
-	margin-right: 5px;
-	margin-top: 5px;
-	font-size: 12px;
-}
-
-#secondary-image-board-title span:hover {
-	color:white;
-	cursor:pointer;
-}
-
 #secondary-image-board-toggle {
-	margin-left:50%;
+	margin-left:48%;
 	position: fixed;
 	bottom: 0px;
 	color:white;
@@ -40,6 +28,26 @@ body {
 	padding: 5px 20px 0px 20px;
 	font-size: 17px;
 	background-color: rgb(17,17,17);
+}
+
+#secondary-image-board-toggle:hover {
+	background-color: rgb(51,51,51);
+}
+
+
+#secondary-image-board-title span {
+	float: right;
+	font-size: 12px;
+}
+
+.exit-button-container {
+	float: right;
+	padding:5px;
+}
+
+.exit-button-container:hover {
+	background-color: rgb(51,51,51);
+	cursor:pointer;
 }
 
 #secondary-image-board {

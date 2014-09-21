@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -62,6 +63,16 @@ namespace ImageRepoBackend.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                WebClient webClient = new WebClient();
+
+                string remoteFileUrl = imagen.originalURL;
+                string serverUrl = "http://localhost:53079/Content/Images/";
+                string localFilePath = getLocalFilePath(imagen);
+
+                imagen.path = serverUrl + getLocalFileName(imagen);
+                webClient.DownloadFile(remoteFileUrl, localFilePath);
+
                 db.Imagens.Add(imagen);
                 db.SaveChanges();
 
@@ -103,5 +114,20 @@ namespace ImageRepoBackend.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
+
+        private string getLocalFilePath(Imagen imagen)
+        {
+            string imageDirPath = "Content/Images/";
+            return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath + getLocalFileName(imagen);
+        }
+
+        private string getLocalFileName(Imagen imagen)
+        {
+            string username = "CFR";
+            string datetime = DateTime.Now.ToString();
+            datetime = datetime.Replace('/', '_').Replace('.', '_').Replace(':','_');
+            return username + "_" + imagen.name + "_" + datetime + Path.GetExtension(imagen.originalURL);
+        }
+
     }
 }
