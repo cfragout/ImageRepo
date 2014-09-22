@@ -12,17 +12,17 @@ using System.Web.Http;
 
 namespace ImageRepoBackend.Controllers
 {
-    public class ImagenesController : ApiController
+    public class ImagenController : ApiController
     {
         private ImageRepoEntities db = new ImageRepoEntities();
 
-        // GET api/Imagenes
+        // GET api/Imagen
         public IEnumerable<Imagen> GetImagens()
         {
             return db.Imagens.AsEnumerable();
         }
 
-        // GET api/Imagenes/5
+        // GET api/Imagen/5
         public Imagen GetImagen(int id)
         {
             Imagen imagen = db.Imagens.Find(id);
@@ -34,7 +34,7 @@ namespace ImageRepoBackend.Controllers
             return imagen;
         }
 
-        // PUT api/Imagenes/5
+        // PUT api/Imagen/5
         public HttpResponseMessage PutImagen(int id, Imagen imagen)
         {
             if (ModelState.IsValid && id == imagen.id)
@@ -58,7 +58,7 @@ namespace ImageRepoBackend.Controllers
             }
         }
 
-        // POST api/Imagenes
+        // POST api/Imagen
         public HttpResponseMessage PostImagen(Imagen imagen)
         {
             if (ModelState.IsValid)
@@ -71,6 +71,8 @@ namespace ImageRepoBackend.Controllers
                 string localFilePath = getLocalFilePath(imagen);
 
                 imagen.path = serverUrl + getLocalFileName(imagen);
+                imagen.datetime = DateTime.Now;
+                imagen.isDeleted = false;
                 webClient.DownloadFile(remoteFileUrl, localFilePath);
 
                 db.Imagens.Add(imagen);
@@ -86,7 +88,7 @@ namespace ImageRepoBackend.Controllers
             }
         }
 
-        // DELETE api/Imagenes/5
+        // DELETE api/Imagen/5
         public HttpResponseMessage DeleteImagen(int id)
         {
             Imagen imagen = db.Imagens.Find(id);
@@ -125,9 +127,8 @@ namespace ImageRepoBackend.Controllers
         {
             string username = "CFR";
             string datetime = DateTime.Now.ToString();
-            datetime = datetime.Replace('/', '_').Replace('.', '_').Replace(':','_');
+            datetime = datetime.Replace('/', '_').Replace('.', '_').Replace(':', '_');
             return username + "_" + imagen.name + "_" + datetime + Path.GetExtension(imagen.originalURL);
         }
-
     }
 }

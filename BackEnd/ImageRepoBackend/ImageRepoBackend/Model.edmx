@@ -17,6 +17,8 @@
           <Property Name="userUploaded" Type="bit" />
           <Property Name="originalURL" Type="nvarchar(max)" Nullable="false" />
           <Property Name="path" Type="varchar(max)" />
+          <Property Name="isDeleted" Type="bit" />
+          <Property Name="datetime" Type="datetime" />
         </EntityType>
       </Schema>
     </edmx:StorageModels>
@@ -35,6 +37,8 @@
           <Property Name="userUploaded" Type="Boolean" />
           <Property Name="originalURL" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="path" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="isDeleted" Type="Boolean" />
+          <Property Name="datetime" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -50,6 +54,8 @@
                 <ScalarProperty Name="userUploaded" ColumnName="userUploaded" />
                 <ScalarProperty Name="originalURL" ColumnName="originalURL" />
                 <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="datetime" ColumnName="datetime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

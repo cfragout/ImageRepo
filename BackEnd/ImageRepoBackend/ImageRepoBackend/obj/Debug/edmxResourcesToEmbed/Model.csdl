@@ -12,5 +12,7 @@
     <Property Name="userUploaded" Type="Boolean" />
     <Property Name="originalURL" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="path" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="isDeleted" Type="Boolean" />
+    <Property Name="datetime" Type="DateTime" Precision="3" />
   </EntityType>
 </Schema>

@@ -12,5 +12,7 @@
     <Property Name="userUploaded" Type="bit" />
     <Property Name="originalURL" Type="nvarchar(max)" Nullable="false" />
     <Property Name="path" Type="varchar(max)" />
+    <Property Name="isDeleted" Type="bit" />
+    <Property Name="datetime" Type="datetime" />
   </EntityType>
 </Schema>

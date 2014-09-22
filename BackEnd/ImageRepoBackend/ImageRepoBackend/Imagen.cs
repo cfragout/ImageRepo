@@ -19,5 +19,7 @@ namespace ImageRepoBackend
         public Nullable<bool> userUploaded { get; set; }
         public string originalURL { get; set; }
         public string path { get; set; }
+        public Nullable<bool> isDeleted { get; set; }
+        public Nullable<System.DateTime> datetime { get; set; }
     }
 }

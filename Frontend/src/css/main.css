@@ -118,3 +118,55 @@ body {
 .sidebar-top .actions a {
 	padding:0px 10px 0px 10px !important;
 }
+
+/* Add image modal */
+.add-image-modal {
+	padding:20px 10px 10px 10px;
+}
+
+.add-image-modal button {
+	margin-top:25px;
+}
+
+.add-image-preview-container {
+	width:28% !important;
+	float:left;
+	margin-left:15px;
+	margin-top:3px;
+}
+
+.add-image-left {
+	width:70% !important;
+	float:left;
+}
+
+.add-pc-input {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.window.flat.shadow {
+	height: 50% !important;
+	min-width: 775px !important;
+	max-width: 50% !important;
+}
+
+/**/
+
+/* General styles*/
+.pull-left {
+	float:left;
+}
+
+.pull-right {
+	float:right;
+}
+
+.clear {
+	clear:both;
+}
+
+.hidden {
+	display:none;
+}
+/**/

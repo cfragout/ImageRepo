@@ -248,6 +248,75 @@
 				<!-- End secondary image-board -->
 			</div>
 
+
+			<!-- Add image modal  -->
+			<div class="add-image-modal hidden">
+				<form>
+					<fieldset>
+
+					<div>
+
+						<!-- Left side -->
+						<div class="add-image-left">
+
+							<label>Nombre</label>
+							<div class="input-control text" data-role="input-control">
+								<input type="text" placeholder="Foto city bell" class="add-name-input">
+								<button class="btn-clear" tabindex="-1" type="button"></button>
+							</div>
+
+							<div class="input-control radio default-style" data-role="input-control">
+								<label>
+									<input type="radio" name="addCheck" checked="checked" class="add-internet">
+									<span class="check"></span>
+									Agregar imagen de internet
+								</label>
+							</div>
+
+							<div class="input-control text" data-role="input-control">
+								<input type="url" placeholder="http://www.heraldicaargentina.com.ar/1-BA-LaPlataCityBellletrero.jpg" class="add-internet-input">
+								<button class="btn-clear" tabindex="-1" type="button"></button>
+							</div>
+
+							<div class="input-control radio default-style" data-role="input-control">
+								<label>
+									<input type="radio" name="addCheck" class="add-pc">
+									<span class="check"></span>
+									Subir una imagen de mi PC
+								</label>
+							</div>
+
+							<div class="input-control file">
+								<input type="file" class="add-pc-input" disabled/>
+								<button class="btn-file"></button>
+							</div>
+
+							<label>Tags</label>
+							<div class="input-control text" data-role="input-control">
+								<input type="text" placeholder="gif, oficina, peliculas" class="add-tags-input">
+								<button class="btn-clear" tabindex="-1" type="button"></button>
+							</div>
+
+						</div>
+						<!-- End left side -->
+
+						<!-- Right side -->
+						<div class="add-image-preview-container">
+							<img class="add-image-preview" src="../assets/images/image-placeholder.png">
+						</div>
+						<!-- End Right side -->
+					</div>
+
+						<div class="clear">
+							<button class="add-accept pull-right primary">Agregar</button>
+							<button class="add-cancel pull-right btn-close">Cancelar</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<!-- End add image modal -->
+
+
 			<script type="text/javascript" src="../vendor/jquery-2.1.1.min.js"></script>
 			<script type="text/javascript" src="../vendor/Metro UI/js/jquery.widget.min.js"></script>
 			<script type="text/javascript" src="../vendor/jquery.mousewheel.min.js"></script>
@@ -257,6 +326,6 @@
 
 
 			<script type="text/javascript" src="js/main.js"></script>
-
+			<script type="text/javascript" src="js/addImageModal.js"></script>
 		</body>
 	</html>

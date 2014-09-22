@@ -1,3 +1,7 @@
+var baseURL = 'http://localhost:53079/Api/';
+var postImage = baseURL + 'Imagen/PostImagen';
+var getImage = baseURL + 'Imagen/';
+
 function createImageElement(path, name) {
 	var imageElement = $('<div class="image-container image-element"></div>');
 	imageElement.append('<img src="'+ path +'" alt="' + name +'">');
@@ -23,7 +27,7 @@ function addImageArrayToBoard(imagesObjArray) {
 }
 
 function loadImages() {
-	$.get('http://localhost:53079/api/Imagenes', function( data ) {
+	$.get(getImage, function( data ) {
 		addImageArrayToBoard(data)
 	});
 }
@@ -71,21 +75,6 @@ function bindEvents() {
 
 	});
 
-
-
-	$('#addImagesButton').click(function(){
-		var imagen = {
-			name : 'katy perry3',
-			userUploaded : false,
-			originalURL : 'http://img1.wikia.nocookie.net/__cb20140721123949/himym/images/8/82/Screen-Shot-2014-02-26-at-9_29_02-PM.png',
-			path : ''
-		};
-
-		$.post('http://localhost:53079/Api/Imagenes/PostImagen', imagen, function( data ) {
-			console.log('-----> data', data);
-			addImageToBoard(data);
-		});
-	});
 
 
 	$('.icon-link').parent().click(function(){

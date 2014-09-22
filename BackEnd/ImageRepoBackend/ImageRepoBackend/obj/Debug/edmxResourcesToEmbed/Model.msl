@@ -9,6 +9,8 @@
           <ScalarProperty Name="userUploaded" ColumnName="userUploaded" />
           <ScalarProperty Name="originalURL" ColumnName="originalURL" />
           <ScalarProperty Name="path" ColumnName="path" />
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="datetime" ColumnName="datetime" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
