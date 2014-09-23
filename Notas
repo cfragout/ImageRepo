@@ -1,0 +1,29 @@
+TODO:
+- loader para cuando apretas "agregar" en add image modal
+- validaciones
+- manejo de errores cuando se cargan las imagenes
+- lazy load
+- agregados recientemente
+- guardar preferencias (localstorage ??)
+- tags
+- vistas: vista de tags, vista de imagenes
+- usuarios
+- busquedas
+	.por nombre -> HECHO
+	.por tags
+- las acciones rapidas deberian estar abajo de la otra barra y ser flotantes
+- avisar cuando una imagen no se puede encontrar
+- historial de eventos (icono de la campana)
+- ordenar por criterios (tag, fecha, animadas)
+- gif: habilitar o deshabilitar animacion
+- eliminar imagen
+
+BUGS:
+- add image modal
+	.cunado el browser es chico, los botones no se ven
+	.cuando el preview de la imagen es muy grande tapa a los botones
+	.boton X de input internet no anda
+- image board
+	.isotope carga mal, las imagenes se sobreponen
+- secondary image board
+	.cuando se cierra el panel y se vuelve a abrir no se ven las imagenes

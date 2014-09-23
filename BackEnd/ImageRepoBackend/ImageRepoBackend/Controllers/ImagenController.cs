@@ -68,13 +68,17 @@ namespace ImageRepoBackend.Controllers
 
                 string remoteFileUrl = imagen.originalURL;
                 string serverUrl = "http://localhost:53079/Content/Images/";
-                string localFilePath = getLocalFilePath(imagen);
+                string localFilePath = getLocalFilePath() + getLocalFileName(imagen);
 
                 imagen.path = serverUrl + getLocalFileName(imagen);
-                imagen.datetime = DateTime.Now;
+                imagen.datetime = DateTime.Today;
                 imagen.isDeleted = false;
-                webClient.DownloadFile(remoteFileUrl, localFilePath);
 
+                if (imagen.userUploaded == false)
+                {
+                    webClient.DownloadFile(remoteFileUrl, localFilePath);
+                }
+                
                 db.Imagens.Add(imagen);
                 db.SaveChanges();
 
@@ -117,17 +121,17 @@ namespace ImageRepoBackend.Controllers
             base.Dispose(disposing);
         }
 
-        private string getLocalFilePath(Imagen imagen)
+        private string getLocalFilePath()
         {
             string imageDirPath = "Content/Images/";
-            return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath + getLocalFileName(imagen);
+            return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath;
         }
 
         private string getLocalFileName(Imagen imagen)
         {
             string username = "CFR";
-            string datetime = DateTime.Now.ToString();
-            datetime = datetime.Replace('/', '_').Replace('.', '_').Replace(':', '_');
+            string datetime = DateTime.Today.ToString();
+            datetime = datetime.Replace('/', '_').Replace('.', '_').Replace(':', '_').Replace(' ','_').Replace('?', '_');
             return username + "_" + imagen.name + "_" + datetime + Path.GetExtension(imagen.originalURL);
         }
     }

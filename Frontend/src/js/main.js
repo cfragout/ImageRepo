@@ -1,10 +1,11 @@
-var baseURL = 'http://localhost:53079/Api/';
-var postImage = baseURL + 'Imagen/PostImagen';
-var getImage = baseURL + 'Imagen/';
+var baseURL = 'http://localhost:53079';
+var apiUrl = baseURL + '/Api/';
+var postImage = apiUrl + 'Imagen/PostImagen';
+var getImage = apiUrl + 'Imagen/';
 
 function createImageElement(path, name) {
 	var imageElement = $('<div class="image-container image-element"></div>');
-	imageElement.append('<img src="'+ path +'" alt="' + name +'">');
+	imageElement.append('<img src="'+ path +'" alt="' + name.toLowerCase() +'">');
 
 	return imageElement;
 };
@@ -40,7 +41,29 @@ function getImageFromImageContainer(imageContainer) {
 	return $(imageContainer).find('img')[0];
 }
 
+function findInImageBoard(query) {
+	var $container = $('#image-board');
+	var filterFunction = function() {
+			var imageContainer = $(this).children('[alt*="'+ query.toLowerCase() +'"]')[0];
+			return imageContainer != null;
+		};
+
+	if (query == '') {
+		filterFunction = function() { return true; }
+	}
+
+	$container.isotope({
+		filter: filterFunction
+	});
+}
+
 function bindEvents() {
+	$('#searchButton').click(function(){
+		findInImageBoard($('#searchField').val());
+		return false;
+	});
+
+
 	$("#secondary-image-board").mCustomScrollbar({
 		axis:'x',
 		autoHideScrollbar: true

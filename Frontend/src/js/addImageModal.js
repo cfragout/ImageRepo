@@ -1,3 +1,4 @@
+var filename = "";
 
 $('#addImagesButton').click(function(){
 
@@ -18,23 +19,29 @@ $('#addImagesButton').click(function(){
 			var pcInput = $($('.add-pc-input')[1]);
 			var imagePreview = $($('.add-image-preview')[1]);
 
-			var addFromPcSpan = $($('.add-pc')[1]).siblings()[0];
+			// Disable upload from pc input
+			pcInput.siblings().attr('disabled', 'disabled');
+			pcInput.attr('disabled', 'disabled');
+
+			var addFromPcSpan = $($('.add-pc')[1]).parent()[0];
 			$(addFromPcSpan).click(function(){
 				var isAddFromPcChecked = $($('.add-pc')[1]).not(':checked');
 
 				if (isAddFromPcChecked) {
 					internetInput.attr('disabled', 'disabled');
+					pcInput.siblings().removeAttr('disabled');
 					pcInput.removeAttr('disabled');
 					internetInput.val('');
 					imagePreview.attr('src', '../assets/images/image-placeholder.png');
 				}
 			});
 
-			var addFromInternetSpan = $($('.add-internet')[1]).siblings()[0];
+			var addFromInternetSpan = $($('.add-internet')[1]).parent()[0];
 			$(addFromInternetSpan).click(function(){
 				var isAddFromInternetChecked = $($('.add-internet')[1]).not(':checked');
 
 				if (isAddFromInternetChecked) {
+					pcInput.siblings().attr('disabled', 'disabled');
 					pcInput.attr('disabled', 'disabled');
 					internetInput.removeAttr('disabled');
 					pcInput.val('');
@@ -43,11 +50,23 @@ $('#addImagesButton').click(function(){
 				}
 			});
 
+			// File input on change
+			$($(':file')[1]).on('change', function(){
+				var file = this.files[0];
+				var name = file.name;
+				var size = file.size;
+				var type = file.type;
+				console.log("file",file);
+				filename = name;
+
+				readURL(this);
+			});
+
 
 			// Image from internet: show preview
-			$($('.add-internet-input')[1]).on('blur', function(){
+			internetInput.on('change', function(){
 				if (internetInput.val() != '') {
-					$($('.add-image-preview')[1]).attr('src', $($('.add-internet-input')[1]).val());
+					$($('.add-image-preview')[1]).attr('src', internetInput.val());
 				}
 			});
 
@@ -63,16 +82,30 @@ $('#addImagesButton').click(function(){
 
 				if (!userUploaded) {
 					imagen.originalURL = internetInput.val();
-				} else {
-					console.log("as", pcInput.val());
-				}
 
+				} else {
+					imagen.originalURL = filename;
+
+					var formData = new FormData($('.add-image-form')[1]);
+					$.ajax({
+						type: "POST",
+						url: baseURL + '/Home/UploadPcImage',
+						data: formData,
+						cache: false,
+						contentType: false,
+						enctype: 'multipart/form-data',
+						processData: false
+					});
+
+				}
+console.log("imagen", imagen);
 				$.post(postImage, imagen, function( data ) {
 					addImageToBoard(data);
 					$.Dialog.close();
 				}).fail(function(obj, status, message){
 					// TODO: Handle error
 				});
+
 			});
 
 			// Cancel button
@@ -87,3 +120,16 @@ $('#addImagesButton').click(function(){
 		}
 	});
 });
+
+// Image from pc: show preview
+function readURL(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			$($('.add-image-preview')[1]).attr('src', e.target.result);
+		}
+
+		reader.readAsDataURL(input.files[0]);
+	}
+}
