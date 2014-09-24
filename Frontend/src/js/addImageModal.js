@@ -74,6 +74,8 @@ $('#addImagesButton').click(function(){
 			$($('.add-accept')[1]).click(function(){
 				var userUploaded = $($('.add-pc')[1]).is(':checked');
 
+				showLoadingScreen(true);
+
 				var imagen = {
 					name : $($('.add-name-input')[1]).val(),
 					userUploaded : userUploaded,
@@ -82,7 +84,7 @@ $('#addImagesButton').click(function(){
 
 				if (!userUploaded) {
 					imagen.originalURL = internetInput.val();
-
+					postImageObj(imagen);
 				} else {
 					imagen.originalURL = filename;
 
@@ -94,17 +96,14 @@ $('#addImagesButton').click(function(){
 						cache: false,
 						contentType: false,
 						enctype: 'multipart/form-data',
-						processData: false
+						processData: false,
+						success: function() {
+							console.log("hola");
+							postImageObj(imagen);
+						}
 					});
 
 				}
-console.log("imagen", imagen);
-				$.post(postImage, imagen, function( data ) {
-					addImageToBoard(data);
-					$.Dialog.close();
-				}).fail(function(obj, status, message){
-					// TODO: Handle error
-				});
 
 			});
 
@@ -117,6 +116,13 @@ console.log("imagen", imagen);
 			pcInput.on('change', function() {
 				pcInput.siblings().val(pcInput.val());
 			});
+
+			// Clear input button
+			internetInput.siblings().click(function(){
+				console.log("clear");
+				internetInput.val('');
+				imagePreview.attr('src', '../assets/images/image-placeholder.png');
+			})
 		}
 	});
 });
@@ -132,4 +138,25 @@ function readURL(input) {
 
 		reader.readAsDataURL(input.files[0]);
 	}
+}
+
+function showLoadingScreen(show) {
+	if (show) {
+		$($('.add-image-loading-screen')[1]).fadeIn();
+	} else {
+		$($('.add-image-loading-screen')[1]).fadeOut();
+	}
+}
+
+// Sends image data (such as name, originalURL, etc) to the server
+function postImageObj(imageObj) {
+	$.post(postImage, imageObj, function( data ) {
+		addImageToBoard(data);
+		$.Dialog.close();
+		showLoadingScreen(false);
+
+	}).fail(function(obj, status, message){
+		showLoadingScreen(false);
+		// TODO: Handle error
+	});
 }

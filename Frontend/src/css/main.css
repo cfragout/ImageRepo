@@ -129,11 +129,28 @@ body {
 	margin-top:25px;
 }
 
+.add-image-loading-screen {
+	background-color:rgba(0,0,0,.5);
+	top:0px;
+	left:0px;
+	width:100%; height:120%;
+	position:absolute;
+	z-index:8888;
+}
+
+.add-image-loading-screen .circular-loader {
+	margin-top:9%;
+}
+
 .add-image-preview-container {
 	width:28% !important;
 	float:left;
 	margin-left:15px;
 	margin-top:3px;
+}
+
+.add-image-preview-container img {
+	max-height: 70%;
 }
 
 .add-image-left {
@@ -147,9 +164,11 @@ body {
 }
 
 .window.flat.shadow {
-	height: 50% !important;
+	height: 40% !important;
+	min-height: 450px;
 	min-width: 775px !important;
 	max-width: 50% !important;
+	top:10% !important;
 }
 
 /**/

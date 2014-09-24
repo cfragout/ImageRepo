@@ -4,8 +4,9 @@ var postImage = apiUrl + 'Imagen/PostImagen';
 var getImage = apiUrl + 'Imagen/';
 
 function createImageElement(path, name) {
+	var alt = name || "";
 	var imageElement = $('<div class="image-container image-element"></div>');
-	imageElement.append('<img src="'+ path +'" alt="' + name.toLowerCase() +'">');
+	imageElement.append('<img src="'+ path +'" alt="' + alt.toLowerCase() +'">');
 
 	return imageElement;
 };
@@ -24,11 +25,12 @@ function addImageArrayToBoard(imagesObjArray) {
 		imageArray.push(createImageElement(image.path, image.name)[0]);
 	});
 
-	$container.isotope('insert', imageArray)
+	$container.isotope('insert', imageArray);
 }
 
 function loadImages() {
 	$.get(getImage, function( data ) {
+		console.log("data", data);
 		addImageArrayToBoard(data)
 	});
 }
