@@ -2,7 +2,7 @@ TODO:
 - loader para cuando apretas "agregar" en add image modal -> HECHO
 - script para crear BD
 - lazy load -> HECHO (CON BLAZY)
-- manejo de errores cuando se cargan las imagenes
+- manejo de errores cuando se cargan las imagenes -> HECHO
 - validaciones
 - agregados recientemente
 - guardar preferencias (localstorage ??) -> HECHO
@@ -21,6 +21,7 @@ TODO:
 - ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW)
 - estadisticas: cantidad de imagenes, cantidad de imagenes por tag, etc
 - compartir board: compartir todo, solo por tag, una sola img (link publico), un grupo de img
+- sacar el image.name del filename
 
 BUGS:
 - add image modal

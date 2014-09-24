@@ -74,17 +74,25 @@ namespace ImageRepoBackend.Controllers
                 imagen.datetime = DateTime.Today;
                 imagen.isDeleted = false;
 
-                if (imagen.userUploaded == false)
+                try
                 {
-                    webClient.DownloadFile(remoteFileUrl, localFilePath);
+                    if (imagen.userUploaded == false)
+                    {
+                        webClient.DownloadFile(remoteFileUrl, localFilePath);
+                    }
+
+                    db.Imagens.Add(imagen);
+                    db.SaveChanges();
+
+                    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, imagen);
+                    response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = imagen.id }));
+                    return response;
+                }
+                catch
+                {
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError);
                 }
                 
-                db.Imagens.Add(imagen);
-                db.SaveChanges();
-
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, imagen);
-                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = imagen.id }));
-                return response;
             }
             else
             {

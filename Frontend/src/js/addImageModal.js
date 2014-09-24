@@ -74,6 +74,8 @@ $('#addImagesButton').click(function(){
 			$($('.add-accept')[1]).click(function(){
 				var userUploaded = $($('.add-pc')[1]).is(':checked');
 
+				$($('.add-image-error-section')[1]).hide();
+
 				showLoadingScreen(true);
 
 				var imagen = {
@@ -99,6 +101,11 @@ $('#addImagesButton').click(function(){
 						processData: false,
 						success: function() {
 							postImageObj(imagen);
+						},
+						error: function() {
+							showLoadingScreen(false);
+							$($('.add-image-error')[1]).text('Hubo un problema al cargar la imagen. Intentalo nuevamente.');
+							$($('.add-image-error-section')[1]).show();
 						}
 					});
 
@@ -156,6 +163,9 @@ function postImageObj(imageObj) {
 
 	}).fail(function(obj, status, message){
 		showLoadingScreen(false);
+		console.log(message);
+		$($('.add-image-error')[1]).text('Hubo un problema al cargar la imagen. Comproba que la URL sea correcta e intentalo nuevamente.');
+		$($('.add-image-error-section')[1]).show();
 		// TODO: Handle error
 	});
 }
