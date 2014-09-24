@@ -12,7 +12,7 @@ TODO:
 - busquedas
 	.por nombre -> HECHO
 	.por tags
-- las acciones rapidas deberian estar abajo de la otra barra y ser flotantes
+- las acciones rapidas deberian estar abajo de la otra barra y ser flotantes -> HECHO
 - avisar cuando una imagen no se puede encontrar
 - historial de eventos (icono de la campana)
 - ordenar por criterios (tag, fecha, animadas)
@@ -20,6 +20,7 @@ TODO:
 - eliminar imagen
 - ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW)
 - estadisticas: cantidad de imagenes, cantidad de imagenes por tag, etc
+- compartir board: compartir todo, solo por tag, una sola img (link publico), un grupo de img
 
 BUGS:
 - add image modal

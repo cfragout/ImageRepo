@@ -10,8 +10,6 @@ body {
 	vertical-align: middle;
 }
 
-
-
 #secondary-image-board-title {
 	background-color: rgb(17,17,17);
 	color: #646464;
@@ -20,6 +18,7 @@ body {
 	bottom: 145px;
 	width: 100%;
 	padding-left:10px;
+	z-index: 99999;
 }
 
 #secondary-image-board-toggle {
@@ -59,6 +58,7 @@ body {
 	height: 145px;
 	bottom: 0px;
 	width: 15000px;
+	z-index: 99999;
 }
 
 /* Override scrollbar plugin CSS */
@@ -93,32 +93,45 @@ body {
 }
 
 .sidebar-bottom {
-	margin-top: 90px !important;
+	margin-top: 440px !important;
 	z-index: 0 !important;
+	position: fixed !important;
+}
+
+#quick-actions-more {
+	margin-top:30px;
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+
+#quick-actions-more:hover {
+	cursor: pointer;
 }
 
 .sidebar-top {
 	z-index: 0 !important;
 }
 
-.sidebar-top .actions {
+.sidebar-bottom .actions {
 	float:left;
 	padding:5px 8px 5px 8px;
 }
 
-.sidebar-top .no-hover:hover{
+.sidebar-bottom .no-hover:hover{
 	background-color: white !important;
 }
 
-.sidebar-top .no-hover a{
+.sidebar-bottom .no-hover a{
 	cursor:default;
 }
 
-.sidebar-top .actions:hover {
+.sidebar-bottom .actions:hover {
 	background-color: #e5e5e5;
 }
 
-.sidebar-top .actions a {
+.sidebar-bottom .actions a {
 	padding:0px 10px 0px 10px !important;
 }
 

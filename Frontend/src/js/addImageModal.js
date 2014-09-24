@@ -98,7 +98,6 @@ $('#addImagesButton').click(function(){
 						enctype: 'multipart/form-data',
 						processData: false,
 						success: function() {
-							console.log("hola");
 							postImageObj(imagen);
 						}
 					});

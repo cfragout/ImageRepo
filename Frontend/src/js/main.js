@@ -83,6 +83,18 @@ function initElements() {
 }
 
 function bindEvents() {
+	$('#quick-actions-more').click(function(){
+		var actions = $('#quick-actions-more-container');
+
+		if ($(actions).is(':visible')) {
+			$('#quick-actions-more-container').slideUp();
+			$('#quick-actions-more').find('span').attr('class', 'icon-arrow-down-5');
+		} else {
+			$('#quick-actions-more-container').slideDown();
+			$('#quick-actions-more').find('span').attr('class', 'icon-arrow-up-5');
+		}
+
+	});
 
 	$('#searchButton').click(function(){
 		findInImageBoard($('#searchField').val());
