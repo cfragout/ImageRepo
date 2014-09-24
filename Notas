@@ -1,11 +1,11 @@
 TODO:
 - loader para cuando apretas "agregar" en add image modal -> HECHO
 - script para crear BD
-- lazy load
+- lazy load -> HECHO (CON BLAZY)
 - manejo de errores cuando se cargan las imagenes
 - validaciones
 - agregados recientemente
-- guardar preferencias (localstorage ??)
+- guardar preferencias (localstorage ??) -> HECHO
 - tags
 - vistas: vista de tags, vista de imagenes
 - usuarios
@@ -19,14 +19,15 @@ TODO:
 - gif: habilitar o deshabilitar animacion
 - eliminar imagen
 - ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW)
+- estadisticas: cantidad de imagenes, cantidad de imagenes por tag, etc
 
 BUGS:
 - add image modal
 	.cunado el browser es chico, los botones no se ven -> SOLUCIONADO
-	.cuando el preview de la imagen es muy grande tapa a los botones
+	.cuando el preview de la imagen es muy grande tapa a los botones -> SOLUCIONADO
 	.boton X de input internet no anda -> SOLUCIONADO
 - image board
-	.isotope carga mal, las imagenes se sobreponen
+	.isotope carga mal, las imagenes se sobreponen -> SOLUCIONADO
 - secondary image board
 	.cuando se cierra el panel y se vuelve a abrir no se ven las imagenes
 - unsorted

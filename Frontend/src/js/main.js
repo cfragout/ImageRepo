@@ -5,19 +5,21 @@ var getImage = apiUrl + 'Imagen/';
 
 function createImageElement(path, name) {
 	var alt = name || "";
-	var imageElement = $('<div class="image-container image-element"></div>');
-	imageElement.append('<img src="'+ path +'" alt="' + alt.toLowerCase() +'">');
+	var imageElement = $('<div class="image-container image-element shadow" style="opacity:0"></div>');
+	imageElement.append('<img class="b-lazy" data-src="'+ path +'" alt="' + alt.toLowerCase() +'">');
 
 	return imageElement;
 };
 
 function addImageToBoard(image) {
-	var image = createImageElement(image.path, image.name);
+	var imageContainer = createImageElement(image.path, image.name);
+	var image = $(imageContainer).find('img');
+	$(image).attr('src', $(image).attr('data-src'));
 	var $container = $('#image-board');
-	$container.isotope('insert', image)
+	$container.isotope('insert', imageContainer)
 }
 
-function addImageArrayToBoard(imagesObjArray) {
+function initImageBoard(imagesObjArray) {
 	var $container = $('#image-board');
 	var imageArray = [];
 
@@ -25,13 +27,25 @@ function addImageArrayToBoard(imagesObjArray) {
 		imageArray.push(createImageElement(image.path, image.name)[0]);
 	});
 
-	$container.isotope('insert', imageArray);
+	$('#image-board').append(imageArray);
+
+	var bLazy = new Blazy({
+		container: '#image-board',
+		success: function(ele){
+			$(ele).parent().css('opacity', 1);
+			$container.isotope('insert', $(ele).parent());
+        },
+		error: function(ele, msg){
+			ele.src = "../assets/images/cannotLoadImg.png";
+			$container.isotope('insert', $(ele).parent());
+		}
+	});
 }
 
 function loadImages() {
 	$.get(getImage, function( data ) {
 		console.log("data", data);
-		addImageArrayToBoard(data)
+		initImageBoard(data)
 	});
 }
 
@@ -59,7 +73,17 @@ function findInImageBoard(query) {
 	});
 }
 
+function initElements() {
+	// Secondary image board
+	if (localStorage.hideSecondaryBoard == 'true') {
+		toggleSecondaryBoard(false);
+	} else {
+		toggleSecondaryBoard(true);
+	}
+}
+
 function bindEvents() {
+
 	$('#searchButton').click(function(){
 		findInImageBoard($('#searchField').val());
 		return false;
@@ -73,13 +97,11 @@ function bindEvents() {
 
 
 	$('#secondary-image-board-toggle').click(function(){
-		$(this).hide();
-		$('#secondary-image-board, #secondary-image-board-title').show();
+		toggleSecondaryBoard(true);
 	});
 
 	$('.secondary-image-board-exit').click(function(){
-		$('#secondary-image-board-toggle').show();
-		$('#secondary-image-board, #secondary-image-board-title').hide();
+		toggleSecondaryBoard(false);
 	});
 
 	$('#image-board').on('click', '.image-container', function(){
@@ -119,12 +141,17 @@ function bindEvents() {
 	var $container = $('#image-board');
 	// init
 	$container.isotope({
-	// options
+		onLayout: function() {
+			$(window).trigger("scroll");
+		},
 		itemSelector: '.image-element',
 		masonry: {
 			columnWidth: 5
 		}
 	});
+
+
+
 
 
 	$('#refresh').click(function() {
@@ -133,9 +160,27 @@ function bindEvents() {
 
 }
 
+function toggleSecondaryBoard(shouldShow) {
+	if (shouldShow) {
+		$('#secondary-image-board-toggle').hide();
+		$('#secondary-image-board, #secondary-image-board-title').show();
+		localStorage.hideSecondaryBoard = false;
+	} else {
+		$('#secondary-image-board-toggle').show();
+		$('#secondary-image-board, #secondary-image-board-title').hide();
+		localStorage.hideSecondaryBoard = true;
+	}
+}
+
 function initApp() {
+	if (localStorage.hideSecondaryBoard == null) {
+		localStorage.hideSecondaryBoard = false;
+	}
+
 	bindEvents();
+	initElements();
 	loadImages();
+
 }
 
 $(function(){

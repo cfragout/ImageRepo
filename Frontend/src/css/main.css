@@ -4,11 +4,13 @@ body {
 }
 
 
-.image-board .image-container{
-	margin: 10px;
+.image-board .image-container {
+	margin: 10px 0px 0px 10px;
 	display: inline-block;
 	vertical-align: middle;
 }
+
+
 
 #secondary-image-board-title {
 	background-color: rgb(17,17,17);
