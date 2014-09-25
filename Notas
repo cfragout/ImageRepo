@@ -1,12 +1,8 @@
 TODO:
-- loader para cuando apretas "agregar" en add image modal -> HECHO
+- tags
 - script para crear BD
-- lazy load -> HECHO (CON BLAZY)
-- manejo de errores cuando se cargan las imagenes -> HECHO
 - validaciones
 - agregados recientemente
-- guardar preferencias (localstorage ??) -> HECHO
-- tags
 - vistas: vista de tags, vista de imagenes
 - usuarios
 - busquedas
@@ -34,3 +30,9 @@ BUGS:
 	.cuando se cierra el panel y se vuelve a abrir no se ven las imagenes
 - unsorted
 	.url que despues de la extension tienen signo de pregunta no cargan
+
+HECHO:
+- loader para cuando apretas "agregar" en add image modal -> HECHO
+- manejo de errores cuando se cargan las imagenes -> HECHO
+- guardar preferencias (localstorage ??) -> HECHO
+- lazy load -> HECHO (CON BLAZY)

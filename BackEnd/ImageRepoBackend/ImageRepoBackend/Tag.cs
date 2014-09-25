@@ -12,20 +12,15 @@ namespace ImageRepoBackend
     using System;
     using System.Collections.Generic;
     
-    public partial class Imagen
+    public partial class Tag
     {
-        public Imagen()
+        public Tag()
         {
             this.Imagen_Tag = new HashSet<Imagen_Tag>();
         }
     
         public int id { get; set; }
         public string name { get; set; }
-        public Nullable<bool> userUploaded { get; set; }
-        public string originalURL { get; set; }
-        public string path { get; set; }
-        public Nullable<bool> isDeleted { get; set; }
-        public Nullable<System.DateTime> datetime { get; set; }
     
         public virtual ICollection<Imagen_Tag> Imagen_Tag { get; set; }
     }

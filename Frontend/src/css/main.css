@@ -10,6 +10,10 @@ body {
 	vertical-align: middle;
 }
 
+#addImagesButton i {
+	font-size: 12px !important;
+}
+
 #secondary-image-board-title {
 	background-color: rgb(17,17,17);
 	color: #646464;

@@ -4,9 +4,19 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ImageRepoModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ImageRepoModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="ImageRepoModelStoreContainer">
           <EntitySet Name="Imagen" EntityType="ImageRepoModel.Store.Imagen" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Imagen_Tag" EntityType="ImageRepoModel.Store.Imagen_Tag" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tag" EntityType="ImageRepoModel.Store.Tag" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Imagen_Tag_Imagen" Association="ImageRepoModel.Store.FK_Imagen_Tag_Imagen">
+            <End Role="Imagen" EntitySet="Imagen" />
+            <End Role="Imagen_Tag" EntitySet="Imagen_Tag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Imagen_Tag_Tag" Association="ImageRepoModel.Store.FK_Imagen_Tag_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="Imagen_Tag" EntitySet="Imagen_Tag" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Imagen">
           <Key>
@@ -20,13 +30,61 @@
           <Property Name="isDeleted" Type="bit" />
           <Property Name="datetime" Type="datetime" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+        <EntityType Name="Imagen_Tag">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id_tag" Type="int" Nullable="false" />
+          <Property Name="id_imagen" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Imagen_Tag_Imagen">
+          <End Role="Imagen" Type="ImageRepoModel.Store.Imagen" Multiplicity="1" />
+          <End Role="Imagen_Tag" Type="ImageRepoModel.Store.Imagen_Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Imagen">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Imagen_Tag">
+              <PropertyRef Name="id_imagen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Imagen_Tag_Tag">
+          <End Role="Tag" Type="ImageRepoModel.Store.Tag" Multiplicity="1" />
+          <End Role="Imagen_Tag" Type="ImageRepoModel.Store.Imagen_Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Imagen_Tag">
+              <PropertyRef Name="id_tag" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ImageRepoModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ImageRepoEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="Imagens" EntityType="ImageRepoModel.Imagen" />
+          <EntitySet Name="Imagen_Tag" EntityType="ImageRepoModel.Imagen_Tag" />
+          <EntitySet Name="Tag" EntityType="ImageRepoModel.Tag" />
+          <AssociationSet Name="FK_Imagen_Tag_Imagen" Association="ImageRepoModel.FK_Imagen_Tag_Imagen">
+            <End Role="Imagen" EntitySet="Imagens" />
+            <End Role="Imagen_Tag" EntitySet="Imagen_Tag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Imagen_Tag_Tag" Association="ImageRepoModel.FK_Imagen_Tag_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="Imagen_Tag" EntitySet="Imagen_Tag" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Imagen">
           <Key>
@@ -39,7 +97,50 @@
           <Property Name="path" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="isDeleted" Type="Boolean" />
           <Property Name="datetime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Imagen_Tag" Relationship="ImageRepoModel.FK_Imagen_Tag_Imagen" FromRole="Imagen" ToRole="Imagen_Tag" />
         </EntityType>
+        <EntityType Name="Imagen_Tag">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="id_tag" Nullable="false" />
+          <Property Type="Int32" Name="id_imagen" Nullable="false" />
+          <NavigationProperty Name="Imagen" Relationship="ImageRepoModel.FK_Imagen_Tag_Imagen" FromRole="Imagen_Tag" ToRole="Imagen" />
+          <NavigationProperty Name="Tag" Relationship="ImageRepoModel.FK_Imagen_Tag_Tag" FromRole="Imagen_Tag" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Imagen_Tag" Relationship="ImageRepoModel.FK_Imagen_Tag_Tag" FromRole="Tag" ToRole="Imagen_Tag" />
+        </EntityType>
+        <Association Name="FK_Imagen_Tag_Imagen">
+          <End Type="ImageRepoModel.Imagen" Role="Imagen" Multiplicity="1" />
+          <End Type="ImageRepoModel.Imagen_Tag" Role="Imagen_Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Imagen">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Imagen_Tag">
+              <PropertyRef Name="id_imagen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Imagen_Tag_Tag">
+          <End Type="ImageRepoModel.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="ImageRepoModel.Imagen_Tag" Role="Imagen_Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Imagen_Tag">
+              <PropertyRef Name="id_tag" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -56,6 +157,23 @@
                 <ScalarProperty Name="path" ColumnName="path" />
                 <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
                 <ScalarProperty Name="datetime" ColumnName="datetime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Imagen_Tag">
+            <EntityTypeMapping TypeName="ImageRepoModel.Imagen_Tag">
+              <MappingFragment StoreEntitySet="Imagen_Tag">
+                <ScalarProperty Name="id_imagen" ColumnName="id_imagen" />
+                <ScalarProperty Name="id_tag" ColumnName="id_tag" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tag">
+            <EntityTypeMapping TypeName="ImageRepoModel.Tag">
+              <MappingFragment StoreEntitySet="Tag">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

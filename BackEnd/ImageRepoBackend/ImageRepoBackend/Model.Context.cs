@@ -26,5 +26,7 @@ namespace ImageRepoBackend
         }
     
         public DbSet<Imagen> Imagens { get; set; }
+        public DbSet<Imagen_Tag> Imagen_Tag { get; set; }
+        public DbSet<Tag> Tag { get; set; }
     }
 }
