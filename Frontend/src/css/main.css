@@ -10,6 +10,23 @@ body {
 	vertical-align: middle;
 }
 
+.image-board .play-gif-icon {
+	font-size: 30pt;
+	position: absolute;
+	top: 42%;
+	left: 42%;
+	color: white;
+	cursor: pointer;
+}
+
+.image-board .stop-gif-icon {
+	color: white;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	cursor: pointer;
+}
+
 #secondary-image-board-title {
 	background-color: rgb(17,17,17);
 	color: #646464;
@@ -209,5 +226,12 @@ body {
 
 .hidden {
 	display:none;
+}
+
+.not-selectable {
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
 }
 /**/

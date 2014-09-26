@@ -11,6 +11,10 @@ function createImageElement(path, name) {
 	return imageElement;
 };
 
+function imageHasLoaded(image) {
+	return !$(image).hasClass('img-load-error');
+}
+
 function addImageToBoard(image) {
 	var imageContainer = createImageElement(image.path, image.name);
 	var image = $(imageContainer).find('img');
@@ -32,12 +36,16 @@ function initImageBoard(imagesObjArray) {
 	var bLazy = new Blazy({
 		container: '#image-board',
 		success: function(ele){
-			$(ele).parent().css('opacity', 1);
-			$container.isotope('insert', $(ele).parent());
+			if (isGifImage(ele) && (!localStorage.autoPlayGifs)) {
+				freezeGif(ele);
+			}
+			$(ele).parents('.image-element').css('opacity', 1);
+			$container.isotope('insert', $(ele).parents('.image-element'));
         },
 		error: function(ele, msg){
 			ele.src = "../assets/images/cannotLoadImg.png";
-			$container.isotope('insert', $(ele).parent());
+			$(ele).addClass('img-load-error');
+			$container.isotope('insert', $(ele).parents('.image-element'));
 		}
 	});
 }
@@ -49,8 +57,12 @@ function loadImages() {
 	});
 }
 
-function getSelectedImagesHTML() {
+function getSelectedImagesHTMLContainer() {
 	return $('.image-container.selected');
+}
+
+function getFirstSelectedImageHTMLContainer(){
+	return $(getSelectedImagesHTMLContainer()[0]).find('img');
 }
 
 function getImageFromImageContainer(imageContainer) {
@@ -83,6 +95,35 @@ function initElements() {
 }
 
 function bindEvents() {
+	$('#image-board').on('click', '.play-gif-icon', function(){
+		var image = $(this).siblings('img');
+
+		var staticImage = $(image).attr('src');
+		$(image).attr('src', $(image).attr('data-gif'));
+		$(image).attr('data-static-img', staticImage);
+		$(image).removeAttr('data-gif');
+
+		$(this).addClass('stop-gif-icon icon-stop-2').removeClass('play-gif-icon icon-play-alt');
+
+		// Prevent .selected
+		return false;
+	});
+
+	$('#image-board').on('click', '.stop-gif-icon', function(){
+		var image = $(this).siblings('img');
+
+		$(image).attr('data-gif', $(image).attr('src'));
+		$(image).attr('src', $(image).attr('data-static-img'));
+		$(image).removeAttr('data-static-img')
+
+		$(this).addClass('play-gif-icon icon-play-alt').removeClass('stop-gif-icon icon-stop-2');
+
+		// Prevent .selected
+		return false;
+	});
+
+
+
 	$('#quick-actions-more').click(function(){
 		var actions = $('#quick-actions-more-container');
 
@@ -120,10 +161,13 @@ function bindEvents() {
 		$(this).toggleClass('selected');
 
 
-		var selectedCount = getSelectedImagesHTML().length;
+		var selectedCount = getSelectedImagesHTMLContainer().length;
 		if (selectedCount == 1) {
-			$('.actions span').removeClass('fg-gray no-hover');
-			$('.actions').removeClass('no-hover');
+			var selectedImage = getFirstSelectedImageHTMLContainer();
+			if (!$(selectedImage).hasClass('img-load-error')) {
+				$('.actions span').removeClass('fg-gray no-hover');
+				$('.actions').removeClass('no-hover');
+			}
 		} else if (selectedCount > 1) {
 			$('.actions .icon-link').addClass('fg-gray no-hover');
 			$('.actions span.icon-link').closest('.actions').addClass('no-hover');
@@ -138,7 +182,14 @@ function bindEvents() {
 
 	$('.icon-link').parent().click(function(){
 		var link = $(this);
-		var selectedImages = getSelectedImagesHTML();
+
+		var selectedImage = getFirstSelectedImageHTMLContainer();
+		if (!imageHasLoaded(selectedImage)) {
+			link.removeAttr('href');
+			return;
+		}
+
+		var selectedImages = getSelectedImagesHTMLContainer();
 
 		if ((selectedImages.length == 0) ||(selectedImages.length > 1)) {
 			link.removeAttr('href');
@@ -146,7 +197,8 @@ function bindEvents() {
 		}
 
 		var imageHTML = getImageFromImageContainer(selectedImages[0]);
-		link.attr('href', imageHTML.src);
+		var serverUrl = $(imageHTML).attr('data-gif') || $(imageHTML).attr('src');
+		link.attr('href', serverUrl);
 	});
 
 
@@ -194,6 +246,39 @@ function initApp() {
 	loadImages();
 
 }
+
+
+/**/
+function isGifImage(i) {
+    return /^(?!data:).*\.gif/i.test(i.src);
+}
+
+function freezeGif(image) {
+	var c = document.createElement('canvas');
+	var w = c.width = image.width;
+	var h = c.height = image.height;
+	c.getContext('2d').drawImage(image, 0, 0, w, h);
+	try {
+		$(image).attr('data-gif', image.src);
+		image.src = c.toDataURL("image/gif"); // if possible, retain all css aspects
+
+		// Create play overlay
+		$(image).wrap('<div class="gif-wrapper">');
+		var wrapper = $(image).parent();
+		$(wrapper).append('<span class="not-selectable play-gif-icon icon-play-alt">');
+	} catch(e) { // cross-domain -- mimic original with all its tag attributes
+		for (var j = 0, a; a = image.attributes[j]; j++) {
+			c.setAttribute(a.name, a.value);
+		}
+		image.parentNode.replaceChild(c, image);
+	}
+}
+/**/
+
+
+
+
+
 
 $(function(){
 

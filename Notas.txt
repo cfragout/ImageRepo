@@ -1,0 +1,40 @@
+TODO:
+- tags
+- script para crear BD
+- validaciones
+- agregados recientemente
+- vistas: vista de tags, vista de imagenes
+- usuarios
+- busquedas
+	.por nombre -> HECHO
+	.por tags
+- avisar cuando una imagen no se puede encontrar
+- historial de eventos (icono de la campana)
+- ordenar por criterios (tag, fecha, animadas)
+- eliminar imagen
+- ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW)
+- estadisticas: cantidad de imagenes, cantidad de imagenes por tag, etc
+- compartir board: compartir todo, solo por tag, una sola img (link publico), un grupo de img
+- sacar el image.name del filename
+- Acciones rapidas
+- Seccion configuraciones
+
+BUGS:
+- add image modal
+	.cunado el browser es chico, los botones no se ven -> SOLUCIONADO
+	.cuando el preview de la imagen es muy grande tapa a los botones -> SOLUCIONADO
+	.boton X de input internet no anda -> SOLUCIONADO
+- image board
+	.isotope carga mal, las imagenes se sobreponen -> SOLUCIONADO
+- secondary image board
+	.cuando se cierra el panel y se vuelve a abrir no se ven las imagenes
+- unsorted
+	.url que despues de la extension tienen signo de pregunta no cargan -> SOLUCIONADO
+
+HECHO:
+- loader para cuando apretas "agregar" en add image modal -> HECHO
+- manejo de errores cuando se cargan las imagenes -> HECHO
+- guardar preferencias (localstorage ??) -> HECHO
+- lazy load -> HECHO (CON BLAZY)
+- las acciones rapidas deberian estar abajo de la otra barra y ser flotantes -> HECHO
+- gif: habilitar o deshabilitar animacion -> HECHO
