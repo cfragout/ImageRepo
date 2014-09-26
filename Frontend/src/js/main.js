@@ -95,6 +95,33 @@ function initElements() {
 }
 
 function bindEvents() {
+	$('#closeOptionsScreenContainer').click(function(){
+		$('#mainNavbar, #secondary-image-board-row, #mainGrid').show().addClass('animated fadeInLeftBig');
+		$('#optionsScreen').addClass('animated rotateOutDownRight');
+
+		$('#optionsScreen').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#optionsScreen').removeClass('animated rotateOutDownRight').hide();
+		});
+		$('#mainNavbar, #secondary-image-board-row, #mainGrid').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#mainNavbar, #secondary-image-board-row, #mainGrid').removeClass('animated fadeInLeftBig');
+		});
+	});
+
+	$('#showOptions').click(function(){
+		$('#mainNavbar, #secondary-image-board-row, #mainGrid').addClass('animated fadeOutLeftBig');
+		$('#optionsScreen').show().addClass('animated rotateInUpRight');
+
+		$('#mainNavbar, #secondary-image-board-row, #mainGrid').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#mainNavbar, #secondary-image-board-row, #mainGrid').removeClass('animated fadeOutLeftBig').hide();
+		});
+		$('#optionsScreen').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#optionsScreen').removeClass('animated fadeOutLeftBig');
+		});
+	});
+
+
+
+
 	$('#image-board').on('click', '.play-gif-icon', function(){
 		var image = $(this).siblings('img');
 
