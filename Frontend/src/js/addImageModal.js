@@ -51,7 +51,7 @@ $('#addImagesButton').click(function(){
 			});
 
 			// File input on change
-			$($(':file')[1]).on('change', function(){
+			$($('.add-pc-input')[1]).on('change', function(){
 				var file = this.files[0];
 				var name = file.name;
 				var size = file.size;
@@ -59,7 +59,7 @@ $('#addImagesButton').click(function(){
 				console.log("file",file);
 				filename = name;
 
-				readURL(this);
+				readURL(this, $('.add-image-preview')[1]);
 			});
 
 
@@ -134,15 +134,16 @@ $('#addImagesButton').click(function(){
 });
 
 // Image from pc: show preview
-function readURL(input) {
-	if (input.files && input.files[0]) {
+//MOVE TO HELPER
+function readURL(inputHTML, imageHTML) {
+	if (inputHTML.files && inputHTML.files[0]) {
 		var reader = new FileReader();
 
 		reader.onload = function (e) {
-			$($('.add-image-preview')[1]).attr('src', e.target.result);
+			$(imageHTML).attr('src', e.target.result);
 		}
 
-		reader.readAsDataURL(input.files[0]);
+		reader.readAsDataURL(inputHTML.files[0]);
 	}
 }
 

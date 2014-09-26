@@ -68,7 +68,7 @@
         <span class="element-divider place-right"></span>
         <button class="element image-button image-left place-right">
             Carlos Francisco Ragout
-            <img src="../assets/images/Galgo.jpg"/>
+            <img src="../assets/images/Galgo.jpg" alt="Carlos Francisco Ragout"/>
         </button>
     </nav>
 </nav>
@@ -338,25 +338,139 @@
 			<!-- End add image modal -->
 
 			<!-- Options screen -->
-			<div id="optionsScreen" class="row hidden" style="background-color:white; width:100%; height:100%; position:absolute; top:0px;">
-				<div class="row">
+			<div id="optionsScreen" class="row hidden">
+				<div id="optionsScreenMainRow" class="row">
 					<!-- Left pane -->
-					<div class="" style="background-color:rgb(244,244,244);float:left;width:30%;height:100%;">
-						<h1 style="color:#1ba1e2; margin-top:40px; margin-left:50px;">Personalizacion</h1>
+					<div class="left-pane">
+						<h1>Personalizacion</h1>
 						<ul id="optionsList">
-							<li class="selected">Cuenta</li>
-							<li>Imagenes</li>
-							<li>Tags</li>
-							<li>Acerca de ImageRepo</li>
+							<li class="selected" data-option-id="#optionAccount">Cuenta</li>
+							<li data-option-id="#optionImages">Imagenes</li>
+							<li data-option-id="#optionTags">Tags</li>
+							<li data-option-id="#optionAbout">Acerca de ImageRepo</li>
 						</ul>
 					</div>
 					<!-- End left pane -->
 					<!-- Right pane -->
-					<div class="" style="float:left;width:70%;height:100%;">
+					<div class="right-pane">
 						<div id="closeOptionsScreenContainer">
 							<span class="icon-cancel-2 pull-right"></span>
 						</div>
-						chau
+
+						<!-- Settings/Options -->
+						<!-- Account -->
+						<div id="optionAccount" class="option-content">
+							<h1>Cuenta</h1>
+							<form id="optionAccountForm" class="optionsForm">
+								<fieldset>
+									<div class="form-item">
+										<div>
+											<div>Foto</div>
+											<div class="option-description">Cambia tu foto de perfil</div>
+											<img id="profilePicture" src="../assets/images/Galgo.jpg" alt="Carlos Francisco Ragout" width="160">
+										</div>
+										<button id="browseProfilePicture">Examinar</button>
+										<input id="profilePictureFileInput" type="file">
+									</div>
+									<div class="span5">
+									</div>
+									<div class="form-item">
+										<div class="">
+											<div>Cerrar cuenta</div>
+											<div class="option-description">Esta opcion eliminara tu cuenta para siempre. Cuidado!</div>
+										</div>
+										<div class="input-control reversed-colours">
+											<button class="image-button danger">
+												Cerrar
+												<i class="icon-switch bg-red"></i>
+											</button>
+										</div>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+						<!-- End account -->
+						<!-- Images -->
+						<div id="optionImages" class="option-content hidden">
+							<h1 style="">Imagenes</h1>
+							<form id="optionImagesForm" class="optionsForm">
+								<fieldset>
+									<div class="form-item">
+										<div class="">
+											<div>Animar gifs</div>
+											<div class="option-description">Los gifs animados tendran movimiento al cargarse la imagen</div>
+										</div>
+										<div class="input-control switch reversed-colours">
+											<label>
+												<span class="marginTop10 marginRight10">Si</span>
+												<input type="checkbox" />
+												<span class="check"></span>
+											</label>
+										</div>
+									</div>
+									<div class="form-item">
+										<div class="">
+											<div>Backup</div>
+											<div class="option-description">Descarga a tu PC todas tus imagenes</div>
+										</div>
+										<div class="input-control switch reversed-colours">
+											<button class="image-button primary">
+												Descargar
+												<span class="icon-download-2 bg-cobalt"></span>
+											</button>
+										</div>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+						<!-- End images -->
+						<!-- Tags -->
+						<div id="optionTags" class="option-content hidden">
+							<h1>Tags</h1>
+							<form id="optionTagsForm" class="optionsForm">
+								<fieldset>
+									<div class="form-item">
+										<div class="">
+											<div>Ocultar tags</div>
+											<div class="option-description">Elige cuales tags se ocultaran por defecto al cargar el repositorio</div>
+										</div>
+										<div class="input-control select marginTop10">
+											<div class="row tag-selector">
+												<select multiple class="span4">
+													<option>Gifs</option>
+													<option>Peliculas</option>
+												</select>
+												<span class="arrows-container">
+													<div class="tag-arrow-container tag-arrow-right arrow-disabled not-selectable">
+														<span class="icon-arrow-left tag-arrow fg-gray"></span>
+													</div>
+													<div class="tag-arrow-container arrow-disabled not-selectable">
+														<span class="icon-arrow-right tag-arrow fg-gray"></span>
+													</div>
+												</span>
+												<select multiple class="span4">
+													<option>NSFW</option>
+													<option>A</option>
+													<option>B</option>
+													<option>C</option>
+													<option>D</option>
+													<option>E</option>
+													<option>F</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+						<!-- End tags -->
+						<!-- About -->
+						<div id="optionAbout" class="option-content hidden">
+							<h1>Acerca de ImageRepo</h1>
+
+						</div>
+						<!-- End about -->
+						<!-- End Settings/Options -->
 					</div>
 					<!-- End right pane -->
 				</div>
