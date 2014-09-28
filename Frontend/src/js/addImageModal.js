@@ -88,19 +88,23 @@ $('#addImagesButton').click(function(){
 					imagen.originalURL = internetInput.val();
 					postImageObj(imagen);
 				} else {
+					console.log(filename)
 					imagen.originalURL = filename;
 
 					var formData = new FormData($('.add-image-form')[1]);
+					console.log("**",formData);
+					formData.append('url', filename);
 					$.ajax({
 						type: "POST",
-						url: baseURL + '/Home/UploadPcImage',
+						url: uploadImageUrl,
 						data: formData,
 						cache: false,
 						contentType: false,
-						enctype: 'multipart/form-data',
 						processData: false,
-						success: function() {
-							postImageObj(imagen);
+						success: function(data) {
+							addImageToBoard(data);
+							showLoadingScreen(false);
+							$.Dialog.close();
 						},
 						error: function() {
 							showLoadingScreen(false);
@@ -157,16 +161,15 @@ function showLoadingScreen(show) {
 
 // Sends image data (such as name, originalURL, etc) to the server
 function postImageObj(imageObj) {
-	$.post(postImage, imageObj, function( data ) {
+	$.post(postImageUrl, imageObj, function( data ) {
 		addImageToBoard(data);
-		$.Dialog.close();
 		showLoadingScreen(false);
+		$.Dialog.close();
 
 	}).fail(function(obj, status, message){
 		showLoadingScreen(false);
 		console.log(message);
 		$($('.add-image-error')[1]).text('Hubo un problema al cargar la imagen. Comproba que la URL sea correcta e intentalo nuevamente.');
 		$($('.add-image-error-section')[1]).show();
-		// TODO: Handle error
 	});
 }

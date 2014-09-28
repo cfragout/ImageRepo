@@ -1,9 +1,11 @@
-var baseURL = 'http://localhost:53079';
-var apiUrl = baseURL + '/Api/';
-var postImage = apiUrl + 'Imagen/PostImagen';
-var getImage = apiUrl + 'Imagen/';
+var baseUrl = 'http://localhost:55069/';
+var apiUrl = baseUrl + 'Api/';
+var postImageUrl = apiUrl + 'Imagenes/PostImage';
+var uploadImageUrl = apiUrl + 'Imagenes/UploadImage';
+var getImageUrl = apiUrl + 'Imagenes/GetImages';
 
 function createImageElement(path, name) {
+	console.log("baseUrl + path", baseUrl + path);
 	var alt = name || "";
 	var imageElement = $('<div class="image-container image-element shadow" style="opacity:0"></div>');
 	imageElement.append('<img class="b-lazy" data-src="'+ path +'" alt="' + alt.toLowerCase() +'">');
@@ -16,7 +18,7 @@ function imageHasLoaded(image) {
 }
 
 function addImageToBoard(image) {
-	var imageContainer = createImageElement(image.path, image.name);
+	var imageContainer = createImageElement(image.Path, image.Name);
 	var image = $(imageContainer).find('img');
 	$(image).attr('src', $(image).attr('data-src'));
 	var $container = $('#image-board');
@@ -26,23 +28,26 @@ function addImageToBoard(image) {
 function initImageBoard(imagesObjArray) {
 	var $container = $('#image-board');
 	var imageArray = [];
-
 	$.each(imagesObjArray, function(index, image){
-		imageArray.push(createImageElement(image.path, image.name)[0]);
+		imageArray.push(createImageElement(image.Path, image.Name)[0]);
 	});
 
 	$('#image-board').append(imageArray);
 
 	var bLazy = new Blazy({
 		container: '#image-board',
-		success: function(ele){
+		success: function(ele) {
+			console.log("success");
 			if (isGifImage(ele) && (!localStorage.autoPlayGifs)) {
 				freezeGif(ele);
 			}
 			$(ele).parents('.image-element').css('opacity', 1);
 			$container.isotope('insert', $(ele).parents('.image-element'));
         },
-		error: function(ele, msg){
+		error: function(ele, msg) {
+			console.log("error");
+console.log("ele",ele, msg);
+			// $(ele).attr('data-error-url', ele.src);
 			ele.src = "../assets/images/cannotLoadImg.png";
 			$(ele).addClass('img-load-error');
 			$container.isotope('insert', $(ele).parents('.image-element'));
@@ -51,7 +56,7 @@ function initImageBoard(imagesObjArray) {
 }
 
 function loadImages() {
-	$.get(getImage, function( data ) {
+	$.get(getImageUrl, function( data ) {
 		console.log("data", data);
 		initImageBoard(data)
 	});
