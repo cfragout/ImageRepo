@@ -18,6 +18,8 @@ namespace ImagenRepoEntities.Entities
         [Required]
         public string Name { get; set; }
 
+        public bool IsFavourite { get; set; }
+
         public string Path { get; set; }
 
         [Required]

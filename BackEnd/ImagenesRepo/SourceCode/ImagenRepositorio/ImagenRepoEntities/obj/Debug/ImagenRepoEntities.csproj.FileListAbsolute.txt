@@ -17,3 +17,4 @@ F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenReposit
 F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.SqlServer.xml
 F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.dll
 F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.pdb
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.csprojResolveAssemblyReference.cache

@@ -1,8 +1,9 @@
 TODO:
+- favoritos
+- agregados recientemente
 - tags
 - script para crear BD
 - validaciones
-- agregados recientemente
 - vistas: vista de tags, vista de imagenes
 - usuarios
 - busquedas

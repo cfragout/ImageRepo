@@ -3,12 +3,14 @@ var apiUrl = baseUrl + 'Api/';
 var postImageUrl = apiUrl + 'Imagenes/PostImage';
 var uploadImageUrl = apiUrl + 'Imagenes/UploadImage';
 var getImageUrl = apiUrl + 'Imagenes/GetImages';
+var markFavouriteUrl = apiUrl + 'Imagenes/MarkImagesAsFavourite'
 
-function createImageElement(path, name) {
-	console.log("baseUrl + path", baseUrl + path);
-	var alt = name || "";
-	var imageElement = $('<div class="image-container image-element shadow" style="opacity:0"></div>');
-	imageElement.append('<img class="b-lazy" data-src="'+ path +'" alt="' + alt.toLowerCase() +'">');
+function createImageElement(image) {
+	var alt = image.Name || "";
+	var id = parseInt(image.Id, 10)
+	var imageElement = $('<div id="container-' + id +'" class="image-container image-element shadow" style="opacity:0"></div>');
+
+	imageElement.append('<img id="img-' + id + '" class="b-lazy" data-src="'+ image.Path +'" alt="' + alt.toLowerCase() +'">');
 
 	return imageElement;
 };
@@ -18,7 +20,7 @@ function imageHasLoaded(image) {
 }
 
 function addImageToBoard(image) {
-	var imageContainer = createImageElement(image.Path, image.Name);
+	var imageContainer = createImageElement(image);
 	var image = $(imageContainer).find('img');
 	$(image).attr('src', $(image).attr('data-src'));
 	var $container = $('#image-board');
@@ -29,7 +31,20 @@ function initImageBoard(imagesObjArray) {
 	var $container = $('#image-board');
 	var imageArray = [];
 	$.each(imagesObjArray, function(index, image){
-		imageArray.push(createImageElement(image.Path, image.Name)[0]);
+		var imageHTML = createImageElement(image)[0];
+		imageArray.push(imageHTML);
+
+
+
+		if (image.IsFavourite) {
+			var favThumbnail = $(imageHTML).clone()[0];
+$(favThumbnail).attr('data-img-id', favThumbnail.id);
+$(favThumbnail).removeAttr('id');
+console.log("asfdsffdsfgfdgeeeeeeeeeeeeeee", ($(favThumbnail).find('img')[0]).src);
+			$('#mCSB_1_container').append(favThumbnail);
+			$('#mCSB_1_container').append($(favThumbnail).find('img')[0]);
+			$('#secondary-image-board').append('favTJJJJJJJJJJJJJJJJJJhumbnail');
+		}
 	});
 
 	$('#image-board').append(imageArray);
@@ -58,7 +73,7 @@ console.log("ele",ele, msg);
 function loadImages() {
 	$.get(getImageUrl, function( data ) {
 		console.log("data", data);
-		initImageBoard(data)
+		initImageBoard(data);
 	});
 }
 
@@ -100,6 +115,32 @@ function initElements() {
 }
 
 function bindEvents() {
+	$('#markFavourite').click(function(){
+
+		var selectedIds = [];
+
+		getSelectedImagesHTMLContainer().each(function(index, container){
+			selectedIds.push(container.id.split('-')[1]);
+		});
+
+		// var formData = new FormData();
+		// formData.append('favourites', 'selectedIds');
+console.log(selectedIds)
+		$.ajax({
+			type: "POST",
+			url: markFavouriteUrl,
+			// data: { favourites : selectedIds },
+			data: { favourites : selectedIds[1] },
+			success: function(data) {
+			},
+			error: function() {
+			}
+		});
+
+	});
+
+
+
 	$('#closeOptionsScreenContainer').click(function(){
 		$('#mainNavbar, #secondary-image-board-row, #mainGrid').show().addClass('animated fadeInLeftBig');
 		$('#optionsScreen').addClass('animated rotateOutDownRight');

@@ -91,6 +91,23 @@ namespace ImagenRepositorio.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        // POST: api/Imagenes/MarkImagesAsFavourite
+        public void MarkImagesAsFavourite()
+        {
+            var request = HttpContext.Current.Request;
+            var ids = request.Form["favourites"];
+
+            //foreach (int id in ids)
+            //{
+                Imagen imagen = db.Imagenes.Find(Convert.ToInt32(ids));
+                imagen.IsFavourite = !imagen.IsFavourite;
+                db.Imagenes.Add(imagen);
+            //}
+
+            db.SaveChanges();
+            return;
+        }
+
         // POST: api/Imagenes
         [ResponseType(typeof(Imagen))]
         public IHttpActionResult PostImage(Imagen imagen)

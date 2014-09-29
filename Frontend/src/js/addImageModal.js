@@ -88,12 +88,10 @@ $('#addImagesButton').click(function(){
 					imagen.originalURL = internetInput.val();
 					postImageObj(imagen);
 				} else {
-					console.log(filename)
-					imagen.originalURL = filename;
-
 					var formData = new FormData($('.add-image-form')[1]);
-					console.log("**",formData);
+
 					formData.append('url', filename);
+
 					$.ajax({
 						type: "POST",
 						url: uploadImageUrl,
