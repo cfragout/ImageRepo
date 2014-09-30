@@ -92,20 +92,35 @@ namespace ImagenRepositorio.Controllers
         }
 
         // POST: api/Imagenes/MarkImagesAsFavourite
-        public void MarkImagesAsFavourite()
+        public List<int> MarkImagesAsFavourite()
         {
             var request = HttpContext.Current.Request;
-            var ids = request.Form["favourites"];
+            List<int> modifiedImagesIds = new List<int>();
 
-            //foreach (int id in ids)
-            //{
-                Imagen imagen = db.Imagenes.Find(Convert.ToInt32(ids));
-                imagen.IsFavourite = !imagen.IsFavourite;
-                db.Imagenes.Add(imagen);
-            //}
+            if (request.Form["imagesIds"] == null)
+            {
+                return modifiedImagesIds;
+            }
+
+            string[] ids = request.Form["imagesIds"].Split(',');
+
+            for (int i = 0; i < ids.Length; i++)
+            {
+                var id = Convert.ToInt32(ids[i]);
+                if (ImagenExists(id))
+                {
+                    Imagen imagen = db.Imagenes.Find(id);
+                    imagen.IsFavourite = !imagen.IsFavourite;
+                    db.Entry(imagen).State = EntityState.Modified;
+
+                    modifiedImagesIds.Add(id);
+                }
+
+            }
 
             db.SaveChanges();
-            return;
+
+            return modifiedImagesIds;
         }
 
         // POST: api/Imagenes

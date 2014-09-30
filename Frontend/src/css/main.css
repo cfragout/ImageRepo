@@ -75,7 +75,7 @@ html, body {
 	position: fixed;
 	height: 145px;
 	bottom: 0px;
-	width: 15000px;
+	width: 2000px;
 	z-index: 99999;
 }
 
@@ -85,7 +85,8 @@ html, body {
 }
 
 .mCSB_container {
-	width: 15000px !important;
+	/*width: 2000px !important; cambiar cuando quiera el scroll*/
+	width: 3840px !important;
 }
 
 .mCSB_dragger_bar {

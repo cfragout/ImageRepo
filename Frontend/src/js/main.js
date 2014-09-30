@@ -5,6 +5,32 @@ var uploadImageUrl = apiUrl + 'Imagenes/UploadImage';
 var getImageUrl = apiUrl + 'Imagenes/GetImages';
 var markFavouriteUrl = apiUrl + 'Imagenes/MarkImagesAsFavourite'
 
+function storeImages(images) {
+	var imgs = [];
+	$.each(images, function(index, img){
+		imgs[img.Id] = img;
+	});
+
+	localStorage.images = JSON.stringify(imgs);
+}
+
+function updateImage(image) {
+	var images = JSON.parse(localStorage.images);
+
+	images[image.Id] = image;
+	localStorage.images = JSON.stringify(images);
+}
+
+function getImageById(id) {
+	var images = JSON.parse(localStorage.images);
+
+	if (images[id] != null) {
+		return images[id];
+	}
+
+	return "";
+}
+
 function createImageElement(image) {
 	var alt = image.Name || "";
 	var id = parseInt(image.Id, 10)
@@ -27,23 +53,41 @@ function addImageToBoard(image) {
 	$container.isotope('insert', imageContainer)
 }
 
+function addImageToSecondaryBoard(image) {
+	var imageContainerHTML = '<div id="thumbnail-container-'+ image.Id +'" class="shadow secondary-image-element"><img id="thumbnail-' + image.Id +'" src="'+ image.Path +'"></div>';
+
+	// Append to scroll plugin container
+	$('#mCSB_1_container').append(imageContainerHTML);
+
+
+
+var x = parseInt($('#secondary-image-board').find('img').length / 9);
+	var width = $('.mCSB_container').css('width');
+	width = parseInt(width.split("px")[0]);
+	var newWidth = width * (x + 1);
+		$("#secondary-image-board").css("width", newWidth)
+		$("#secondary-image-board").mCustomScrollbar({
+		axis:'x',
+		autoHideScrollbar: true,
+setWidth: newWidth
+	});
+		console.log("¡¡¡¡¡¡¡¡", newWidth)
+}
+
+function removeImageFromSecondaryBoard(imageObjId) {
+	$("#secondary-image-board").find('#thumbnail-container-' + imageObjId).remove();
+}
+
 function initImageBoard(imagesObjArray) {
 	var $container = $('#image-board');
 	var imageArray = [];
 	$.each(imagesObjArray, function(index, image){
-		var imageHTML = createImageElement(image)[0];
-		imageArray.push(imageHTML);
+		var imageContainerHTML = createImageElement(image)[0];
+		imageArray.push(imageContainerHTML);
 
-
-
+			console.log(image)
 		if (image.IsFavourite) {
-			var favThumbnail = $(imageHTML).clone()[0];
-$(favThumbnail).attr('data-img-id', favThumbnail.id);
-$(favThumbnail).removeAttr('id');
-console.log("asfdsffdsfgfdgeeeeeeeeeeeeeee", ($(favThumbnail).find('img')[0]).src);
-			$('#mCSB_1_container').append(favThumbnail);
-			$('#mCSB_1_container').append($(favThumbnail).find('img')[0]);
-			$('#secondary-image-board').append('favTJJJJJJJJJJJJJJJJJJhumbnail');
+			addImageToSecondaryBoard(image);
 		}
 	});
 
@@ -61,8 +105,7 @@ console.log("asfdsffdsfgfdgeeeeeeeeeeeeeee", ($(favThumbnail).find('img')[0]).sr
         },
 		error: function(ele, msg) {
 			console.log("error");
-console.log("ele",ele, msg);
-			// $(ele).attr('data-error-url', ele.src);
+
 			ele.src = "../assets/images/cannotLoadImg.png";
 			$(ele).addClass('img-load-error');
 			$container.isotope('insert', $(ele).parents('.image-element'));
@@ -73,6 +116,7 @@ console.log("ele",ele, msg);
 function loadImages() {
 	$.get(getImageUrl, function( data ) {
 		console.log("data", data);
+		storeImages(data);
 		initImageBoard(data);
 	});
 }
@@ -82,7 +126,14 @@ function getSelectedImagesHTMLContainer() {
 }
 
 function getFirstSelectedImageHTMLContainer(){
+	// Returns the html container of the first selected image
 	return $(getSelectedImagesHTMLContainer()[0]).find('img');
+}
+
+function getFirstSelectedImage() {
+	// Returns the image object that is represented by the first selected img html container
+	var selectedImage = getFirstSelectedImageHTMLContainer();
+	return getImageById((selectedImage[0].id).split('-')[1]);
 }
 
 function getImageFromImageContainer(imageContainer) {
@@ -114,6 +165,18 @@ function initElements() {
 	}
 }
 
+function setFavouriteSelectedIcon() {
+	$('#markFavourite').find('span')
+						.removeClass('icon-heart-2')
+						.addClass('icon-heart');
+}
+
+function removeFavouriteSelectedIcon() {
+	$('#markFavourite').find('span')
+						.removeClass('icon-heart')
+						.addClass('icon-heart-2');
+}
+
 function bindEvents() {
 	$('#markFavourite').click(function(){
 
@@ -123,15 +186,33 @@ function bindEvents() {
 			selectedIds.push(container.id.split('-')[1]);
 		});
 
-		// var formData = new FormData();
-		// formData.append('favourites', 'selectedIds');
-console.log(selectedIds)
+		jQuery.ajaxSettings.traditional = true;
+
 		$.ajax({
 			type: "POST",
 			url: markFavouriteUrl,
-			// data: { favourites : selectedIds },
-			data: { favourites : selectedIds[1] },
+			data: { imagesIds : selectedIds },
 			success: function(data) {
+				console.log(data);
+				$.each(data, function(index, id){
+					var image = getImageById(id);
+
+					if (image.IsFavourite) {
+						console.log('remove:', image)
+						removeImageFromSecondaryBoard(image.Id);
+					} else {
+						console.log('add:', image)
+						addImageToSecondaryBoard(image);
+					}
+
+					image.IsFavourite = !image.IsFavourite;
+					updateImage(image);
+
+				});
+
+				if (getFirstSelectedImage().IsFavourite) {
+					setFavouriteSelectedIcon();
+				}
 			},
 			error: function() {
 			}
@@ -235,11 +316,21 @@ console.log(selectedIds)
 
 
 		var selectedCount = getSelectedImagesHTMLContainer().length;
-		if (selectedCount == 1) {
-			var selectedImage = getFirstSelectedImageHTMLContainer();
+		var selectedImage = getFirstSelectedImageHTMLContainer();
+
+		if (selectedCount == 0) {
+			removeFavouriteSelectedIcon();
+		} else if (selectedCount == 1) {
 			if (!$(selectedImage).hasClass('img-load-error')) {
 				$('.actions span').removeClass('fg-gray no-hover');
 				$('.actions').removeClass('no-hover');
+
+				var image = getFirstSelectedImage();
+				if (image.IsFavourite) {
+					setFavouriteSelectedIcon();
+				} else {
+					removeFavouriteSelectedIcon();
+				}
 			}
 		} else if (selectedCount > 1) {
 			$('.actions .icon-link').addClass('fg-gray no-hover');
@@ -289,8 +380,6 @@ console.log(selectedIds)
 
 
 
-
-
 	$('#refresh').click(function() {
 		location.reload();
 	});
@@ -301,6 +390,7 @@ function toggleSecondaryBoard(shouldShow) {
 	if (shouldShow) {
 		$('#secondary-image-board-toggle').hide();
 		$('#secondary-image-board, #secondary-image-board-title').show();
+		$("#secondary-image-board").mCustomScrollbar("scrollTo", 0);
 		localStorage.hideSecondaryBoard = false;
 	} else {
 		$('#secondary-image-board-toggle').show();
