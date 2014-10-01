@@ -21,6 +21,7 @@ TODO:
 - Seccion configuraciones
 
 BUGS:
+- Cuando se modifica una entidad, solo se ve reflejado el cambio cuando se para la aplicacion y se la vuelve a correr.
 - add image modal
 	.cunado el browser es chico, los botones no se ven -> SOLUCIONADO
 	.cuando el preview de la imagen es muy grande tapa a los botones -> SOLUCIONADO
@@ -28,7 +29,7 @@ BUGS:
 - image board
 	.isotope carga mal, las imagenes se sobreponen -> SOLUCIONADO
 - secondary image board
-	.cuando se cierra el panel y se vuelve a abrir no se ven las imagenes
+	.cuando se cierra el panel y se vuelve a abrir no se ven las imagenes -> SOLUCIONADO
 - unsorted
 	.url que despues de la extension tienen signo de pregunta no cargan -> SOLUCIONADO
 
