@@ -18,3 +18,13 @@ F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenReposit
 F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.dll
 F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.pdb
 F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.csprojResolveAssemblyReference.cache
+C:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.dll.config
+C:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.dll
+C:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.pdb
+C:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.dll
+C:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.SqlServer.dll
+C:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.xml
+C:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.SqlServer.xml
+C:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.csprojResolveAssemblyReference.cache
+C:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.dll
+C:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.pdb
