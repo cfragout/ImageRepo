@@ -21,7 +21,6 @@ namespace ImagenRepoEntities.Models
                 OriginalUrl = "http://www.hdwallpaperscool.com/wp-content/uploads/2013/11/gallardo-sports-cars-hd-images-widescreen-top-wallpapers.jpg",
                 UserUploaded = false
             };
-
             var imagen2 = new Imagen
             {
                 UserUploaded = true,
@@ -32,15 +31,32 @@ namespace ImagenRepoEntities.Models
                 OriginalUrl = "sldkjjautoloco.jpg",
             };
 
-            var tag = new Tag() 
+            var tag1 = new Tag() 
             {
                 Nombre = "Autos"
             };
+            var tag2 = new Tag()
+            {
+                Nombre = "NSFW"
+            };
+            var tag3 = new Tag()
+            {
+                Nombre = "Gracioso"
+            };
+            var tag4 = new Tag()
+            {
+                Nombre = "Gifs"
+            };
 
-            imagen1.Tags.Add(tag);
+            imagen1.Tags.Add(tag1);
+            imagen2.Tags.Add(tag1);
 
             context.Imagenes.Add(imagen1);
             context.Imagenes.Add(imagen2);
+
+            context.Tags.Add(tag2);
+            context.Tags.Add(tag3);
+            context.Tags.Add(tag4);
 
             context.SaveChanges();
 

@@ -8,7 +8,12 @@ namespace ImagenRepoEntities.Entities
 {
     public class Tag
     {
-        [Required]
+        public Tag()
+        {
+            Imagenes = new List<Imagen>();
+
+        }
+
         public int Id { get; set; }
 
         [Required]

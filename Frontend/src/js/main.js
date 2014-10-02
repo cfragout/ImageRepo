@@ -61,17 +61,17 @@ function addImageToSecondaryBoard(image) {
 
 
 
-var x = parseInt($('#secondary-image-board').find('img').length / 9);
-	var width = $('.mCSB_container').css('width');
-	width = parseInt(width.split("px")[0]);
-	var newWidth = width * (x + 1);
-		$("#secondary-image-board").css("width", newWidth)
-		$("#secondary-image-board").mCustomScrollbar({
-		axis:'x',
-		autoHideScrollbar: true,
-setWidth: newWidth
-	});
-		console.log("¡¡¡¡¡¡¡¡", newWidth)
+// var x = parseInt($('#secondary-image-board').find('img').length / 9);
+// 	var width = $('.mCSB_container').css('width');
+// 	width = parseInt(width.split("px")[0]);
+// 	var newWidth = width * (x + 1);
+// 		$("#secondary-image-board").css("width", newWidth)
+// 		$("#secondary-image-board").mCustomScrollbar({
+// 		axis:'x',
+// 		autoHideScrollbar: true,
+// 		setWidth: newWidth
+// 	});
+// 		console.log("¡¡¡¡¡¡¡¡", newWidth)
 }
 
 function removeImageFromSecondaryBoard(imageObjId) {
@@ -97,7 +97,7 @@ function initImageBoard(imagesObjArray) {
 		container: '#image-board',
 		success: function(ele) {
 			console.log("success");
-			if (isGifImage(ele) && (!localStorage.autoPlayGifs)) {
+			if (isGifImage(ele) && (localStorage.autoPlayGifs == "false")) {
 				freezeGif(ele);
 			}
 			$(ele).parents('.image-element').css('opacity', 1);

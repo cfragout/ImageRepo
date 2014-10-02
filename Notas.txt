@@ -1,7 +1,8 @@
 TODO:
-- favoritos
+- Borrar imagenes
 - agregados recientemente
 - tags
+	-dar estilo al autocomplete
 - script para crear BD
 - validaciones
 - vistas: vista de tags, vista de imagenes
@@ -21,6 +22,7 @@ TODO:
 - Seccion configuraciones
 
 BUGS:
+- cuando recien se agrega un gif, por mas que autoplaygifs este en false, éste se agrega animado. Lo mismo cuando se agrega a favoritos
 - Cuando se modifica una entidad, solo se ve reflejado el cambio cuando se para la aplicacion y se la vuelve a correr.
 - add image modal
 	.cunado el browser es chico, los botones no se ven -> SOLUCIONADO
@@ -40,3 +42,4 @@ HECHO:
 - lazy load -> HECHO (CON BLAZY)
 - las acciones rapidas deberian estar abajo de la otra barra y ser flotantes -> HECHO
 - gif: habilitar o deshabilitar animacion -> HECHO
+- favoritos -> HECHO

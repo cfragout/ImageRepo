@@ -18,10 +18,21 @@ $('#addImagesButton').click(function(){
 			var internetInput = $($('.add-internet-input')[1]);
 			var pcInput = $($('.add-pc-input')[1]);
 			var imagePreview = $($('.add-image-preview')[1]);
+			var tagsInput = $($('.add-tags-input')[1]);
 
 			// Disable upload from pc input
 			pcInput.siblings().attr('disabled', 'disabled');
 			pcInput.attr('disabled', 'disabled');
+
+			// init tags plugin
+			tagsInput.tagit({
+				fieldName: "Tags",
+				caseSensitive: false,
+				removeConfirmation: true,
+				autocomplete: { delay: 0, minLength: 2 },
+				availableTags: ["gifs", "gracioso", "NSFW"], // Get these from the server
+				placeholderText: "gifs, gracioso, NSFW"
+			});
 
 			var addFromPcSpan = $($('.add-pc')[1]).parent()[0];
 			$(addFromPcSpan).click(function(){
@@ -81,9 +92,10 @@ $('#addImagesButton').click(function(){
 				var imagen = {
 					name : $($('.add-name-input')[1]).val(),
 					userUploaded : userUploaded,
-					path : ''
+					path : '',
+					tags : getArrayOfTagObjects()
 				};
-
+console.log(imagen)
 				if (!userUploaded) {
 					imagen.originalURL = internetInput.val();
 					postImageObj(imagen);
@@ -167,7 +179,26 @@ function postImageObj(imageObj) {
 	}).fail(function(obj, status, message){
 		showLoadingScreen(false);
 		console.log(message);
-		$($('.add-image-error')[1]).text('Hubo un problema al cargar la imagen. Comproba que la URL sea correcta e intentalo nuevamente.');
+		$($('.add-image-error')[1]).text('Hubo un problema al cargar la imagen. Intenta nuevamente.');
 		$($('.add-image-error-section')[1]).show();
 	});
+}
+
+// Gets the value of the hidden input that saves user entered tags and creates an array of tag objects.
+function getArrayOfTagObjects() {
+	var tags = $($('.add-tags-input')[1]).val();
+
+	if ((tags == '') || (tags == null)) {
+		return [];
+	}
+
+	var tagsArray = tags.split(',');
+	var tagObjectsArray = [];
+	for (var tag in tagsArray) {
+		tagObjectsArray.push({
+			nombre: tagsArray[tag]
+		});
+	}
+
+	return tagObjectsArray;
 }

@@ -142,6 +142,11 @@ namespace ImagenRepositorio.Controllers
             imagen.Created = DateTime.Today;
             imagen.IsDeleted = false;
 
+            //Refactor
+            var tags = imagen.Tags;
+            imagen.Tags = new List<Tag>();
+            setTagsToInternetFetchedImage(tags, imagen);
+
             try
             {
                 if (imagen.UserUploaded == false)
@@ -179,6 +184,8 @@ namespace ImagenRepositorio.Controllers
                     IsDeleted = false,
                     UserUploaded = true
                 };
+
+                setTagsToUserUploadedImage(request.Form["tags"], newImage);
 
                 string pic = getLocalFileName(newImage);
                 string path = Path.Combine(System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath, pic);
@@ -252,6 +259,72 @@ namespace ImagenRepositorio.Controllers
 
             datetime = datetime.Replace('/', '_').Replace('.', '_').Replace(':', '_').Replace(' ', '_').Replace('?', '_');
             return username + "_" + imagen.Name + "_" + datetime + Path.GetExtension(originalUrl);
+        }
+
+        // Refactor
+        private void setTagsToUserUploadedImage(string tags, Imagen img)
+        {
+            List<Tag> tagCollection = new List<Tag>();
+
+            if (!String.IsNullOrEmpty(tags))
+            {
+                var tagsArray = tags.Split(',');
+
+                foreach (var currentTag in tagsArray)
+                {
+                    var queryResult = db.Tags.Where(t => t.Nombre == currentTag);
+                    Tag tag;
+
+                    if (queryResult.Count() > 0)
+                    {
+                        tag = queryResult.FirstOrDefault();
+                    }
+                    else
+                    {
+                        tag = new Tag();
+                        tag.Nombre = currentTag;
+                    }
+
+                    tag.Imagenes.Add(img);
+                    img.Tags.Add(tag);
+                }
+ 
+            }
+
+
+            return;
+        }
+
+        // Refactor
+        private void setTagsToInternetFetchedImage(ICollection<Tag> tags, Imagen img)
+        {
+            List<Tag> tagCollection = new List<Tag>();
+
+                foreach (var currentTag in tags)
+                {
+                    var queryResult = db.Tags.Where(t => t.Nombre == currentTag.Nombre);
+                    Tag tag;
+
+                    if (queryResult.Count() > 0)
+                    {
+                        tag = queryResult.FirstOrDefault();
+                    }
+                    else
+                    {
+                        tag = new Tag();
+                        tag = currentTag;
+                    }
+
+                    tag.Imagenes.Add(img);
+                    img.Tags.Add(tag);
+                }
+
+            return;
+        }
+
+        private void saveTag()
+        {
+
         }
     }
 }
