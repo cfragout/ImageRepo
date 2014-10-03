@@ -176,6 +176,7 @@ namespace ImagenRepositorio.Controllers
             if (file != null)
             {
                 string imageDirPath = "Content/Images/";
+                string serverUrl = "http://localhost:55069/Content/Images/";
 
                 Imagen newImage = new Imagen { 
                     Name = request.Form["imageName"],
@@ -187,12 +188,13 @@ namespace ImagenRepositorio.Controllers
 
                 setTagsToUserUploadedImage(request.Form["tags"], newImage);
 
+
                 string pic = getLocalFileName(newImage);
-                string path = Path.Combine(System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath, pic);
-                newImage.Path = path;
+                string localPath = Path.Combine(System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath, pic);
+                newImage.Path = serverUrl + pic;
 
                 // file is uploaded and info stored in the DB
-                file.SaveAs(path);
+                file.SaveAs(localPath);
                 db.Imagenes.Add(newImage);
                 db.SaveChanges();
 

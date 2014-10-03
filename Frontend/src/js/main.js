@@ -31,6 +31,14 @@ function getImageById(id) {
 	return "";
 }
 
+function getImageIdbyImageHTML(imageHTML) {
+	return imageHTML.id.split('-')[1];
+}
+
+function getImageObjectByImageHTML(imageHTML) {
+	return getImageById(getImageIdbyImageHTML(imageHTML));
+}
+
 function createImageElement(image) {
 	var alt = image.Name || "";
 	var id = parseInt(image.Id, 10)
@@ -58,20 +66,6 @@ function addImageToSecondaryBoard(image) {
 
 	// Append to scroll plugin container
 	$('#mCSB_1_container').append(imageContainerHTML);
-
-
-
-// var x = parseInt($('#secondary-image-board').find('img').length / 9);
-// 	var width = $('.mCSB_container').css('width');
-// 	width = parseInt(width.split("px")[0]);
-// 	var newWidth = width * (x + 1);
-// 		$("#secondary-image-board").css("width", newWidth)
-// 		$("#secondary-image-board").mCustomScrollbar({
-// 		axis:'x',
-// 		autoHideScrollbar: true,
-// 		setWidth: newWidth
-// 	});
-// 		console.log("¡¡¡¡¡¡¡¡", newWidth)
 }
 
 function removeImageFromSecondaryBoard(imageObjId) {
@@ -84,11 +78,6 @@ function initImageBoard(imagesObjArray) {
 	$.each(imagesObjArray, function(index, image){
 		var imageContainerHTML = createImageElement(image)[0];
 		imageArray.push(imageContainerHTML);
-
-			console.log(image)
-		if (image.IsFavourite) {
-			addImageToSecondaryBoard(image);
-		}
 	});
 
 	$('#image-board').append(imageArray);
@@ -96,19 +85,31 @@ function initImageBoard(imagesObjArray) {
 	var bLazy = new Blazy({
 		container: '#image-board',
 		success: function(ele) {
-			console.log("success");
 			if (isGifImage(ele) && (localStorage.autoPlayGifs == "false")) {
 				freezeGif(ele);
 			}
-			$(ele).parents('.image-element').css('opacity', 1);
-			$container.isotope('insert', $(ele).parents('.image-element'));
+
+			// Add image to primary board
+			$(ele).parents('.image-container').css('opacity', 1);
+			$container.isotope('insert', $(ele).parents('.image-container'));
+
+			// If favourite add image to secondary board
+			var addedImg = getImageObjectByImageHTML(ele);
+			if (addedImg.IsFavourite) {
+				console.log("addedImg", addedImg)
+				addImageToSecondaryBoard(addedImg);
+			}
         },
 		error: function(ele, msg) {
-			console.log("error");
+			console.log("error", ele);
 
 			ele.src = "../assets/images/cannotLoadImg.png";
 			$(ele).addClass('img-load-error');
-			$container.isotope('insert', $(ele).parents('.image-element'));
+
+			// Remove class so that it has no click handler
+			$(ele).parents('.image-container').removeClass('image-element');
+
+			$container.isotope('insert', $(ele).parents('.image-container'));
 		}
 	});
 }
@@ -133,7 +134,7 @@ function getFirstSelectedImageHTMLContainer(){
 function getFirstSelectedImage() {
 	// Returns the image object that is represented by the first selected img html container
 	var selectedImage = getFirstSelectedImageHTMLContainer();
-	return getImageById((selectedImage[0].id).split('-')[1]);
+	return getImageObjectByImageHTML(selectedImage[0]);
 }
 
 function getImageFromImageContainer(imageContainer) {
@@ -177,7 +178,27 @@ function removeFavouriteSelectedIcon() {
 						.addClass('icon-heart-2');
 }
 
+function createTagListElement(tagName) {
+	return '<li class="sidebar-tag-line"><a href="#">'+ tagName +'<span class="hidden remove-tag-icon icon-cancel-2 pull-right"></span></a></li>';
+}
+
+function updateSidebarTagList(image) {
+	$('#image-tag-list ul').empty();
+
+	if (image == null) {
+		return;
+	}
+		console.log("---->image.Tags",image.Tags);
+
+	$.each(image.Tags, function(index, tag){
+		console.log("---->",tag);
+		$('#image-tag-list ul').append(createTagListElement(tag.Nombre));
+	});
+}
+
 function bindEvents() {
+
+	// Quick actions: favourite
 	$('#markFavourite').click(function(){
 
 		var selectedIds = [];
@@ -221,7 +242,7 @@ function bindEvents() {
 	});
 
 
-
+	// Options section: open
 	$('#closeOptionsScreenContainer').click(function(){
 		$('#mainNavbar, #secondary-image-board-row, #mainGrid').show().addClass('animated fadeInLeftBig');
 		$('#optionsScreen').addClass('animated rotateOutDownRight');
@@ -234,6 +255,7 @@ function bindEvents() {
 		});
 	});
 
+	// Options section: close
 	$('#showOptions').click(function(){
 		$('#mainNavbar, #secondary-image-board-row, #mainGrid').addClass('animated fadeOutLeftBig');
 		$('#optionsScreen').show().addClass('animated rotateInUpRight');
@@ -248,7 +270,7 @@ function bindEvents() {
 
 
 
-
+	// Primary image board: gif play
 	$('#image-board').on('click', '.play-gif-icon', function(){
 		var image = $(this).siblings('img');
 
@@ -263,6 +285,7 @@ function bindEvents() {
 		return false;
 	});
 
+	// Primary image board: gif stop
 	$('#image-board').on('click', '.stop-gif-icon', function(){
 		var image = $(this).siblings('img');
 
@@ -277,7 +300,7 @@ function bindEvents() {
 	});
 
 
-
+	// Quick actions: more actions
 	$('#quick-actions-more').click(function(){
 		var actions = $('#quick-actions-more-container');
 
@@ -291,18 +314,32 @@ function bindEvents() {
 
 	});
 
+	// Navbar: search
 	$('#searchButton').click(function(){
 		findInImageBoard($('#searchField').val());
 		return false;
 	});
 
-
-	$("#secondary-image-board").mCustomScrollbar({
+	// scrolls
+	$('#secondary-image-board').mCustomScrollbar({
 		axis:'x',
 		autoHideScrollbar: true
 	});
+	$('#image-tag-list').mCustomScrollbar({
+		autoHideScrollbar: true,
+        setHeight: 220
+	});
+
+	// Remove tag icon
+	$('#image-tag-list').on('mouseenter', '.sidebar-tag-line', function(){
+		$(this).find('.remove-tag-icon').show();
+	});
+	$('#image-tag-list').on('mouseleave', '.sidebar-tag-line', function(){
+		$(this).find('.remove-tag-icon').hide();
+	});
 
 
+	// Secondary board toggle
 	$('#secondary-image-board-toggle').click(function(){
 		toggleSecondaryBoard(true);
 	});
@@ -311,27 +348,34 @@ function bindEvents() {
 		toggleSecondaryBoard(false);
 	});
 
-	$('#image-board').on('click', '.image-container', function(){
+	// Primary board: image click
+	$('#image-board').on('click', '.image-element', function(){
 		$(this).toggleClass('selected');
-
 
 		var selectedCount = getSelectedImagesHTMLContainer().length;
 		var selectedImage = getFirstSelectedImageHTMLContainer();
 
 		if (selectedCount == 0) {
 			removeFavouriteSelectedIcon();
+			updateSidebarTagList();
+			$('#copy-image-url').val('');
+			$('#sidebar-image-name').text('-');
 		} else if (selectedCount == 1) {
-			if (!$(selectedImage).hasClass('img-load-error')) {
-				$('.actions span').removeClass('fg-gray no-hover');
-				$('.actions').removeClass('no-hover');
 
-				var image = getFirstSelectedImage();
-				if (image.IsFavourite) {
-					setFavouriteSelectedIcon();
-				} else {
-					removeFavouriteSelectedIcon();
-				}
+			$('.actions span').removeClass('fg-gray no-hover');
+			$('.actions').removeClass('no-hover');
+
+			var image = getFirstSelectedImage();
+			if (image.IsFavourite) {
+				setFavouriteSelectedIcon();
+			} else {
+				removeFavouriteSelectedIcon();
 			}
+
+			updateSidebarTagList(image);
+			$('#copy-image-url').val(image.Path);
+			$('#sidebar-image-name').text(image.Name);
+
 		} else if (selectedCount > 1) {
 			$('.actions .icon-link').addClass('fg-gray no-hover');
 			$('.actions span.icon-link').closest('.actions').addClass('no-hover');
@@ -343,7 +387,7 @@ function bindEvents() {
 	});
 
 
-
+	// Quick actions: link
 	$('.icon-link').parent().click(function(){
 		var link = $(this);
 
@@ -372,7 +416,7 @@ function bindEvents() {
 		onLayout: function() {
 			$(window).trigger("scroll");
 		},
-		itemSelector: '.image-element',
+		itemSelector: '.image-container',
 		masonry: {
 			columnWidth: 5
 		}

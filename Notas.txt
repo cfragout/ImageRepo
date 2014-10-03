@@ -1,8 +1,11 @@
 TODO:
+- tags
+	-eliminar tags
+	-al cliquear en un tag en la sidebar me tiene que traer mas imagenes con ese tag asociado
+	-dar estilo al autocomplete
+	-placeholder en la sidebar cuando la imagen seleccionada no tiene tag
 - Borrar imagenes
 - agregados recientemente
-- tags
-	-dar estilo al autocomplete
 - script para crear BD
 - validaciones
 - vistas: vista de tags, vista de imagenes
@@ -20,10 +23,26 @@ TODO:
 - sacar el image.name del filename
 - Acciones rapidas
 - Seccion configuraciones
+- Agregar efecto a toggle de secondary image board
 
 BUGS:
+- tags: cuando se agrega un tag que no esta recien creado, se agrega una referencia al tag en lugar del tag mismo.
+- cuando recien se carga una imagen no se puede favoritear ni agregar al secondary image board
 - cuando recien se agrega un gif, por mas que autoplaygifs este en false, éste se agrega animado. Lo mismo cuando se agrega a favoritos
 - Cuando se modifica una entidad, solo se ve reflejado el cambio cuando se para la aplicacion y se la vuelve a correr.
+- Estilo del scroll bar de tags
+- flecha del boton agregar imagenes es muy grande
+
+HECHO:
+- loader para cuando apretas "agregar" en add image modal -> HECHO
+- manejo de errores cuando se cargan las imagenes -> HECHO
+- guardar preferencias (localstorage ??) -> HECHO
+- lazy load -> HECHO (CON BLAZY)
+- las acciones rapidas deberian estar abajo de la otra barra y ser flotantes -> HECHO
+- gif: habilitar o deshabilitar animacion -> HECHO
+- favoritos -> HECHO
+
+SOLUCIONADOS:
 - add image modal
 	.cunado el browser es chico, los botones no se ven -> SOLUCIONADO
 	.cuando el preview de la imagen es muy grande tapa a los botones -> SOLUCIONADO
@@ -34,12 +53,3 @@ BUGS:
 	.cuando se cierra el panel y se vuelve a abrir no se ven las imagenes -> SOLUCIONADO
 - unsorted
 	.url que despues de la extension tienen signo de pregunta no cargan -> SOLUCIONADO
-
-HECHO:
-- loader para cuando apretas "agregar" en add image modal -> HECHO
-- manejo de errores cuando se cargan las imagenes -> HECHO
-- guardar preferencias (localstorage ??) -> HECHO
-- lazy load -> HECHO (CON BLAZY)
-- las acciones rapidas deberian estar abajo de la otra barra y ser flotantes -> HECHO
-- gif: habilitar o deshabilitar animacion -> HECHO
-- favoritos -> HECHO

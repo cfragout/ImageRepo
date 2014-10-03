@@ -131,6 +131,45 @@ html, body {
 
 .sidebar-top {
 	z-index: 0 !important;
+	width: 220px !important;
+}
+
+.sidebar-top #image-tag-list ul {
+	margin:0px;
+	padding:0px;
+}
+
+.sidebar-top .remove-tag-icon:hover {
+	color:blue;
+}
+
+.sidebar-tag-line {
+	width:220px !important;
+}
+
+.sidebar-tag-line .remove-tag-icon {
+	font-size: 9px;
+	margin-top: 3px;
+	color:rgb(244,244,244);
+	padding: 5px 5px 5px 5px;
+	color: rgb(51,51,51);
+	margin: 0px 15px 0px 0px;
+	position: absolute;
+	right: 0px;
+	top: 7px;
+}
+
+.sidebar-tag-line .remove-tag-icon:hover {
+	background-color: #1ba1e2;
+	color:white;
+}
+
+
+
+.sidebar-top #image-tag-list ul a {
+	padding-left:10px !important;
+	width: 220px !important;
+	word-break: break-all;
 }
 
 .sidebar-bottom .actions {

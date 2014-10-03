@@ -67,7 +67,6 @@ $('#addImagesButton').click(function(){
 				var name = file.name;
 				var size = file.size;
 				var type = file.type;
-				console.log("file",file);
 				filename = name;
 
 				readURL(this, $('.add-image-preview')[1]);
@@ -95,7 +94,7 @@ $('#addImagesButton').click(function(){
 					path : '',
 					tags : getArrayOfTagObjects()
 				};
-console.log(imagen)
+
 				if (!userUploaded) {
 					imagen.originalURL = internetInput.val();
 					postImageObj(imagen);
@@ -139,7 +138,6 @@ console.log(imagen)
 
 			// Clear input button
 			internetInput.siblings().click(function(){
-				console.log("clear");
 				internetInput.val('');
 				imagePreview.attr('src', '../assets/images/image-placeholder.png');
 			})
