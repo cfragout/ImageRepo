@@ -33,19 +33,19 @@ namespace ImagenRepoEntities.Models
 
             var tag1 = new Tag() 
             {
-                Nombre = "Autos"
+                Name = "Autos"
             };
             var tag2 = new Tag()
             {
-                Nombre = "NSFW"
+                Name = "NSFW"
             };
             var tag3 = new Tag()
             {
-                Nombre = "Gracioso"
+                Name = "Gracioso"
             };
             var tag4 = new Tag()
             {
-                Nombre = "Gifs"
+                Name = "Gifs"
             };
 
             imagen1.Tags.Add(tag1);

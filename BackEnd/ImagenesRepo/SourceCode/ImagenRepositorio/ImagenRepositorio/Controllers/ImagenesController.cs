@@ -34,7 +34,11 @@ namespace ImagenRepositorio.Controllers
         // GET: api/Imagenes
         public IEnumerable<Imagen> GetImages()
         {
-            return this.imagenService.GetAll();
+            // Find a way to tell EF not to bring Images list on tag objects.
+            var images = this.imagenService.GetAll().ToList();
+            images.ForEach(i => i.Tags.ToList().ForEach(t => t.Images = new List<Imagen>()));
+            /**********************************************/
+            return images;
         }
 
         // GET: api/Imagenes/GetLatestImages
@@ -109,15 +113,18 @@ namespace ImagenRepositorio.Controllers
             {
                 Imagen imagen = db.Imagenes.Find(imgId);
 
-                imagen.Tags.ToList().RemoveAll(t => t.Id == tagId);
+                // There must be an easier way!
+                imagen.Tags = imagen.Tags.ToList().FindAll(t => t.Id != tagId);
 
                 db.Entry(imagen).State = EntityState.Modified;
 
                 db.SaveChanges();
 
+                return true;
+
             }
 
-            return true;
+            return false;
         }
 
         // POST: api/Imagenes/MarkImagesAsFavourite
@@ -301,7 +308,7 @@ namespace ImagenRepositorio.Controllers
 
                 foreach (var currentTag in tagsArray)
                 {
-                    var queryResult = db.Tags.Where(t => t.Nombre == currentTag);
+                    var queryResult = db.Tags.Where(t => t.Name == currentTag);
                     Tag tag;
 
                     if (queryResult.Count() > 0)
@@ -311,7 +318,7 @@ namespace ImagenRepositorio.Controllers
                     else
                     {
                         tag = new Tag();
-                        tag.Nombre = currentTag;
+                        tag.Name = currentTag;
                     }
 
                     //tag.Imagenes.Add(img);
@@ -331,7 +338,7 @@ namespace ImagenRepositorio.Controllers
 
                 foreach (var currentTag in tags)
                 {
-                    var queryResult = db.Tags.Where(t => t.Nombre == currentTag.Nombre);
+                    var queryResult = db.Tags.Where(t => t.Name == currentTag.Name);
                     Tag tag;
 
                     if (queryResult.Count() > 0)

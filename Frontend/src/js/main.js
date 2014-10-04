@@ -37,6 +37,7 @@ function getImageIdbyImageHTML(imageHTML) {
 }
 
 function getImageObjectByImageHTML(imageHTML) {
+	console.log(imageHTML, "el thml")
 	return getImageById(getImageIdbyImageHTML(imageHTML));
 }
 
@@ -56,15 +57,17 @@ function imageHasLoaded(image) {
 
 function addImageToBoard(image) {
 	var imageContainer = createImageElement(image);
-	var image = $(imageContainer).find('img')[0];
-	$(image).attr('src', $(image).attr('data-src'));
+	var imageHTML = $(imageContainer).find('img')[0];
+	$(imageHTML).attr('src', $(imageHTML).attr('data-src'));
 
-	if (isGifImage(image) && (localStorage.autoPlayGifs == "false")) {
-		freezeGif(image);
+	if (isGifImage(imageHTML) && (localStorage.autoPlayGifs == "false")) {
+		freezeGif(imageHTML);
 	}
 
 	var $container = $('#image-board');
-	$container.isotope('insert', imageContainer)
+	$container.isotope('insert', imageContainer);
+
+	updateImage(image);
 }
 
 function addImageToSecondaryBoard(image) {
@@ -212,16 +215,34 @@ function bindEvents() {
 	$('#image-tag-list').on('click', '.remove-tag-icon', function(){
 		var imageId = $(this).attr('data-image-id');
 		var tagId = $(this).attr('data-tag-id');
+		var self = this;
 
 		$.ajax({
 			url: removeTagUrl,
 			data: { tagId: tagId, imageId: imageId},
 			type: 'POST',
-			success: function(data) {
-				console.log("success",data);
+			success: function(succeded) {
+				if (succeded) {
+					$(self).closest('li.sidebar-tag-line').remove();
+
+					var updatedImage = getImageById(imageId);
+					for (var i = 0; i < updatedImage.Tags.length; i++) {
+						if (updatedImage.Tags[i].Id == tagId) {
+							updatedImage.Tags.splice(i, 1);
+							updateImage(updatedImage);
+							break;
+						}
+					}
+
+				}
 			},
 			error: function(data) {
-				console.log("error tag", data)
+				$.Notify({
+					style: {background: '##9a1616', color: 'white'},
+					caption: 'Ups...',
+					content: "El tag no se pudo borrar. Intentalo nuevamente.",
+					timeout: 5000
+				});
 			}
 		});
 	});

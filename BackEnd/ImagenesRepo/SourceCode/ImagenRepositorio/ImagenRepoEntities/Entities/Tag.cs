@@ -10,16 +10,16 @@ namespace ImagenRepoEntities.Entities
     {
         public Tag()
         {
-            Imagenes = new List<Imagen>();
+            Images = new List<Imagen>();
 
         }
 
         public int Id { get; set; }
 
         [Required]
-        public string Nombre { get; set; }
+        public string Name { get; set; }
 
-        public virtual ICollection<Imagen> Imagenes { get; set; }
+        public virtual ICollection<Imagen> Images { get; set; }
 
     }
 }

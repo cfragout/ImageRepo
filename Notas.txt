@@ -55,3 +55,10 @@ SOLUCIONADOS:
 - unsorted
 	.url que despues de la extension tienen signo de pregunta no cargan -> SOLUCIONADO
 - cuando recien se agrega un gif, por mas que autoplaygifs este en false, éste se agrega animado. Lo mismo cuando se agrega a favoritos -> SOLUCIONADO
+
+
+DEUDA TECNICA:
+- Mover logica de los controladores a los servicios
+- EF
+	- referencias circulares
+	- eliminacion de tags: debe haber un metodo de borrado mas simple
