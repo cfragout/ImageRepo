@@ -28,10 +28,11 @@ TODO:
 BUGS:
 - tags: cuando se agrega un tag que no esta recien creado, se agrega una referencia al tag en lugar del tag mismo.
 - cuando recien se carga una imagen no se puede favoritear ni agregar al secondary image board
-- cuando recien se agrega un gif, por mas que autoplaygifs este en false, éste se agrega animado. Lo mismo cuando se agrega a favoritos
 - Cuando se modifica una entidad, solo se ve reflejado el cambio cuando se para la aplicacion y se la vuelve a correr.
 - Estilo del scroll bar de tags
 - flecha del boton agregar imagenes es muy grande
+- Cuando se abre el secondary image board deberia achicar el primary porque quedan imagenes ocultas y no se puede scrollear
+- Las imagenes favoritas deberian cargar siempre anes (sin necesidad de scroll)
 
 HECHO:
 - loader para cuando apretas "agregar" en add image modal -> HECHO
@@ -53,3 +54,4 @@ SOLUCIONADOS:
 	.cuando se cierra el panel y se vuelve a abrir no se ven las imagenes -> SOLUCIONADO
 - unsorted
 	.url que despues de la extension tienen signo de pregunta no cargan -> SOLUCIONADO
+- cuando recien se agrega un gif, por mas que autoplaygifs este en false, éste se agrega animado. Lo mismo cuando se agrega a favoritos -> SOLUCIONADO

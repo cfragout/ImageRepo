@@ -82,7 +82,6 @@
 				<div class="row">
 				<!-- Primary image-board -->
 					<div id="image-board" class="span10 image-board">
-					<!-- <img data-original="http://www.risasinmas.com/wp-content/uploads/2013/06/tengo-que-hacer-algo-nada.jpg" class="lazy"> -->
 					</div>
 				<!-- End primary image-board -->
 
@@ -90,13 +89,12 @@
 					<div class="span2">
 						<ul class="dropdown-menu inverse open keep-open sidebar-top">
 							<li class="menu-title">Imagen: <span id="sidebar-image-name">-</span></li>
-							<li class=""><div class="input-control text">
-    <input id="copy-image-url" type="text" style="width: 170px;
-float: left;
-margin-left: 3px;"/>
-    <button class="info icon-link" style="float: left;
-height: 34px;"></button>
-</div></li>
+							<li class="copy-link-li">
+								<div id="sidebar-link-input-container" class="input-control text">
+									<input id="copy-image-url" type="text"/>
+									<button id="copy-link-button" class="icon-link"></button>
+								</div>
+							</li>
 							<li class="menu-title">Tags</li>
 							<div id="image-tag-list">
 								<ul>
@@ -129,6 +127,7 @@ height: 34px;"></button>
 					<div id="secondary-image-board-toggle">
 						<span class="icon-arrow-up-5"></span>
 					</div>
+					<div id="secondary-cont">
 					<div id="secondary-image-board-title">
 						<div style="float:left">
 							Favoritas
@@ -141,6 +140,7 @@ height: 34px;"></button>
 					<div id="secondary-image-board" class="secondary-image-board">
 					</div>
 				<!-- End secondary image-board -->
+				</div>
 			</div>
 
 

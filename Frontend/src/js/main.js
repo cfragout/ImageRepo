@@ -1,9 +1,10 @@
 var baseUrl = 'http://localhost:55069/';
-var apiUrl = baseUrl + 'Api/';
-var postImageUrl = apiUrl + 'Imagenes/PostImage';
-var uploadImageUrl = apiUrl + 'Imagenes/UploadImage';
-var getImageUrl = apiUrl + 'Imagenes/GetImages';
-var markFavouriteUrl = apiUrl + 'Imagenes/MarkImagesAsFavourite'
+var imagesApiUrl = baseUrl + 'api/Imagenes/';
+var postImageUrl = imagesApiUrl + 'PostImage';
+var uploadImageUrl = imagesApiUrl + 'UploadImage';
+var getImageUrl = imagesApiUrl + 'GetImages';
+var markFavouriteUrl = imagesApiUrl + 'MarkImagesAsFavourite'
+var removeTagUrl = imagesApiUrl + 'RemoveTag';
 
 function storeImages(images) {
 	var imgs = [];
@@ -55,14 +56,27 @@ function imageHasLoaded(image) {
 
 function addImageToBoard(image) {
 	var imageContainer = createImageElement(image);
-	var image = $(imageContainer).find('img');
+	var image = $(imageContainer).find('img')[0];
 	$(image).attr('src', $(image).attr('data-src'));
+
+	if (isGifImage(image) && (localStorage.autoPlayGifs == "false")) {
+		freezeGif(image);
+	}
+
 	var $container = $('#image-board');
 	$container.isotope('insert', imageContainer)
 }
 
 function addImageToSecondaryBoard(image) {
-	var imageContainerHTML = '<div id="thumbnail-container-'+ image.Id +'" class="shadow secondary-image-element"><img id="thumbnail-' + image.Id +'" src="'+ image.Path +'"></div>';
+	var imageContainerHTML = $('<div id="thumbnail-container-'+ image.Id +'" class="secondary-image-element"></div>')[0];
+	var imageHTML = $('<img id="thumbnail-' + image.Id +'" src="'+ image.Path +'" class="shadow">')[0];
+
+	if (isGifImage(imageHTML) && (localStorage.autoPlayGifs == "false")) {
+		freezeGif(imageHTML);
+		$(imageContainerHTML).append($(imageHTML).parent());
+	} else {
+		$(imageContainerHTML).append($(imageHTML));
+	}
 
 	// Append to scroll plugin container
 	$('#mCSB_1_container').append(imageContainerHTML);
@@ -96,7 +110,6 @@ function initImageBoard(imagesObjArray) {
 			// If favourite add image to secondary board
 			var addedImg = getImageObjectByImageHTML(ele);
 			if (addedImg.IsFavourite) {
-				console.log("addedImg", addedImg)
 				addImageToSecondaryBoard(addedImg);
 			}
         },
@@ -178,8 +191,8 @@ function removeFavouriteSelectedIcon() {
 						.addClass('icon-heart-2');
 }
 
-function createTagListElement(tagName) {
-	return '<li class="sidebar-tag-line"><a href="#">'+ tagName +'<span class="hidden remove-tag-icon icon-cancel-2 pull-right"></span></a></li>';
+function createTagListElement(tag, imageId) {
+	return '<li class="sidebar-tag-line"><a href="#">'+ tag.Name +'<span class="hidden remove-tag-icon icon-cancel-2 pull-right" data-tag-id="'+ tag.Id +'" data-image-id="'+ imageId +'"></span></a></li>';
 }
 
 function updateSidebarTagList(image) {
@@ -188,15 +201,30 @@ function updateSidebarTagList(image) {
 	if (image == null) {
 		return;
 	}
-		console.log("---->image.Tags",image.Tags);
 
 	$.each(image.Tags, function(index, tag){
-		console.log("---->",tag);
-		$('#image-tag-list ul').append(createTagListElement(tag.Nombre));
+		$('#image-tag-list ul').append(createTagListElement(tag, image.Id));
 	});
 }
 
 function bindEvents() {
+	// Remove Tag
+	$('#image-tag-list').on('click', '.remove-tag-icon', function(){
+		var imageId = $(this).attr('data-image-id');
+		var tagId = $(this).attr('data-tag-id');
+
+		$.ajax({
+			url: removeTagUrl,
+			data: { tagId: tagId, imageId: imageId},
+			type: 'POST',
+			success: function(data) {
+				console.log("success",data);
+			},
+			error: function(data) {
+				console.log("error tag", data)
+			}
+		});
+	});
 
 	// Quick actions: favourite
 	$('#markFavourite').click(function(){
@@ -214,7 +242,6 @@ function bindEvents() {
 			url: markFavouriteUrl,
 			data: { imagesIds : selectedIds },
 			success: function(data) {
-				console.log(data);
 				$.each(data, function(index, id){
 					var image = getImageById(id);
 
@@ -279,7 +306,7 @@ function bindEvents() {
 		$(image).attr('data-static-img', staticImage);
 		$(image).removeAttr('data-gif');
 
-		$(this).addClass('stop-gif-icon icon-stop-2').removeClass('play-gif-icon icon-play-alt');
+		$(this).addClass('stop-gif-icon icon-pause').removeClass('play-gif-icon icon-play-alt');
 
 		// Prevent .selected
 		return false;
@@ -293,7 +320,7 @@ function bindEvents() {
 		$(image).attr('src', $(image).attr('data-static-img'));
 		$(image).removeAttr('data-static-img')
 
-		$(this).addClass('play-gif-icon icon-play-alt').removeClass('stop-gif-icon icon-stop-2');
+		$(this).addClass('play-gif-icon icon-play-alt').removeClass('stop-gif-icon icon-pause');
 
 		// Prevent .selected
 		return false;
@@ -373,8 +400,10 @@ function bindEvents() {
 			}
 
 			updateSidebarTagList(image);
-			$('#copy-image-url').val(image.Path);
+			$('#copy-image-url').val(image.Path).select();
 			$('#sidebar-image-name').text(image.Name);
+
+
 
 		} else if (selectedCount > 1) {
 			$('.actions .icon-link').addClass('fg-gray no-hover');
@@ -432,15 +461,43 @@ function bindEvents() {
 
 function toggleSecondaryBoard(shouldShow) {
 	if (shouldShow) {
-		$('#secondary-image-board-toggle').hide();
-		$('#secondary-image-board, #secondary-image-board-title').show();
+		$('#secondary-cont').css('visibility','visible');
+		$('#secondary-image-board-toggle').addClass('animated fadeOutDown');
+		$('#secondary-cont').show().addClass('animated fadeInUp');
+
+		$('#secondary-image-board-toggle').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#secondary-image-board-toggle').removeClass('animated fadeOutDown').hide();
+		});
+		$('#secondary-cont').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#secondary-cont').removeClass('animated fadeOutDown');
+		});
+
 		$("#secondary-image-board").mCustomScrollbar("scrollTo", 0);
 		localStorage.hideSecondaryBoard = false;
 	} else {
-		$('#secondary-image-board-toggle').show();
-		$('#secondary-image-board, #secondary-image-board-title').hide();
+		$('#secondary-image-board-toggle').show().addClass('animated fadeInUp');;
+		$('#secondary-cont').addClass('animated fadeOutDown');
 		localStorage.hideSecondaryBoard = true;
+
+
+
+		$('#secondary-cont').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#secondary-cont').removeClass('animated fadeOutDown').hide();
+		});
+		$('#secondary-image-board-toggle').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#secondary-image-board-toggle').removeClass('animated rotateInUpRight');
+		});
 	}
+	// if (shouldShow) {
+	// 	$('#secondary-image-board-toggle').hide();
+	// 	$('#secondary-image-board, #secondary-image-board-title').show();
+	// 	$("#secondary-image-board").mCustomScrollbar("scrollTo", 0);
+	// 	localStorage.hideSecondaryBoard = false;
+	// } else {
+	// 	$('#secondary-image-board-toggle').show();
+	// 	$('#secondary-image-board, #secondary-image-board-title').hide();
+	// 	localStorage.hideSecondaryBoard = true;
+	// }
 }
 
 function initApp() {
@@ -462,17 +519,36 @@ function isGifImage(i) {
 
 function freezeGif(image) {
 	var c = document.createElement('canvas');
-	var w = c.width = image.width;
-	var h = c.height = image.height;
+	var canvasImg = new Image();
+	var imageLoaded = (image.width != 0) && (image.height != 0);
+	var noPreviewSrc = '../assets/images/previewNotAvailable.png';
+	c.width = 180;
+	c.height = 240;
+
+
+	if (imageLoaded) {
+		c.width = image.width;
+		c.height = image.height;
+	}
+
+	var w = c.width;
+	var h = c.height;
+
 	c.getContext('2d').drawImage(image, 0, 0, w, h);
 	try {
+
 		$(image).attr('data-gif', image.src);
-		image.src = c.toDataURL("image/gif"); // if possible, retain all css aspects
+		if (imageLoaded) {
+			image.src = c.toDataURL("image/gif"); // if possible, retain all css aspects
+		} else {
+			 image.src = '../assets/images/previewNotAvailable.png';
+		}
 
 		// Create play overlay
 		$(image).wrap('<div class="gif-wrapper">');
 		var wrapper = $(image).parent();
 		$(wrapper).append('<span class="not-selectable play-gif-icon icon-play-alt">');
+
 	} catch(e) { // cross-domain -- mimic original with all its tag attributes
 		for (var j = 0, a; a = image.attributes[j]; j++) {
 			c.setAttribute(a.name, a.value);

@@ -24,8 +24,17 @@ html, body {
 	color: white;
 	position: absolute;
 	bottom: 0px;
-	right: 0px;
+	right: 5px;
 	cursor: pointer;
+}
+
+#secondary-cont {
+	display: block;
+	bottom: 0px;
+	position: absolute;
+	width: 100%;
+	position: fixed;
+	visibility: hidden;
 }
 
 #secondary-image-board-title {
@@ -115,6 +124,32 @@ html, body {
 	margin-top: 440px !important;
 	z-index: 0 !important;
 	position: fixed !important;
+}
+
+.copy-link-li {
+	padding-top: 6px !important;
+	height: 45px !important;
+}
+
+.copy-link-li:hover {
+	background-color: white !important;
+}
+
+#copy-image-url {
+	width: 170px;
+	float: left;
+	margin-left: 3px;
+}
+
+#copy-link-button {
+	background-color: #1ba1e2;
+	color:white;
+	float: left;
+	height: 34px;
+}
+
+#copy-link-button:hover {
+	background-color: #00aafd;
 }
 
 #quick-actions-more {
@@ -401,6 +436,68 @@ html, body {
 /**/
 
 /* Animaciones animate.css*/
+@-webkit-keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+
+.fadeInUp {
+  -webkit-animation-name: fadeInUp;
+          animation-name: fadeInUp;
+}
+
+@-webkit-keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+  }
+}
+
+@keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+  }
+}
+
+.fadeOutDown {
+  -webkit-animation-name: fadeOutDown;
+          animation-name: fadeOutDown;
+}
+
 @keyframes fadeInRight {
   0% {
     opacity: 0;

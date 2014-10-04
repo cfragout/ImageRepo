@@ -91,6 +91,35 @@ namespace ImagenRepositorio.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        // POST: api/Imagenes/RemoveTag
+        public bool RemoveTag()
+        {
+            var request = HttpContext.Current.Request;
+
+
+            if ((request.Form["imageId"] == null) || (request.Form["tagId"] == null))
+            {
+                return false;
+            }
+
+            int imgId = Convert.ToInt32(request.Form["imageId"]);
+            int tagId = Convert.ToInt32(request.Form["tagId"]);
+
+            if (ImagenExists(imgId))
+            {
+                Imagen imagen = db.Imagenes.Find(imgId);
+
+                imagen.Tags.ToList().RemoveAll(t => t.Id == tagId);
+
+                db.Entry(imagen).State = EntityState.Modified;
+
+                db.SaveChanges();
+
+            }
+
+            return true;
+        }
+
         // POST: api/Imagenes/MarkImagesAsFavourite
         public List<int> MarkImagesAsFavourite()
         {
@@ -175,7 +204,6 @@ namespace ImagenRepositorio.Controllers
 
             if (file != null)
             {
-                string imageDirPath = "Content/Images/";
                 string serverUrl = "http://localhost:55069/Content/Images/";
 
                 Imagen newImage = new Imagen { 
@@ -188,9 +216,8 @@ namespace ImagenRepositorio.Controllers
 
                 setTagsToUserUploadedImage(request.Form["tags"], newImage);
 
-
                 string pic = getLocalFileName(newImage);
-                string localPath = Path.Combine(System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath, pic);
+                string localPath = Path.Combine(getLocalFilePath(), pic);
                 newImage.Path = serverUrl + pic;
 
                 // file is uploaded and info stored in the DB
@@ -287,7 +314,7 @@ namespace ImagenRepositorio.Controllers
                         tag.Nombre = currentTag;
                     }
 
-                    tag.Imagenes.Add(img);
+                    //tag.Imagenes.Add(img);
                     img.Tags.Add(tag);
                 }
  
@@ -317,7 +344,7 @@ namespace ImagenRepositorio.Controllers
                         tag = currentTag;
                     }
 
-                    tag.Imagenes.Add(img);
+                    //tag.Imagenes.Add(img);
                     img.Tags.Add(tag);
                 }
 
