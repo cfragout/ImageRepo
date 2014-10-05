@@ -18,8 +18,6 @@ namespace ImagenRepoRepository.Repository
         public GenericRepository()
         {
             this.context = new ModelContainer();
-            //this.context.Configuration.LazyLoadingEnabled = false;
-            //this.context.Configuration.ProxyCreationEnabled = false;
         }
 
         public GenericRepository(ModelContainer container)

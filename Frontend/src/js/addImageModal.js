@@ -30,7 +30,7 @@ $('#addImagesButton').click(function(){
 				caseSensitive: false,
 				removeConfirmation: true,
 				autocomplete: { delay: 0, minLength: 2 },
-				availableTags: ["gifs", "gracioso", "NSFW"], // Get these from the server
+				availableTags: ['gifs', 'gracioso', 'NSFW', 'animadas', 'internet', 'wallpaper', 'autos', 'autos1', 'autos2', 'fotos', 'trabajo', ], // Get these from the server
 				placeholderText: "gifs, gracioso, NSFW"
 			});
 
@@ -194,7 +194,7 @@ function getArrayOfTagObjects() {
 	var tagObjectsArray = [];
 	for (var tag in tagsArray) {
 		tagObjectsArray.push({
-			nombre: tagsArray[tag]
+			name: tagsArray[tag]
 		});
 	}
 

@@ -47,6 +47,23 @@ namespace ImagenRepoEntities.Models
             {
                 Name = "Gifs"
             };
+            var tag5 = new Tag()
+            {
+                Name = "animadas"
+            };
+            var tag6 = new Tag()
+            {
+                Name = "internet"
+            };
+            var tag7 = new Tag()
+            {
+                Name = "wallpaper"
+            };
+            var tag8 = new Tag()
+            {
+                Name = "fotos"
+            };
+
 
             imagen1.Tags.Add(tag1);
             imagen2.Tags.Add(tag1);
@@ -57,6 +74,10 @@ namespace ImagenRepoEntities.Models
             context.Tags.Add(tag2);
             context.Tags.Add(tag3);
             context.Tags.Add(tag4);
+            context.Tags.Add(tag5);
+            context.Tags.Add(tag6);
+            context.Tags.Add(tag7);
+            context.Tags.Add(tag8);
 
             context.SaveChanges();
 

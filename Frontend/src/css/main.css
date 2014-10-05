@@ -165,6 +165,7 @@ html, body {
 }
 
 .sidebar-top {
+	position: fixed !important;
 	z-index: 0 !important;
 	width: 220px !important;
 }
@@ -235,6 +236,32 @@ html, body {
 
 .add-image-modal button {
 	margin-top:15px;
+}
+
+ul.ui-widget-content li.ui-menu-item {
+	background-color: white !important;
+	background-image: none !important;
+	border-style: none !important;
+	color:black;
+	font-weight: normal;
+}
+
+ul.ui-widget-content li.ui-menu-item:hover {
+	background-color: #2e92cf !important;
+	background-image: none !important;
+	color:white;
+	border-style: none !important;
+	font-weight: normal;
+}
+
+ul.ui-widget-content li.ui-state-focus {
+	margin:0px;
+}
+
+ul.ui-widget-content.ui-autocomplete {
+	background-image: none !important;
+	padding:0px !important;
+	background-color: white !important;
 }
 
 .add-image-loading-screen {
@@ -331,7 +358,9 @@ html, body {
 }
 
 #optionsScreen h1 {
-	color:#1ba1e2; margin-top:40px; margin-left:50px;
+	color:#1ba1e2;
+	margin-top:40px;
+	margin-left:50px;
 }
 
 #optionsScreen .form-item {

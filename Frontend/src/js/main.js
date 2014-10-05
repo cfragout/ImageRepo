@@ -37,16 +37,16 @@ function getImageIdbyImageHTML(imageHTML) {
 }
 
 function getImageObjectByImageHTML(imageHTML) {
-	console.log(imageHTML, "el thml")
 	return getImageById(getImageIdbyImageHTML(imageHTML));
 }
 
 function createImageElement(image) {
+	console.log("iiiiiiiiiiiiiiiiiiiiiiiiiii", image)
 	var alt = image.Name || "";
 	var id = parseInt(image.Id, 10)
 	var imageElement = $('<div id="container-' + id +'" class="image-container image-element shadow" style="opacity:0"></div>');
 
-	imageElement.append('<img id="img-' + id + '" class="b-lazy" data-src="'+ image.Path +'" alt="' + alt.toLowerCase() +'">');
+	imageElement.append('<img id="img-' + id + '" class="b-lazy" data-src="'+ image.Path +'" alt="' + alt +'">');
 
 	return imageElement;
 };
@@ -65,6 +65,9 @@ function addImageToBoard(image) {
 	}
 
 	var $container = $('#image-board');
+	$container.isotope({
+		filter: function() { return true; }
+	});
 	$container.isotope('insert', imageContainer);
 
 	updateImage(image);
@@ -153,15 +156,76 @@ function getFirstSelectedImage() {
 	return getImageObjectByImageHTML(selectedImage[0]);
 }
 
-function getImageFromImageContainer(imageContainer) {
+function getImageHTMLFromImageContainer(imageContainer) {
 	return $(imageContainer).find('img')[0];
 }
 
-function findInImageBoard(query) {
+function findTagsInArray(tagArray, sbr, strict) {
+	// Returns tags with name sbr (if strict) or with sbr substring in the tag name.
+	var results = [];
+
+	$.each(tagArray, function(index, tag) {
+		var name = tag.Name || '';
+
+		if (strict) {
+			if (name == sbr) {
+				results.push(tag);
+			}
+		} else {
+			if (name.toLowerCase().indexOf(sbr.toLowerCase()) > -1) {
+				results.push(tag);
+			}
+		}
+	});
+
+	return results;
+}
+
+function filterByTagName(imageContainer, query, strict) {
+	// isotope Filter
+	var imageObj = getImageObjectByImageHTML(getImageHTMLFromImageContainer(imageContainer));
+	var q = query || '';
+	var tags = findTagsInArray(imageObj.Tags, q, strict);
+	return tags.length > 0;
+}
+
+function filterByImageName(imageContainer, query, strict) {
+	// isotope Filter
+	var q = query || '';
+	var imageAlt =  $(imageContainer).children().attr('alt');
+
+	if (!strict) {
+		q = q.toLowerCase();
+		imageAlt = imageAlt.toLowerCase();
+
+		return imageAlt.indexOf(q) > -1
+	} 
+
+console.log('QQQQQQQQQQQQQQ', q)
+console.log('AAAAAAAAAAAAAA', imageAlt)
+	return q == imageAlt;
+
+}
+
+function findByTagNameInImageBoard(tagName, strict) {
 	var $container = $('#image-board');
 	var filterFunction = function() {
-			var imageContainer = $(this).children('[alt*="'+ query.toLowerCase() +'"]')[0];
-			return imageContainer != null;
+			return filterByTagName(this, tagName, strict);
+		};
+
+	if (tagName == '') {
+		filterFunction = function() { return true; }
+	}
+
+	$container.isotope({
+		filter: filterFunction
+	});
+}
+
+function findInImageBoard(query, strict) {
+	var $container = $('#image-board');
+	var filterFunction = function() {
+			return filterByImageName(this, query, strict) || filterByTagName(this, query, strict);
 		};
 
 	if (query == '') {
@@ -210,7 +274,26 @@ function updateSidebarTagList(image) {
 	});
 }
 
+function isStrictSearch(q) {
+	// Parses string. If starts and ends with '' or "" then it is a strict search.
+
+	return ((q.match('^"') != null) && (q.match('"$') != null)) ||
+			((q.match("^'") != null) && (q.match("'$") != null))
+}
+
 function bindEvents() {
+	// Sidebar: find by tag
+	$('#image-tag-list').on('click', '.sidebar-tag-line', function(){
+		console.log(this);
+		var tagName = $(($(this).find('a')[0])).text();
+		// findByTagNameInImageBoard(tagName, true);
+
+		$('#searchField').val('Tag: "' + tagName + '"');
+		$('#searchButton').trigger('click');
+		console.log('click!!');
+	});
+
+
 	// Remove Tag
 	$('#image-tag-list').on('click', '.remove-tag-icon', function(){
 		var imageId = $(this).attr('data-image-id');
@@ -363,8 +446,37 @@ function bindEvents() {
 	});
 
 	// Navbar: search
-	$('#searchButton').click(function(){
-		findInImageBoard($('#searchField').val());
+	$('#searchButton').click(function() {
+		var query = $('#searchField').val();
+
+		// Remove .selected
+		$('.image-container.selected').trigger('click');
+
+		if (query.toLowerCase().indexOf('tag:') > -1) {
+			// Searching criteria: tags...
+			query = query.toLowerCase().split('tag:')[1];
+			query = query.trim();
+
+			if (isStrictSearch(query)) {
+				query = query.substring(1, query.length-1);
+				console.log(query)
+				findByTagNameInImageBoard(query, true); // If search query is enclosed in '' or "", perform strict search
+			} else {
+				findByTagNameInImageBoard(query.trim());
+			}
+
+		} else {
+
+			// No search criteria
+			if (isStrictSearch(query)) {
+				query = query.substring(1, query.length-1);
+				findInImageBoard(query, true);
+			} else {
+				findInImageBoard(query.trim());
+			}
+
+		}
+
 		return false;
 	});
 
@@ -378,7 +490,7 @@ function bindEvents() {
         setHeight: 220
 	});
 
-	// Remove tag icon
+	// Sidebar: remove tag icon
 	$('#image-tag-list').on('mouseenter', '.sidebar-tag-line', function(){
 		$(this).find('.remove-tag-icon').show();
 	});
@@ -454,7 +566,7 @@ function bindEvents() {
 			return;
 		}
 
-		var imageHTML = getImageFromImageContainer(selectedImages[0]);
+		var imageHTML = getImageHTMLFromImageContainer(selectedImages[0]);
 		var serverUrl = $(imageHTML).attr('data-gif') || $(imageHTML).attr('src');
 		link.attr('href', serverUrl);
 	});

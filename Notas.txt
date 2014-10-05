@@ -1,8 +1,9 @@
 TODO:
+- ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW)
 - tags
-	-eliminar tags
-	-al cliquear en un tag en la sidebar me tiene que traer mas imagenes con ese tag asociado
-	-dar estilo al autocomplete
+	-eliminar tags -> HECHO
+	-al cliquear en un tag en la sidebar me tiene que traer mas imagenes con ese tag asociado -> HECHO
+	-dar estilo al autocomplete -> HECHO
 	-placeholder en la sidebar cuando la imagen seleccionada no tiene tag
 - Borrar imagenes
 - agregados recientemente
@@ -10,14 +11,13 @@ TODO:
 - validaciones
 - vistas: vista de tags, vista de imagenes
 - usuarios
-- busquedas
+- busquedas en image board
 	.por nombre -> HECHO
-	.por tags
+	.por tags -> HECHO
 - avisar cuando una imagen no se puede encontrar
 - historial de eventos (icono de la campana)
 - ordenar por criterios (tag, fecha, animadas)
 - eliminar imagen
-- ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW)
 - estadisticas: cantidad de imagenes, cantidad de imagenes por tag, etc
 - compartir board: compartir todo, solo por tag, una sola img (link publico), un grupo de img
 - sacar el image.name del filename
@@ -33,6 +33,7 @@ BUGS:
 - flecha del boton agregar imagenes es muy grande
 - Cuando se abre el secondary image board deberia achicar el primary porque quedan imagenes ocultas y no se puede scrollear
 - Las imagenes favoritas deberian cargar siempre anes (sin necesidad de scroll)
+- Cuando hay muchas imagenes que no se pueden cargar, las imagenes placeholder de error se solapan
 
 HECHO:
 - loader para cuando apretas "agregar" en add image modal -> HECHO
@@ -59,6 +60,7 @@ SOLUCIONADOS:
 
 DEUDA TECNICA:
 - Mover logica de los controladores a los servicios
+- Obtener autocomplete de tags del servidor
 - EF
 	- referencias circulares
 	- eliminacion de tags: debe haber un metodo de borrado mas simple
