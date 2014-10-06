@@ -6,6 +6,7 @@ var uploadImageUrl = imagesApiUrl + 'UploadImage';
 var getImageUrl = imagesApiUrl + 'GetImages';
 var markFavouriteUrl = imagesApiUrl + 'MarkImagesAsFavourite'
 var removeTagUrl = imagesApiUrl + 'RemoveTag';
+var putImageUrl = imagesApiUrl + 'PutImagen/';
 var putTagUrl = tagsApiUrl + 'PutTag/';
 
 function storeImages(images) {
@@ -161,7 +162,7 @@ function getSelectedImagesHTMLContainer() {
 	return $('.image-container.selected');
 }
 
-function getFirstSelectedImageHTMLContainer(){
+function getFirstSelectedImageHTMLContainer() {
 	// Returns the html container of the first selected image
 	return $(getSelectedImagesHTMLContainer()[0]).find('img');
 }
@@ -360,8 +361,41 @@ function bindEvents() {
 		});
 	});
 
+	// Quick actions: delete image
+	$('#deleteImage').click(function() {
+		if ($('#deleteImage span').hasClass('fg-gray')) {
+			return;
+		}
+
+		var image = getFirstSelectedImage();
+		image.IsDeleted = true;
+
+		$.ajax({
+			url: putImageUrl + image.Id,
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(image),
+			type: 'PUT',
+			success: function(data) {
+				updateImage(image);
+				$container = $('#image-board');
+				$container.isotope('remove', $('.image-container.selected')[0]);
+			},
+			error: function() {
+				$.Notify({
+					style: {background: '##9a1616', color: 'white'},
+					caption: 'Ups...',
+					content: "No se pudo eliminar la imagen",
+					timeout: 5000
+				});
+			}
+		});
+	});
+
 	// Quick actions: favourite
 	$('#markFavourite').click(function(){
+		if ($('#markFavourite span').hasClass('fg-gray')) {
+			return;
+		}
 
 		var selectedIds = [];
 
@@ -522,6 +556,8 @@ function bindEvents() {
 			updateSidebarTagList();
 			$('#copy-image-url').val('');
 			$('#sidebar-image-name').text('-');
+			$('.actions span').addClass('fg-gray no-hover');
+			$('.actions').addClass('no-hover');
 		} else if (selectedCount == 1) {
 
 			$('.actions span').removeClass('fg-gray no-hover');
@@ -610,16 +646,6 @@ function toggleSecondaryBoard(shouldShow) {
 			$('#secondary-image-board-toggle').removeClass('animated rotateInUpRight');
 		});
 	}
-	// if (shouldShow) {
-	// 	$('#secondary-image-board-toggle').hide();
-	// 	$('#secondary-image-board, #secondary-image-board-title').show();
-	// 	$("#secondary-image-board").mCustomScrollbar("scrollTo", 0);
-	// 	localStorage.hideSecondaryBoard = false;
-	// } else {
-	// 	$('#secondary-image-board-toggle').show();
-	// 	$('#secondary-image-board, #secondary-image-board-title').hide();
-	// 	localStorage.hideSecondaryBoard = true;
-	// }
 }
 
 function initApp() {
@@ -681,10 +707,6 @@ function freezeGif(image) {
 	}
 }
 /**/
-
-
-
-
 
 
 $(function(){

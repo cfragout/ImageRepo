@@ -1,6 +1,6 @@
 TODO:
 - ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW) -> HECHO
-	-cuando hago un cambio en las configuraciones (paso un tag de visible a hidden o vice versa) deberia verse aplicado.
+	-cuando hago un cambio en las configuraciones (paso un tag de visible a hidden o vice versa) deberia verse aplicado. -> HECHO?
 - tags
 	-eliminar tags -> HECHO
 	-al cliquear en un tag en la sidebar me tiene que traer mas imagenes con ese tag asociado -> HECHO
@@ -8,12 +8,8 @@ TODO:
 	-placeholder en la sidebar cuando la imagen seleccionada no tiene tag
 - Borrar imagenes
 - agregados recientemente
-- validaciones en add image modal -> HECHO
 - vistas: vista de tags, vista de imagenes
 - usuarios
-- busquedas en image board
-	.por nombre -> HECHO
-	.por tags -> HECHO
 - avisar cuando una imagen no se puede encontrar
 - historial de eventos (icono de la campana)
 - ordenar por criterios (tag, fecha, animadas)
@@ -22,7 +18,6 @@ TODO:
 - compartir board: compartir todo, solo por tag, una sola img (link publico), un grupo de img
 - Acciones rapidas
 - Seccion configuraciones
-- Agregar efecto a toggle de secondary image board
 
 BUGS:
 - tags: cuando se agrega un tag que no esta recien creado, se agrega una referencia al tag en lugar del tag mismo.
@@ -39,9 +34,14 @@ HECHO:
 - manejo de errores cuando se cargan las imagenes -> HECHO
 - guardar preferencias (localstorage ??) -> HECHO
 - lazy load -> HECHO (CON BLAZY)
+- Agregar efecto a toggle de secondary image board -> HECHO
 - las acciones rapidas deberian estar abajo de la otra barra y ser flotantes -> HECHO
+- validaciones en add image modal -> HECHO
 - gif: habilitar o deshabilitar animacion -> HECHO
 - favoritos -> HECHO
+- busquedas en image board
+	.por nombre -> HECHO
+	.por tags -> HECHO
 
 SOLUCIONADOS:
 - add image modal

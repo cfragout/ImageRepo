@@ -21,10 +21,10 @@ namespace ImagenRepoServices.Services
         public override IEnumerable<Imagen> GetAll()
         {
 
-            List<Imagen> everyImage =  base.GetAll().ToList();
+            List<Imagen> everyNonDeletedImage =  base.GetAll().Where(i => i.IsDeleted == false).ToList();
             List<Imagen> filteredImages = new List<Imagen>();
 
-            foreach (Imagen image in everyImage)
+            foreach (Imagen image in everyNonDeletedImage)
             {
                 if (image.Tags.ToList().Where(t => t.IsHidden == true).Count() == 0)
                 {
