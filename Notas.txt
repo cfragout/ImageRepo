@@ -6,7 +6,6 @@ TODO:
 	-al cliquear en un tag en la sidebar me tiene que traer mas imagenes con ese tag asociado -> HECHO
 	-dar estilo al autocomplete -> HECHO
 	-placeholder en la sidebar cuando la imagen seleccionada no tiene tag
-- Borrar imagenes
 - agregados recientemente
 - vistas: vista de tags, vista de imagenes
 - usuarios
@@ -32,6 +31,7 @@ BUGS:
 HECHO:
 - loader para cuando apretas "agregar" en add image modal -> HECHO
 - manejo de errores cuando se cargan las imagenes -> HECHO
+- Borrar imagenes -> HECHO
 - guardar preferencias (localstorage ??) -> HECHO
 - lazy load -> HECHO (CON BLAZY)
 - Agregar efecto a toggle de secondary image board -> HECHO

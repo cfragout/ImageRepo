@@ -216,12 +216,9 @@ function filterByImageName(imageContainer, query, strict) {
 		imageAlt = imageAlt.toLowerCase();
 
 		return imageAlt.indexOf(q) > -1
-	} 
+	}
 
-console.log('QQQQQQQQQQQQQQ', q)
-console.log('AAAAAAAAAAAAAA', imageAlt)
 	return q == imageAlt;
-
 }
 
 function findByTagNameInImageBoard(tagName, strict) {
@@ -316,7 +313,6 @@ function isStrictSearch(q) {
 function bindEvents() {
 	// Sidebar: find by tag
 	$('#image-tag-list').on('click', '.sidebar-tag-line', function(){
-		console.log(this);
 		var tagName = $(($(this).find('a')[0])).text();
 		// findByTagNameInImageBoard(tagName, true);
 
@@ -495,7 +491,6 @@ function bindEvents() {
 
 			if (isStrictSearch(query)) {
 				query = query.substring(1, query.length-1);
-				console.log(query)
 				findByTagNameInImageBoard(query, true); // If search query is enclosed in '' or "", perform strict search
 			} else {
 				findByTagNameInImageBoard(query.trim());
