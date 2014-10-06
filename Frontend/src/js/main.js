@@ -321,7 +321,7 @@ function bindEvents() {
 	});
 
 
-	// Remove Tag
+	// Quick actions: Remove Tag
 	$('#image-tag-list').on('click', '.remove-tag-icon', function(){
 		var imageId = $(this).attr('data-image-id');
 		var tagId = $(this).attr('data-tag-id');
@@ -355,6 +355,8 @@ function bindEvents() {
 				});
 			}
 		});
+
+		return false;
 	});
 
 	// Quick actions: delete image
