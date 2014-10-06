@@ -274,6 +274,11 @@ function removeFavouriteSelectedIcon() {
 						.addClass('icon-heart-2');
 }
 
+function unselectImages() {
+	// Remove .selected
+	$('.image-container.selected').trigger('click');
+}
+
 function createTagListElement(tag, imageId) {
 	return '<li class="sidebar-tag-line"><a href="#">'+ tag.Name +'<span class="hidden remove-tag-icon icon-cancel-2 pull-right" data-tag-id="'+ tag.Id +'" data-image-id="'+ imageId +'"></span></a></li>';
 }
@@ -377,6 +382,8 @@ function bindEvents() {
 				updateImage(image);
 				$container = $('#image-board');
 				$container.isotope('remove', $('.image-container.selected')[0]);
+				$container.isotope('layout');
+				unselectImages();
 			},
 			error: function() {
 				$.Notify({
@@ -483,8 +490,7 @@ function bindEvents() {
 	$('#searchButton').click(function() {
 		var query = $('#searchField').val();
 
-		// Remove .selected
-		$('.image-container.selected').trigger('click');
+		unselectImages();
 
 		if (query.toLowerCase().indexOf('tag:') > -1) {
 			// Searching criteria: tags...

@@ -15,6 +15,7 @@ using ImagenRepoServices.Services;
 using System.IO;
 using System.Web;
 using System.Threading.Tasks;
+using ImagenRepositorio.ViewModels;
 
 namespace ImagenRepositorio.Controllers
 {
@@ -32,14 +33,39 @@ namespace ImagenRepositorio.Controllers
         }
 
         // GET: api/Imagenes
-        [ResponseType(typeof(IEnumerable<Imagen>))]
+        [ResponseType(typeof(IEnumerable<ImageViewModel>))]
         public IHttpActionResult GetImages()
         {
             // Find a way to tell EF not to bring Images list on tag objects.
             var images = this.imagenService.GetAll().ToList();
-            //images.ForEach(i => i.Tags.ToList().ForEach(t => t.Images = new List<Imagen>()));
+            List<ImageViewModel> resultImages = new List<ImageViewModel>();
+
+            foreach (Imagen img in images)
+            {
+                ImageViewModel imgVM = new ImageViewModel {
+                    Path = img.Path,
+                    Name = img.Name,
+                    IsFavourite = img.IsFavourite,
+                    IsDeleted = img.IsDeleted,
+                    Id = img.Id,
+                    Created = img.Created,
+                    OriginalUrl = img.OriginalUrl,
+                    UserUploaded = img.UserUploaded
+                };
+
+                img.Tags.ToList().ForEach(t => imgVM.Tags.Add(new TagViewModel{
+                    Id = t.Id,
+                    IsHidden = t.IsHidden,
+                    Name = t.Name
+                }));
+
+
+                resultImages.Add(imgVM);
+            }
+
+
             /**********************************************/
-            return Ok(images);
+            return Ok(resultImages);
         }
 
         // GET: api/Imagenes/GetLatestImages
