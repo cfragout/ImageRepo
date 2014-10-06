@@ -32,13 +32,14 @@ namespace ImagenRepositorio.Controllers
         }
 
         // GET: api/Imagenes
-        public IEnumerable<Imagen> GetImages()
+        [ResponseType(typeof(IEnumerable<Imagen>))]
+        public IHttpActionResult GetImages()
         {
             // Find a way to tell EF not to bring Images list on tag objects.
             var images = this.imagenService.GetAll().ToList();
-            images.ForEach(i => i.Tags.ToList().ForEach(t => t.Images = new List<Imagen>()));
+            //images.ForEach(i => i.Tags.ToList().ForEach(t => t.Images = new List<Imagen>()));
             /**********************************************/
-            return images;
+            return Ok(images);
         }
 
         // GET: api/Imagenes/GetLatestImages

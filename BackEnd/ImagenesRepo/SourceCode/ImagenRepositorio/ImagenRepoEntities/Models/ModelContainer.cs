@@ -11,7 +11,7 @@ namespace ImagenRepoEntities.Models
     public class ModelContainer : DbContext
     {
         public ModelContainer()
-            : base("name=ImageRepoFrapanDesktop")
+            : base("name=repoLaburo")
         {
             base.Configuration.ProxyCreationEnabled = true; 
         }

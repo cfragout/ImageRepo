@@ -7,7 +7,7 @@ using System.Web;
 
 namespace ImagenRepoEntities.Models
 {
-    public class ModelInitializer : CreateDatabaseIfNotExists<ModelContainer>
+    public class ModelInitializer : DropCreateDatabaseIfModelChanges<ModelContainer>
     {
         protected override void Seed(ModelContainer context)
         {

@@ -14,12 +14,7 @@ namespace ImagenRepoRepository.Repository
     {
 
         private ModelContainer context;
-
-        public GenericRepository()
-        {
-            this.context = new ModelContainer();
-        }
-
+                
         public GenericRepository(ModelContainer container)
         {
             this.context = container;

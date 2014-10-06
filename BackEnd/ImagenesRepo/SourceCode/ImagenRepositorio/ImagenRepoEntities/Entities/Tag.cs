@@ -21,7 +21,7 @@ namespace ImagenRepoEntities.Entities
 
         public bool IsHidden { get; set; }
 
-        public virtual ICollection<Imagen> Images { get; set; }
+        public ICollection<Imagen> Images { get; set; }
 
     }
 }

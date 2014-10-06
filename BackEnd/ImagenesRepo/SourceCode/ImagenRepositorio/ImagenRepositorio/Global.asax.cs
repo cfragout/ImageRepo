@@ -47,15 +47,16 @@ namespace ImagenRepositorio
 
         private void RegisterRepository()
         {
-            container.Register(Component.For<IGenericRepository<Imagen>>().ImplementedBy<GenericRepository<Imagen>>());
-            container.Register(Component.For<IGenericRepository<Tag>>().ImplementedBy<GenericRepository<Tag>>());
+            container.Register(Component.For<IGenericRepository<Imagen>>().ImplementedBy<GenericRepository<Imagen>>().LifeStyle.PerWebRequest);
+            container.Register(Component.For<IGenericRepository<Tag>>().ImplementedBy<GenericRepository<Tag>>().LifeStyle.PerWebRequest);
 
         }
 
         private void RegisterServices()
         {
-            container.Register(Component.For<IImagenService<Imagen>>().ImplementedBy<ImagenService>());
-            container.Register(Component.For<ITagService<Tag>>().ImplementedBy<TagService>());
+            container.Register(Component.For<ModelContainer>().LifestylePerWebRequest());
+            container.Register(Component.For<IImagenService<Imagen>>().ImplementedBy<ImagenService>().LifeStyle.PerWebRequest);
+            container.Register(Component.For<ITagService<Tag>>().ImplementedBy<TagService>().LifeStyle.PerWebRequest);
 
         }
 
