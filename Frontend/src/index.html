@@ -79,6 +79,17 @@
 
 
 			<div id="mainGrid" class="grid fluid">
+
+				<div id="image-board-loader-container" class="loader-container hidden">
+					<div id="image-board-loader" class="circular-loader">
+						<div class="circle"></div>
+						<div class="circle"></div>
+						<div class="circle"></div>
+						<div class="circle"></div>
+						<div class="circle"></div>
+					</div>
+				</div>
+
 				<div class="row">
 				<!-- Primary image-board -->
 					<div id="image-board" class="span10 image-board">
@@ -146,7 +157,7 @@
 
 			<!-- Add image modal  -->
 			<div class="add-image-modal hidden">
-				<div class="add-image-loading-screen hidden">
+				<div class="add-image-loading-screen loader-container hidden">
 					<div class="circular-loader">
 						<div class="circle"></div>
 						<div class="circle"></div>
@@ -321,26 +332,17 @@
 										</div>
 										<div class="input-control select marginTop10">
 											<div class="row tag-selector">
-												<select multiple class="span4">
-													<option>Gifs</option>
-													<option>Peliculas</option>
+												<select id="visible-tags-list" multiple class="span4">
 												</select>
 												<span class="arrows-container">
-													<div class="tag-arrow-container tag-arrow-right arrow-disabled not-selectable">
+													<div id="move-tag-right" class="tag-arrow-container tag-arrow-right arrow-disabled not-selectable">
 														<span class="icon-arrow-left tag-arrow fg-gray"></span>
 													</div>
-													<div class="tag-arrow-container arrow-disabled not-selectable">
+													<div id="move-tag-left" class="tag-arrow-container arrow-disabled not-selectable">
 														<span class="icon-arrow-right tag-arrow fg-gray"></span>
 													</div>
 												</span>
-												<select multiple class="span4">
-													<option>NSFW</option>
-													<option>A</option>
-													<option>B</option>
-													<option>C</option>
-													<option>D</option>
-													<option>E</option>
-													<option>F</option>
+												<select id="hidden-tags-list" multiple class="span4">
 												</select>
 											</div>
 										</div>

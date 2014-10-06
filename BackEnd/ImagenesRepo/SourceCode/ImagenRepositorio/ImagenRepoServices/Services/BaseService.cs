@@ -21,7 +21,7 @@ namespace ImagenRepoServices.Services
             this.repository = repository;
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return this.repository.Get();
         }

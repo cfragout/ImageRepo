@@ -1,10 +1,12 @@
 var baseUrl = 'http://localhost:55069/';
 var imagesApiUrl = baseUrl + 'api/Imagenes/';
+var tagsApiUrl = baseUrl + 'api/Tags/';
 var postImageUrl = imagesApiUrl + 'PostImage';
 var uploadImageUrl = imagesApiUrl + 'UploadImage';
 var getImageUrl = imagesApiUrl + 'GetImages';
 var markFavouriteUrl = imagesApiUrl + 'MarkImagesAsFavourite'
 var removeTagUrl = imagesApiUrl + 'RemoveTag';
+var putTagUrl = tagsApiUrl + 'PutTag/';
 
 function storeImages(images) {
 	var imgs = [];
@@ -41,7 +43,6 @@ function getImageObjectByImageHTML(imageHTML) {
 }
 
 function createImageElement(image) {
-	console.log("iiiiiiiiiiiiiiiiiiiiiiiiiii", image)
 	var alt = image.Name || "";
 	var id = parseInt(image.Id, 10)
 	var imageElement = $('<div id="container-' + id +'" class="image-container image-element shadow" style="opacity:0"></div>');
@@ -96,8 +97,10 @@ function initImageBoard(imagesObjArray) {
 	var $container = $('#image-board');
 	var imageArray = [];
 	$.each(imagesObjArray, function(index, image){
-		var imageContainerHTML = createImageElement(image)[0];
-		imageArray.push(imageContainerHTML);
+		if (image != null) {
+			var imageContainerHTML = createImageElement(image)[0];
+			imageArray.push(imageContainerHTML);
+		}
 	});
 
 	$('#image-board').append(imageArray);
@@ -131,6 +134,19 @@ function initImageBoard(imagesObjArray) {
 			$container.isotope('insert', $(ele).parents('.image-container'));
 		}
 	});
+
+	$('#image-board-loader-container').hide();
+}
+
+function resetBoard() {
+	$('#image-board-loader-container').show();
+
+	var $container = $('#image-board');
+	var items = $container.isotope('getItemElements');
+
+    $container.isotope('remove', items);
+    initIsotope();
+	loadImages();
 }
 
 function loadImages() {
@@ -168,7 +184,7 @@ function findTagsInArray(tagArray, sbr, strict) {
 		var name = tag.Name || '';
 
 		if (strict) {
-			if (name == sbr) {
+			if (name.toLowerCase() == sbr) {
 				results.push(tag);
 			}
 		} else {
@@ -244,6 +260,8 @@ function initElements() {
 	} else {
 		toggleSecondaryBoard(true);
 	}
+
+	initIsotope();
 }
 
 function setFavouriteSelectedIcon() {
@@ -274,6 +292,19 @@ function updateSidebarTagList(image) {
 	});
 }
 
+function initIsotope(){
+	var $container = $('#image-board');
+	$container.isotope({
+		onLayout: function() {
+			$(window).trigger("scroll");
+		},
+		itemSelector: '.image-container',
+		masonry: {
+			columnWidth: 5
+		}
+	});
+}
+
 function isStrictSearch(q) {
 	// Parses string. If starts and ends with '' or "" then it is a strict search.
 
@@ -290,7 +321,6 @@ function bindEvents() {
 
 		$('#searchField').val('Tag: "' + tagName + '"');
 		$('#searchButton').trigger('click');
-		console.log('click!!');
 	});
 
 
@@ -371,34 +401,6 @@ function bindEvents() {
 		});
 
 	});
-
-
-	// Options section: open
-	$('#closeOptionsScreenContainer').click(function(){
-		$('#mainNavbar, #secondary-image-board-row, #mainGrid').show().addClass('animated fadeInLeftBig');
-		$('#optionsScreen').addClass('animated rotateOutDownRight');
-
-		$('#optionsScreen').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-			$('#optionsScreen').removeClass('animated rotateOutDownRight').hide();
-		});
-		$('#mainNavbar, #secondary-image-board-row, #mainGrid').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-			$('#mainNavbar, #secondary-image-board-row, #mainGrid').removeClass('animated fadeInLeftBig');
-		});
-	});
-
-	// Options section: close
-	$('#showOptions').click(function(){
-		$('#mainNavbar, #secondary-image-board-row, #mainGrid').addClass('animated fadeOutLeftBig');
-		$('#optionsScreen').show().addClass('animated rotateInUpRight');
-
-		$('#mainNavbar, #secondary-image-board-row, #mainGrid').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-			$('#mainNavbar, #secondary-image-board-row, #mainGrid').removeClass('animated fadeOutLeftBig').hide();
-		});
-		$('#optionsScreen').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-			$('#optionsScreen').removeClass('animated fadeOutLeftBig');
-		});
-	});
-
 
 
 	// Primary image board: gif play
@@ -572,19 +574,6 @@ function bindEvents() {
 	});
 
 
-	var $container = $('#image-board');
-	// init
-	$container.isotope({
-		onLayout: function() {
-			$(window).trigger("scroll");
-		},
-		itemSelector: '.image-container',
-		masonry: {
-			columnWidth: 5
-		}
-	});
-
-
 
 	$('#refresh').click(function() {
 		location.reload();
@@ -634,6 +623,8 @@ function toggleSecondaryBoard(shouldShow) {
 }
 
 function initApp() {
+	$('#image-board-loader-container').show();
+
 	if (localStorage.hideSecondaryBoard == null) {
 		localStorage.hideSecondaryBoard = false;
 	}

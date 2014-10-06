@@ -1,5 +1,6 @@
 TODO:
-- ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW)
+- ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW) -> HECHO
+	-cuando hago un cambio en las configuraciones (paso un tag de visible a hidden o vice versa) deberia verse aplicado.
 - tags
 	-eliminar tags -> HECHO
 	-al cliquear en un tag en la sidebar me tiene que traer mas imagenes con ese tag asociado -> HECHO
@@ -7,8 +8,7 @@ TODO:
 	-placeholder en la sidebar cuando la imagen seleccionada no tiene tag
 - Borrar imagenes
 - agregados recientemente
-- script para crear BD
-- validaciones
+- validaciones en add image modal -> HECHO
 - vistas: vista de tags, vista de imagenes
 - usuarios
 - busquedas en image board
@@ -20,7 +20,6 @@ TODO:
 - eliminar imagen
 - estadisticas: cantidad de imagenes, cantidad de imagenes por tag, etc
 - compartir board: compartir todo, solo por tag, una sola img (link publico), un grupo de img
-- sacar el image.name del filename
 - Acciones rapidas
 - Seccion configuraciones
 - Agregar efecto a toggle de secondary image board

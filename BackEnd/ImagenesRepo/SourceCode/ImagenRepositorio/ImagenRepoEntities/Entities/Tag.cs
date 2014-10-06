@@ -19,6 +19,8 @@ namespace ImagenRepoEntities.Entities
         [Required]
         public string Name { get; set; }
 
+        public bool IsHidden { get; set; }
+
         public virtual ICollection<Imagen> Images { get; set; }
 
     }

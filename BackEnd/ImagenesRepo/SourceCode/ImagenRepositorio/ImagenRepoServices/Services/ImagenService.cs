@@ -18,6 +18,25 @@ namespace ImagenRepoServices.Services
 
         }
 
+        public override IEnumerable<Imagen> GetAll()
+        {
+
+            List<Imagen> everyImage =  base.GetAll().ToList();
+            List<Imagen> filteredImages = new List<Imagen>();
+
+            foreach (Imagen image in everyImage)
+            {
+                if (image.Tags.ToList().Where(t => t.IsHidden == true).Count() == 0)
+                {
+                    filteredImages.Add(image);
+                }
+            }
+
+            
+
+            return filteredImages;
+        }
+
         public IEnumerable<Imagen> GetLatestImagenes()
         {
             return base.GetAll().ToList().Take(5).ToList();

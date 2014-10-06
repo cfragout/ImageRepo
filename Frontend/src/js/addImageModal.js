@@ -19,6 +19,8 @@ $('#addImagesButton').click(function(){
 			var pcInput = $($('.add-pc-input')[1]);
 			var imagePreview = $($('.add-image-preview')[1]);
 			var tagsInput = $($('.add-tags-input')[1]);
+			var nameInput = $($('.add-name-input')[1]);
+
 
 			// Disable upload from pc input
 			pcInput.siblings().attr('disabled', 'disabled');
@@ -30,7 +32,7 @@ $('#addImagesButton').click(function(){
 				caseSensitive: false,
 				removeConfirmation: true,
 				autocomplete: { delay: 0, minLength: 2 },
-				availableTags: ['gifs', 'gracioso', 'NSFW', 'animadas', 'internet', 'wallpaper', 'autos', 'autos1', 'autos2', 'fotos', 'trabajo', ], // Get these from the server
+				availableTags: ['gifs', 'gracioso', 'NSFW', 'animadas', 'internet', 'wallpaper', 'autos', 'autos1', 'autos2', 'fotos', 'trabajo'], // Get these from the server
 				placeholderText: "gifs, gracioso, NSFW"
 			});
 
@@ -62,7 +64,7 @@ $('#addImagesButton').click(function(){
 			});
 
 			// File input on change
-			$($('.add-pc-input')[1]).on('change', function(){
+			pcInput.on('change', function(){
 				var file = this.files[0];
 				var name = file.name;
 				var size = file.size;
@@ -81,7 +83,17 @@ $('#addImagesButton').click(function(){
 			});
 
 			// Submit button
-			$($('.add-accept')[1]).click(function(){
+			$($('.add-accept')[1]).click(function() {
+
+				internetInput.parent().removeClass('validation-error');
+				pcInput.parent().removeClass('validation-error');
+				nameInput.parent().removeClass('validation-error');
+
+
+				if (!validImage()) {
+					return;
+				}
+
 				var userUploaded = $($('.add-pc')[1]).is(':checked');
 
 				$($('.add-image-error-section')[1]).hide();
@@ -140,7 +152,7 @@ $('#addImagesButton').click(function(){
 			internetInput.siblings().click(function(){
 				internetInput.val('');
 				imagePreview.attr('src', '../assets/images/image-placeholder.png');
-			})
+			});
 		}
 	});
 });
@@ -165,6 +177,32 @@ function showLoadingScreen(show) {
 	} else {
 		$($('.add-image-loading-screen')[1]).fadeOut();
 	}
+}
+
+function validImage() {
+	var internetInput = $($('.add-internet-input')[1]);
+	var pcInput = $($('.add-pc-input')[1]);
+	var nameInput = $($('.add-name-input')[1]);
+	var pcCheck = $($('.add-pc')[1]);
+	var internetCheck = $($('.add-internet')[1]);
+	var isValid = true;
+
+	if (nameInput.val() == '') {
+		isValid = false;
+		nameInput.parent().addClass('validation-error');
+	}
+
+	if ((internetInput.val() == '') && (internetCheck.is(':checked'))) {
+		isValid = false;
+		internetInput.parent().addClass('validation-error');
+	}
+
+	if ((pcInput.val() == '') && (pcCheck.is(':checked'))) {
+		isValid = false;
+		pcInput.parent().addClass('validation-error');
+	}
+
+	return isValid;
 }
 
 // Sends image data (such as name, originalURL, etc) to the server
