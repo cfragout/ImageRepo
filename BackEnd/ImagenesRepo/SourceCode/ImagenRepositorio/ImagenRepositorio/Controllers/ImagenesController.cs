@@ -118,7 +118,7 @@ namespace ImagenRepositorio.Controllers
 
                 db.Entry(imagen).State = EntityState.Modified;
 
-                db.SaveChanges();
+                db.SaveChanges(); 
 
                 return true;
 
