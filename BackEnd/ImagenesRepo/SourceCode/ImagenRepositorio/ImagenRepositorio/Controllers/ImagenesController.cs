@@ -15,7 +15,6 @@ using ImagenRepoServices.Services;
 using System.IO;
 using System.Web;
 using System.Threading.Tasks;
-using ImagenRepositorio.ViewModels;
 using System.Web.Http.Cors;
 
 namespace ImagenRepositorio.Controllers
@@ -165,30 +164,20 @@ namespace ImagenRepositorio.Controllers
                 return BadRequest(ModelState);
             }
 
-            WebClient webClient = new WebClient();
-
-            string remoteFileUrl = imagen.OriginalUrl;
-            string serverUrl = "http://localhost:55069/Content/Images/";
-            string localFilePath = getLocalFilePath() + getLocalFileName(imagen);
-
-            imagen.Path = serverUrl + getLocalFileName(imagen);
-            imagen.Created = DateTime.Today;
-            imagen.IsDeleted = false;
-
+           
             //Refactor
-            var tags = imagen.Tags;
-            imagen.Tags = new List<Tag>();
-            setTagsToInternetFetchedImage(tags, imagen);
-
+            //var tags = imagen.Tags;
+            //imagen.Tags = new List<Tag>();
+            //setTagsToInternetFetchedImage(tags, imagen);
+            imagen.Path = this.imagenService.GetImagePath(imagen);
             try
             {
                 if (imagen.UserUploaded == false)
                 {
-                    webClient.DownloadFile(remoteFileUrl, localFilePath);
+                    this.imagenService.DownloadImage(imagen);
                 }
-
-                //db.Imagenes.Add(imagen);
-                //db.SaveChanges();
+                imagen.Created = DateTime.Today;
+                this.imagenService.Create(imagen);
 
                 return Ok(imagen);
             }

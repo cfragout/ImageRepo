@@ -25,19 +25,8 @@ namespace ImagenRepoEntities.Entities
 
         public string OriginalUrl { get; set; }
 
-        private DateTime created;
-        public DateTime Created 
-        { 
-            get
-            {
-                return created;
-            }
-            set
-            {
-                created = DateTime.Now;
-            }
-        }
-
+        public DateTime Created {get; set;} 
+       
         public virtual ICollection<Tag> Tags { get; set; }
     }
 }
