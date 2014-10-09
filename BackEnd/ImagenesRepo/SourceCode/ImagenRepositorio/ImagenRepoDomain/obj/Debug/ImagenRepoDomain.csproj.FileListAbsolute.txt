@@ -1,0 +1,1 @@
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\obj\Debug\ImagenRepoDomain.csprojResolveAssemblyReference.cache

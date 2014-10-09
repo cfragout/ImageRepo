@@ -16,7 +16,7 @@ namespace ImagenRepositorio
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            var cors = new EnableCorsAttribute(ConfigurationManager.AppSettings["Host"], "*", "*");
+            var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors();
 
             config.Routes.MapHttpRoute(
