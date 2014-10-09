@@ -145,3 +145,6 @@ C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\I
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepositorio\obj\Debug\ImagenRepositorio.csprojResolveAssemblyReference.cache
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepositorio\obj\Debug\ImagenRepositorio.dll
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepositorio\obj\Debug\ImagenRepositorio.pdb
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepositorio\bin\System.Web.Cors.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepositorio\bin\System.Web.Http.Cors.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepositorio\bin\System.Web.Http.Cors.xml

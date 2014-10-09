@@ -7,7 +7,7 @@ using System.Web;
 
 namespace ImagenRepoEntities.Models
 {
-    public class ModelInitializer : DropCreateDatabaseIfModelChanges<ModelContainer>
+    public class ModelInitializer : DropCreateDatabaseAlways<ModelContainer>
     {
         protected override void Seed(ModelContainer context)
         {
@@ -67,6 +67,8 @@ namespace ImagenRepoEntities.Models
 
             imagen1.Tags.Add(tag1);
             imagen2.Tags.Add(tag1);
+            imagen2.Tags.Add(tag8);
+            imagen2.Tags.Add(tag5);
 
             context.Imagenes.Add(imagen1);
             context.Imagenes.Add(imagen2);

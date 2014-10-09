@@ -21,10 +21,8 @@ namespace ImagenRepositorio.Controllers
 {
     public class ImagenesController : ApiController
     {
-        private ModelContainer db = new ModelContainer();
-
-        private IImagenService<Imagen> imagenService;
         
+        private IImagenService<Imagen> imagenService;
 
         public ImagenesController(
             IImagenService<Imagen> imagenService)
@@ -33,39 +31,39 @@ namespace ImagenRepositorio.Controllers
         }
 
         // GET: api/Imagenes
-        [ResponseType(typeof(IEnumerable<ImageViewModel>))]
+        [ResponseType(typeof(IEnumerable<Imagen>))]
         public IHttpActionResult GetImages()
         {
             // Find a way to tell EF not to bring Images list on tag objects.
-            var images = this.imagenService.GetAll().ToList();
-            List<ImageViewModel> resultImages = new List<ImageViewModel>();
+            var images = this.imagenService.GetAll().ToList()   ;
+            //List<ImageViewModel> resultImages = new List<ImageViewModel>();
 
-            foreach (Imagen img in images)
-            {
-                ImageViewModel imgVM = new ImageViewModel {
-                    Path = img.Path,
-                    Name = img.Name,
-                    IsFavourite = img.IsFavourite,
-                    IsDeleted = img.IsDeleted,
-                    Id = img.Id,
-                    Created = img.Created,
-                    OriginalUrl = img.OriginalUrl,
-                    UserUploaded = img.UserUploaded
-                };
+            //foreach (Imagen img in images)
+            //{
+            //    ImageViewModel imgVM = new ImageViewModel {
+            //        Path = img.Path,
+            //        Name = img.Name,
+            //        IsFavourite = img.IsFavourite,
+            //        IsDeleted = img.IsDeleted,
+            //        Id = img.Id,
+            //        Created = img.Created,
+            //        OriginalUrl = img.OriginalUrl,
+            //        UserUploaded = img.UserUploaded
+            //    };
 
-                img.Tags.ToList().ForEach(t => imgVM.Tags.Add(new TagViewModel{
-                    Id = t.Id,
-                    IsHidden = t.IsHidden,
-                    Name = t.Name
-                }));
+            //    img.Tags.ToList().ForEach(t => imgVM.Tags.Add(new TagViewModel{
+            //        Id = t.Id,
+            //        IsHidden = t.IsHidden,
+            //        Name = t.Name
+            //    }));
 
 
-                resultImages.Add(imgVM);
-            }
+            //    resultImages.Add(imgVM);
+            //}
 
 
             /**********************************************/
-            return Ok(resultImages);
+            return Ok(images);
         }
 
         // GET: api/Imagenes/GetLatestImages
@@ -78,7 +76,7 @@ namespace ImagenRepositorio.Controllers
         [ResponseType(typeof(Imagen))]
         public IHttpActionResult GetImagen(int id)
         {
-            Imagen imagen = db.Imagenes.Find(id);
+            Imagen imagen = this.imagenService.Get(id);
             if (imagen == null)
             {
                 return NotFound();
@@ -89,41 +87,34 @@ namespace ImagenRepositorio.Controllers
 
         // PUT: api/Imagenes/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutImagen(int id, Imagen imagen)
+        public IHttpActionResult PutImagen(Imagen imagen)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != imagen.Id)
+            var originalImage = this.imagenService.Get(imagen.Id);
+
+            if (originalImage != null)
+            { 
+                MapEditedToOriginal(originalImage, imagen);
+                return Ok(imagen);
+            }
+            else
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            db.Entry(imagen).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ImagenExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
 
+       
+
+
+        //Esto deberia hacerse al modificar la imagen en el put. La imagen llega con los datos nuevos y se hace un update en la base.
+
         // POST: api/Imagenes/RemoveTag
-        public bool RemoveTag()
+       /* public bool RemoveTag()
         {
             var request = HttpContext.Current.Request;
 
@@ -152,11 +143,14 @@ namespace ImagenRepositorio.Controllers
             }
 
             return false;
-        }
+        }*/
+
+        //Esto deberia hacerse al modificar la imagen en el put. La imagen llega con los datos nuevos y se hace un update en la base.
 
         // POST: api/Imagenes/MarkImagesAsFavourite
-        public List<int> MarkImagesAsFavourite()
+        /*public List<int> MarkImagesAsFavourite()
         {
+
             var request = HttpContext.Current.Request;
             List<int> modifiedImagesIds = new List<int>();
 
@@ -184,7 +178,7 @@ namespace ImagenRepositorio.Controllers
             db.SaveChanges();
 
             return modifiedImagesIds;
-        }
+        }*/
 
         // POST: api/Imagenes
         [ResponseType(typeof(Imagen))]
@@ -217,8 +211,8 @@ namespace ImagenRepositorio.Controllers
                     webClient.DownloadFile(remoteFileUrl, localFilePath);
                 }
 
-                db.Imagenes.Add(imagen);
-                db.SaveChanges();
+                //db.Imagenes.Add(imagen);
+                //db.SaveChanges();
 
                 return Ok(imagen);
             }
@@ -256,8 +250,8 @@ namespace ImagenRepositorio.Controllers
 
                 // file is uploaded and info stored in the DB
                 file.SaveAs(localPath);
-                db.Imagenes.Add(newImage);
-                db.SaveChanges();
+                //db.Imagenes.Add(newImage);
+                //db.SaveChanges();
 
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -277,14 +271,14 @@ namespace ImagenRepositorio.Controllers
         [ResponseType(typeof(Imagen))]
         public IHttpActionResult DeleteImagen(int id)
         {
-            Imagen imagen = db.Imagenes.Find(id);
+            Imagen imagen = this.imagenService.Get(id);
             if (imagen == null)
             {
                 return NotFound();
             }
 
-            db.Imagenes.Remove(imagen);
-            db.SaveChanges();
+            //db.Imagenes.Remove(imagen);
+            //db.SaveChanges();
 
             return Ok(imagen);
         }
@@ -293,15 +287,23 @@ namespace ImagenRepositorio.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        private bool ImagenExists(int id)
+        private void MapEditedToOriginal(Imagen originalImage, Imagen imagen)
         {
-            return db.Imagenes.Count(e => e.Id == id) > 0;
+            originalImage.IsDeleted = imagen.IsDeleted;
+            originalImage.Created = imagen.Created;
+            originalImage.IsFavourite = imagen.IsFavourite;
+            originalImage.Name = imagen.Name;
+            originalImage.OriginalUrl = imagen.OriginalUrl;
+            originalImage.Path = imagen.Path;
+            originalImage.Tags = imagen.Tags;
+            originalImage.UserUploaded = imagen.UserUploaded;
         }
+
 
         private string getLocalFilePath()
         {
@@ -327,32 +329,32 @@ namespace ImagenRepositorio.Controllers
         // Refactor
         private void setTagsToUserUploadedImage(string tags, Imagen img)
         {
-            List<Tag> tagCollection = new List<Tag>();
+            //List<Tag> tagCollection = new List<Tag>();
 
-            if (!String.IsNullOrEmpty(tags))
-            {
-                var tagsArray = tags.Split(',');
+            //if (!String.IsNullOrEmpty(tags))
+            //{
+            //    var tagsArray = tags.Split(',');
 
-                foreach (var currentTag in tagsArray)
-                {
-                    var queryResult = db.Tags.Where(t => t.Name == currentTag);
-                    Tag tag;
+            //    foreach (var currentTag in tagsArray)
+            //    {
+            //        var queryResult = db.Tags.Where(t => t.Name == currentTag);
+            //        Tag tag;
 
-                    if (queryResult.Count() > 0)
-                    {
-                        tag = queryResult.FirstOrDefault();
-                    }
-                    else
-                    {
-                        tag = new Tag();
-                        tag.Name = currentTag;
-                    }
+            //        if (queryResult.Count() > 0)
+            //        {
+            //            tag = queryResult.FirstOrDefault();
+            //        }
+            //        else
+            //        {
+            //            tag = new Tag();
+            //            tag.Name = currentTag;
+            //        }
 
-                    //tag.Imagenes.Add(img);
-                    img.Tags.Add(tag);
-                }
+            //        //tag.Imagenes.Add(img);
+            //        img.Tags.Add(tag);
+            //    }
  
-            }
+            //}
 
 
             return;
@@ -365,21 +367,21 @@ namespace ImagenRepositorio.Controllers
 
                 foreach (var currentTag in tags)
                 {
-                    var queryResult = db.Tags.Where(t => t.Name == currentTag.Name);
-                    Tag tag;
+                    //var queryResult = db.Tags.Where(t => t.Name == currentTag.Name);
+                    //Tag tag;
 
-                    if (queryResult.Count() > 0)
-                    {
-                        tag = queryResult.FirstOrDefault();
-                    }
-                    else
-                    {
-                        tag = new Tag();
-                        tag = currentTag;
-                    }
+                    //if (queryResult.Count() > 0)
+                    //{
+                    //    tag = queryResult.FirstOrDefault();
+                    //}
+                    //else
+                    //{
+                    //    tag = new Tag();
+                    //    tag = currentTag;
+                    //}
 
-                    //tag.Imagenes.Add(img);
-                    img.Tags.Add(tag);
+                    ////tag.Imagenes.Add(img);
+                    //img.Tags.Add(tag);
                 }
 
             return;
