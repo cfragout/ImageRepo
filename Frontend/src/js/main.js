@@ -35,6 +35,8 @@ function getImageById(id) {
 	return "";
 }
 
+
+
 function getImageIdbyImageHTML(imageHTML) {
 	return imageHTML.id.split('-')[1];
 }
@@ -151,10 +153,22 @@ function resetBoard() {
 }
 
 function loadImages() {
-	$.get(getImageUrl, function( data ) {
-		console.log("data", data);
-		storeImages(data);
-		initImageBoard(data);
+	$.ajax({
+		url: getImageUrl,
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader ("Authorization", 'Basic ' + btoa('aaaaa:bbbbb'));
+		},
+		success: function(data) {
+			console.log("data", data);
+			storeImages(data);
+			initImageBoard(data);
+		},
+		error: function(err) {
+			console.log(err);
+			// $('#image-board-loader-container').hide();
+			alert("TODO: error handler");
+
+		}
 	});
 }
 

@@ -17,16 +17,16 @@ TODO:
 - compartir board: compartir todo, solo por tag, una sola img (link publico), un grupo de img
 - Acciones rapidas
 - Seccion configuraciones
+	- guardar configuraciones en la base y cargarlas en localStorage
+- tags mas usados
 
 BUGS:
-- tags: cuando se agrega un tag que no esta recien creado, se agrega una referencia al tag en lugar del tag mismo.
-- cuando recien se carga una imagen no se puede favoritear ni agregar al secondary image board
-- Cuando se modifica una entidad, solo se ve reflejado el cambio cuando se para la aplicacion y se la vuelve a correr.
 - Estilo del scroll bar de tags
 - flecha del boton agregar imagenes es muy grande
 - Cuando se abre el secondary image board deberia achicar el primary porque quedan imagenes ocultas y no se puede scrollear
 - Las imagenes favoritas deberian cargar siempre anes (sin necesidad de scroll)
 - Cuando hay muchas imagenes que no se pueden cargar, las imagenes placeholder de error se solapan
+- cuando el preview de la imagen es muy grande tapa a los botones -> SOLUCIONADO -> RE ABIERTO
 
 HECHO:
 - loader para cuando apretas "agregar" en add image modal -> HECHO
@@ -45,8 +45,10 @@ HECHO:
 
 SOLUCIONADOS:
 - add image modal
+- cuando recien se carga una imagen no se puede favoritear ni agregar al secondary image board -> SOLUCIONADO
+- Cuando se modifica una entidad, solo se ve reflejado el cambio cuando se para la aplicacion y se la vuelve a correr. -> SOLUCIONADO
+- tags: cuando se agrega un tag que no esta recien creado, se agrega una referencia al tag en lugar del tag mismo. -> SOLUCIONADO
 	.cunado el browser es chico, los botones no se ven -> SOLUCIONADO
-	.cuando el preview de la imagen es muy grande tapa a los botones -> SOLUCIONADO
 	.boton X de input internet no anda -> SOLUCIONADO
 - image board
 	.isotope carga mal, las imagenes se sobreponen -> SOLUCIONADO
