@@ -16,9 +16,11 @@ using System.IO;
 using System.Web;
 using System.Threading.Tasks;
 using ImagenRepositorio.ViewModels;
+using System.Web.Http.Cors;
 
 namespace ImagenRepositorio.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ImagenesController : ApiController
     {
         

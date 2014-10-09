@@ -31,6 +31,16 @@ namespace ImagenRepoEntities.Models
                 OriginalUrl = "sldkjjautoloco.jpg",
             };
 
+            var imagen3 = new Imagen
+            {
+                UserUploaded = true,
+                Name = "audi",
+                Path = " http://localhost:55069/Content/Images/audi.jpg",
+                IsDeleted = true,
+                Created = DateTime.Today,
+                OriginalUrl = "sldkjjautoloco.jpg",
+            };
+
             var tag1 = new Tag() 
             {
                 Name = "Autos"
