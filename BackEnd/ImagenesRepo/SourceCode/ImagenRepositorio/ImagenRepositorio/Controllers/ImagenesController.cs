@@ -25,12 +25,15 @@ namespace ImagenRepositorio.Controllers
     public class ImagenesController : ApiController
     {
         
-        private IImagenService<Imagen> imagenService;
+        private IImagenService imagenService;
+        private ITagService tagService;
 
         public ImagenesController(
-            IImagenService<Imagen> imagenService)
+            IImagenService imagenService,
+            ITagService tagService)
         {
             this.imagenService = imagenService;
+            this.tagService = tagService;
         }
 
         // GET: api/Imagenes
@@ -197,7 +200,7 @@ namespace ImagenRepositorio.Controllers
             {
                 string serverUrl = "http://localhost:55069/Content/Images/";
 
-                var newImage = new ImagenDto { 
+                var newImage = new Imagen { 
                     Name = request.Form["imageName"],
                     OriginalUrl = request.Form["url"],
                     Created = DateTime.Now,
@@ -213,7 +216,7 @@ namespace ImagenRepositorio.Controllers
                 // file is uploaded and info stored in the DB
                 file.SaveAs(localPath);
 
-                var cretedImage = this.imagenService.Create(ConvertFromDto(newImage));
+                var createdImage = this.imagenService.Create(newImage);
 
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -221,7 +224,7 @@ namespace ImagenRepositorio.Controllers
                     byte[] array = ms.GetBuffer();
                 }
 
-                return Ok(ConvertToDto(cretedImage));
+                return Ok(ConvertToDto(createdImage));
 
             }
 
@@ -264,7 +267,7 @@ namespace ImagenRepositorio.Controllers
             return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath;
         }
 
-        private string GetLocalFileName(ImagenDto imagen)
+        private string GetLocalFileName(Imagen imagen)
         {
             string username = "CFR";
             string datetime = DateTime.Today.ToString();
@@ -280,37 +283,33 @@ namespace ImagenRepositorio.Controllers
         }
 
         // Refactor
-        private void SetTagsToUserUploadedImage(string tags, ImagenDto img)
+        private void SetTagsToUserUploadedImage(string tags, Imagen img)
         {
-            //List<Tag> tagCollection = new List<Tag>();
+            List<Tag> tagCollection = new List<Tag>();
 
-            //if (!String.IsNullOrEmpty(tags))
-            //{
-            //    var tagsArray = tags.Split(',');
+            if (!String.IsNullOrEmpty(tags))
+            {
+                var tagsArray = tags.Split(',');
 
-            //    foreach (var currentTag in tagsArray)
-            //    {
-            //        var queryResult = db.Tags.Where(t => t.Name == currentTag);
-            //        Tag tag;
+                foreach (var currentTag in tagsArray)
+                {
+                    var originalTag = this.tagService.GetTagByName(currentTag);
 
-            //        if (queryResult.Count() > 0)
-            //        {
-            //            tag = queryResult.FirstOrDefault();
-            //        }
-            //        else
-            //        {
-            //            tag = new Tag();
-            //            tag.Name = currentTag;
-            //        }
+                    if (originalTag != null)
+                    {
+                        img.Tags.Add(originalTag);
+                    }
+                    else
+                    {
+                        var tag = new Tag() 
+                        {
+                            Name = currentTag,
+                        };
 
-            //        //tag.Imagenes.Add(img);
-            //        img.Tags.Add(tag);
-            //    }
- 
-            //}
-
-
-            return;
+                        img.Tags.Add(tag);
+                    }
+                }
+            }
         }
 
         // Refactor

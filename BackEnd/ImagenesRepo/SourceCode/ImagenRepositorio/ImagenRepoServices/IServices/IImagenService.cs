@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace ImagenRepoServices.IServices
 {
-    public interface IImagenService<T>: IBaseService<T>
-        where T : Imagen
+    public interface IImagenService: IBaseService<Imagen>
     {
-
         IEnumerable<Imagen> GetLatestImagenes();
 
         string GetImagePath(ImagenDto imagen);

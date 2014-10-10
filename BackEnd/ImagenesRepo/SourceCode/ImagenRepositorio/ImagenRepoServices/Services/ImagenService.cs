@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ImagenRepoServices.Services
 {
-    public class ImagenService: BaseService<Imagen> , IImagenService<Imagen>
+    public class ImagenService: BaseService<Imagen> , IImagenService
     {
         public ImagenService(IGenericRepository<Imagen> genericRepo)
             : base(genericRepo)
