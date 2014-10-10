@@ -16,6 +16,8 @@ using System.IO;
 using System.Web;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
+using ImagenRepoDomain.Dtos;
+using AutoMapper;
 
 namespace ImagenRepositorio.Controllers
 {
@@ -32,10 +34,10 @@ namespace ImagenRepositorio.Controllers
         }
 
         // GET: api/Imagenes
-        [ResponseType(typeof(IEnumerable<Imagen>))]
+        [ResponseType(typeof(IEnumerable<ImagenDto>))]
         public IHttpActionResult GetImages()
         {
-            var images = this.imagenService.GetAll().ToList();
+            var images = this.imagenService.GetAll().Select(ConvertToDto).ToList();
 
             return Ok(images);
         }
@@ -355,6 +357,16 @@ namespace ImagenRepositorio.Controllers
         private void saveTag()
         {
 
+        }
+
+        private static ImagenDto ConvertToDto(Imagen bill)
+        {
+            return Mapper.Map<ImagenDto>(bill);
+        }
+
+        private static Imagen ConvertFromDto(ImagenDto billDto)
+        {
+            return Mapper.Map<Imagen>(billDto);
         }
     }
 }

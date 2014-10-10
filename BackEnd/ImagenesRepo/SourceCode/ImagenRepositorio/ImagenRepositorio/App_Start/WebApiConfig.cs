@@ -27,8 +27,8 @@ namespace ImagenRepositorio
 
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling =
-                Newtonsoft.Json.PreserveReferencesHandling.Objects;
-            json.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                Newtonsoft.Json.PreserveReferencesHandling.None;
+            //json.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
  

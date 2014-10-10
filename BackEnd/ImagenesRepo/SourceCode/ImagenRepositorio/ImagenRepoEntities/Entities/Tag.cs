@@ -16,9 +16,12 @@ namespace ImagenRepoEntities.Entities
 
         }
 
+        
         [Required]
+        [DataMember]
         public string Name { get; set; }
 
+        [DataMember]
         public bool IsHidden { get; set; }
 
         [IgnoreDataMember] 

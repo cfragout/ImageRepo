@@ -7,6 +7,7 @@ using ImagenRepoRepository.IRepository;
 using ImagenRepoRepository.Repository;
 using ImagenRepoServices.IServices;
 using ImagenRepoServices.Services;
+using ImagenRepositorio.Automapper;
 using ImagenRepositorio.Windsor;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,8 @@ namespace ImagenRepositorio
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            AutomapperDomainRegistration.Register();
 
             System.Data.Entity.Database.SetInitializer(new ModelInitializer());
         }

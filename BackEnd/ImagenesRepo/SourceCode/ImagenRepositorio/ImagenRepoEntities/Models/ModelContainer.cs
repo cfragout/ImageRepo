@@ -21,11 +21,7 @@ namespace ImagenRepoEntities.Models
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             base.Configuration.ProxyCreationEnabled = true;
             
-
             #region Entities Mapping
-
-
-
 
             #endregion
 

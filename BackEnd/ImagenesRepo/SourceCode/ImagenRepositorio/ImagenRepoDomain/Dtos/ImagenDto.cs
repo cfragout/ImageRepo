@@ -36,6 +36,7 @@ namespace ImagenRepoDomain.Dtos
         [DataMember]
         public DateTime Created { get; set; }
 
+        [DataMember]
         public ICollection<TagDto> Tags { get; set; }
     }
 }
