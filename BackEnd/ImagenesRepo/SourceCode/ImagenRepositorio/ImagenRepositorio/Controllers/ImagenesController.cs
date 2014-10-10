@@ -24,7 +24,6 @@ namespace ImagenRepositorio.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ImagenesController : ApiController
     {
-        
         private IImagenService imagenService;
         private ITagService tagService;
 
@@ -74,7 +73,6 @@ namespace ImagenRepositorio.Controllers
             }
 
             var originalImage = this.imagenService.Get(imagen.Id);
-
             if (originalImage != null)
             {
                 originalImage = ConvertFromDto(imagen);
@@ -85,14 +83,9 @@ namespace ImagenRepositorio.Controllers
             {
                 return NotFound();
             }
-
         }
 
-       
-
-
         //Esto deberia hacerse al modificar la imagen en el put. La imagen llega con los datos nuevos y se hace un update en la base.
-
         // POST: api/Imagenes/RemoveTag
        /* public bool RemoveTag()
         {
@@ -192,7 +185,6 @@ namespace ImagenRepositorio.Controllers
         [ResponseType(typeof(ImagenDto))]
         public IHttpActionResult UploadImage()
         {
-
             var request = HttpContext.Current.Request;
             HttpPostedFile file = request.Files["pcFile"];
 
@@ -200,7 +192,8 @@ namespace ImagenRepositorio.Controllers
             {
                 string serverUrl = "http://localhost:55069/Content/Images/";
 
-                var newImage = new Imagen { 
+                var newImage = new Imagen 
+                { 
                     Name = request.Form["imageName"],
                     OriginalUrl = request.Form["url"],
                     Created = DateTime.Now,
@@ -225,7 +218,6 @@ namespace ImagenRepositorio.Controllers
                 }
 
                 return Ok(ConvertToDto(createdImage));
-
             }
 
             // after successfully uploading redirect the user
@@ -247,7 +239,6 @@ namespace ImagenRepositorio.Controllers
             return Ok(imagen);
         }
 
-
         private void MapEditedToOriginal(Imagen originalImage, Imagen imagen)
         {
             originalImage.IsDeleted = imagen.IsDeleted;
@@ -259,7 +250,6 @@ namespace ImagenRepositorio.Controllers
             originalImage.Tags = imagen.Tags;
             originalImage.UserUploaded = imagen.UserUploaded;
         }
-
 
         private string GetLocalFilePath()
         {
@@ -341,7 +331,6 @@ namespace ImagenRepositorio.Controllers
 
         private void SaveTag()
         {
-
         }
 
         private static ImagenDto ConvertToDto(Imagen bill)

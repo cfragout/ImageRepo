@@ -58,8 +58,8 @@ namespace ImagenRepositorio
         private void RegisterServices()
         {
             container.Register(Component.For<ModelContainer>().LifestylePerWebRequest());
-            container.Register(Component.For<IImagenService<Imagen>>().ImplementedBy<ImagenService>().LifeStyle.PerWebRequest);
-            container.Register(Component.For<ITagService<Tag>>().ImplementedBy<TagService>().LifeStyle.PerWebRequest);
+            container.Register(Component.For<IImagenService>().ImplementedBy<ImagenService>().LifeStyle.PerWebRequest);
+            container.Register(Component.For<ITagService>().ImplementedBy<TagService>().LifeStyle.PerWebRequest);
 
         }
 

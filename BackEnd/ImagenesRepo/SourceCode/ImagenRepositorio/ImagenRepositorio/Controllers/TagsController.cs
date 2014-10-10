@@ -18,9 +18,9 @@ namespace ImagenRepositorio.Controllers
     {
         private ModelContainer db = new ModelContainer();
 
-        private ITagService<Tag> tagService;
+        private ITagService tagService;
 
-        public TagsController(ITagService<Tag> tagService)
+        public TagsController(ITagService tagService)
         {
             this.tagService = tagService;
         }
