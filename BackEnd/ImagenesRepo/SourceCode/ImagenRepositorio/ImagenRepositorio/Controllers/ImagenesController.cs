@@ -43,13 +43,13 @@ namespace ImagenRepositorio.Controllers
         }
 
         // GET: api/Imagenes/GetLatestImages
-        public IEnumerable<Imagen> GetLatestImages()
+        public IEnumerable<ImagenDto> GetLatestImages()
         {
-            return this.imagenService.GetLatestImagenes();
+            return this.imagenService.GetLatestImagenes().Select(ConvertToDto).ToList();
         }
 
         // GET: api/Imagenes/5
-        [ResponseType(typeof(Imagen))]
+        [ResponseType(typeof(ImagenDto))]
         public IHttpActionResult GetImagen(int id)
         {
             Imagen imagen = this.imagenService.Get(id);
@@ -58,12 +58,12 @@ namespace ImagenRepositorio.Controllers
                 return NotFound();
             }
 
-            return Ok(imagen);
+            return Ok(ConvertToDto(imagen));
         }
 
         // PUT: api/Imagenes/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutImagen(Imagen imagen)
+        [ResponseType(typeof(ImagenDto))]
+        public IHttpActionResult PutImagen(ImagenDto imagen)
         {
             if (!ModelState.IsValid)
             {
@@ -73,10 +73,10 @@ namespace ImagenRepositorio.Controllers
             var originalImage = this.imagenService.Get(imagen.Id);
 
             if (originalImage != null)
-            { 
-                MapEditedToOriginal(originalImage, imagen);
-                this.imagenService.Update(imagen);
-                return Ok(imagen);
+            {
+                originalImage = ConvertFromDto(imagen);
+                this.imagenService.Update(originalImage);
+                return Ok(ConvertToDto(originalImage));
             }
             else
             {
@@ -158,19 +158,14 @@ namespace ImagenRepositorio.Controllers
         }*/
 
         // POST: api/Imagenes
-        [ResponseType(typeof(Imagen))]
-        public IHttpActionResult PostImage(Imagen imagen)
+        [ResponseType(typeof(ImagenDto))]
+        public IHttpActionResult PostImage(ImagenDto imagen)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-           
-            //Refactor
-            //var tags = imagen.Tags;
-            //imagen.Tags = new List<Tag>();
-            //setTagsToInternetFetchedImage(tags, imagen);
             imagen.Path = this.imagenService.GetImagePath(imagen);
             try
             {
@@ -178,10 +173,11 @@ namespace ImagenRepositorio.Controllers
                 {
                     this.imagenService.DownloadImage(imagen);
                 }
-                imagen.Created = DateTime.Now;
-                this.imagenService.Create(imagen);
 
-                return Ok(imagen);
+                imagen.Created = DateTime.Now;
+                var createdImage = this.imagenService.Create(ConvertFromDto(imagen));
+
+                return Ok(ConvertToDto(createdImage));
             }
             catch
             {
@@ -190,7 +186,7 @@ namespace ImagenRepositorio.Controllers
         }
 
         // POST: api/Imagenes/UploadImage
-        [ResponseType(typeof(Imagen))]
+        [ResponseType(typeof(ImagenDto))]
         public IHttpActionResult UploadImage()
         {
 
@@ -201,24 +197,23 @@ namespace ImagenRepositorio.Controllers
             {
                 string serverUrl = "http://localhost:55069/Content/Images/";
 
-                Imagen newImage = new Imagen { 
+                var newImage = new ImagenDto { 
                     Name = request.Form["imageName"],
                     OriginalUrl = request.Form["url"],
-                    Created = DateTime.Today,
-                    IsDeleted = false,
+                    Created = DateTime.Now,
                     UserUploaded = true
                 };
 
-                setTagsToUserUploadedImage(request.Form["tags"], newImage);
+                SetTagsToUserUploadedImage(request.Form["tags"], newImage);
 
-                string pic = getLocalFileName(newImage);
-                string localPath = Path.Combine(getLocalFilePath(), pic);
+                string pic = GetLocalFileName(newImage);
+                string localPath = Path.Combine(GetLocalFilePath(), pic);
                 newImage.Path = serverUrl + pic;
 
                 // file is uploaded and info stored in the DB
                 file.SaveAs(localPath);
-                //db.Imagenes.Add(newImage);
-                //db.SaveChanges();
+
+                var cretedImage = this.imagenService.Create(ConvertFromDto(newImage));
 
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -226,7 +221,7 @@ namespace ImagenRepositorio.Controllers
                     byte[] array = ms.GetBuffer();
                 }
 
-                return Ok(newImage);
+                return Ok(ConvertToDto(cretedImage));
 
             }
 
@@ -235,29 +230,20 @@ namespace ImagenRepositorio.Controllers
         }
 
         // DELETE: api/Imagenes/5
-        [ResponseType(typeof(Imagen))]
+        [ResponseType(typeof(ImagenDto))]
         public IHttpActionResult DeleteImagen(int id)
         {
-            Imagen imagen = this.imagenService.Get(id);
+            var imagen = this.imagenService.Get(id);
             if (imagen == null)
             {
                 return NotFound();
             }
 
-            //db.Imagenes.Remove(imagen);
-            //db.SaveChanges();
-
+            this.imagenService.Delete(imagen);
+           
             return Ok(imagen);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                //db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         private void MapEditedToOriginal(Imagen originalImage, Imagen imagen)
         {
@@ -272,13 +258,13 @@ namespace ImagenRepositorio.Controllers
         }
 
 
-        private string getLocalFilePath()
+        private string GetLocalFilePath()
         {
             string imageDirPath = "Content/Images/";
             return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath;
         }
 
-        private string getLocalFileName(Imagen imagen)
+        private string GetLocalFileName(ImagenDto imagen)
         {
             string username = "CFR";
             string datetime = DateTime.Today.ToString();
@@ -294,7 +280,7 @@ namespace ImagenRepositorio.Controllers
         }
 
         // Refactor
-        private void setTagsToUserUploadedImage(string tags, Imagen img)
+        private void SetTagsToUserUploadedImage(string tags, ImagenDto img)
         {
             //List<Tag> tagCollection = new List<Tag>();
 
@@ -328,7 +314,7 @@ namespace ImagenRepositorio.Controllers
         }
 
         // Refactor
-        private void setTagsToInternetFetchedImage(ICollection<Tag> tags, Imagen img)
+        private void SetTagsToInternetFetchedImage(ICollection<Tag> tags, Imagen img)
         {
             List<Tag> tagCollection = new List<Tag>();
 
@@ -354,7 +340,7 @@ namespace ImagenRepositorio.Controllers
             return;
         }
 
-        private void saveTag()
+        private void SaveTag()
         {
 
         }

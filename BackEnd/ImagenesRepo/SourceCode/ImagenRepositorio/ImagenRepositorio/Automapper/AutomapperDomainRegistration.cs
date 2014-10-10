@@ -21,6 +21,7 @@ namespace ImagenRepositorio.Automapper
             Mapper.CreateMap<Tag, TagDto>();
 
             Mapper.CreateMap<TagDto, Tag>();
+
               //.ForMember(x => x.Factura, opt => opt.MapFrom(c => c.Factura))
         }
 
@@ -29,6 +30,7 @@ namespace ImagenRepositorio.Automapper
             Mapper.CreateMap<Imagen, ImagenDto>();
 
             Mapper.CreateMap<ImagenDto, Imagen>();
+
             //.ForMember(x => x.Factura, opt => opt.MapFrom(c => c.Factura))
         }
     }

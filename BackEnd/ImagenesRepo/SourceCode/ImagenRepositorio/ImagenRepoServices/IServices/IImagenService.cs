@@ -1,4 +1,5 @@
-﻿using ImagenRepoEntities.Entities;
+﻿using ImagenRepoDomain.Dtos;
+using ImagenRepoEntities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace ImagenRepoServices.IServices
 
         IEnumerable<Imagen> GetLatestImagenes();
 
-        string GetImagePath(Imagen imagen);
+        string GetImagePath(ImagenDto imagen);
 
-        void DownloadImage(Imagen imagen);
+        void DownloadImage(ImagenDto imagen);
     }
 }

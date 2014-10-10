@@ -1,4 +1,5 @@
-﻿using ImagenRepoEntities.Entities;
+﻿using ImagenRepoDomain.Dtos;
+using ImagenRepoEntities.Entities;
 using ImagenRepoRepository.IRepository;
 using ImagenRepoRepository.Repository;
 using ImagenRepoServices.IServices;
@@ -45,22 +46,22 @@ namespace ImagenRepoServices.Services
             return base.GetAll().ToList().Take(5).ToList();
         }
 
-        public void DownloadImage(Imagen imagen)
+        public void DownloadImage(ImagenDto imagen)
         {
             WebClient webClient = new WebClient();
 
             string remoteFileUrl = imagen.OriginalUrl;
-            string localFilePath = getLocalFilePath() + getLocalFileName(imagen);
+            string localFilePath = GetLocalFilePath() + GetLocalFileName(imagen);
             webClient.DownloadFile(remoteFileUrl, localFilePath);
         }
 
-        public string GetImagePath(Imagen imagen)
+        public string GetImagePath(ImagenDto imagen)
         {
             string serverUrl = "http://localhost:55069/Content/Images/";
-            return serverUrl + getLocalFileName(imagen);
+            return serverUrl + GetLocalFileName(imagen);
         }
 
-        private string getLocalFileName(Imagen imagen)
+        private string GetLocalFileName(ImagenDto imagen)
         {
             string username = "CFR";
             string datetime = DateTime.Today.ToString();
@@ -75,7 +76,7 @@ namespace ImagenRepoServices.Services
             return username + "_" + imagen.Name + "_" + datetime + Path.GetExtension(originalUrl);
         }
 
-        private string getLocalFilePath()
+        private string GetLocalFilePath()
         {
             string imageDirPath = "Content/Images/";
             return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath;
