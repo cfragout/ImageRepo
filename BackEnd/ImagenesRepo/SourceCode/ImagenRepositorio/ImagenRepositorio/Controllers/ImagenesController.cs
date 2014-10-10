@@ -176,7 +176,7 @@ namespace ImagenRepositorio.Controllers
                 {
                     this.imagenService.DownloadImage(imagen);
                 }
-                imagen.Created = DateTime.Today;
+                imagen.Created = DateTime.Now;
                 this.imagenService.Create(imagen);
 
                 return Ok(imagen);
