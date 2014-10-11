@@ -8,16 +8,6 @@ F:\DevProjects\ImagenesRepo (Fede)\ImagenesRepo\SourceCode\ImagenRepositorio\Ima
 F:\DevProjects\ImagenesRepo (Fede)\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.SqlServer.xml
 F:\DevProjects\ImagenesRepo (Fede)\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.dll
 F:\DevProjects\ImagenesRepo (Fede)\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.pdb
-F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.dll.config
-F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.dll
-F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.pdb
-F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.dll
-F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.SqlServer.dll
-F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.xml
-F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.SqlServer.xml
-F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.dll
-F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.pdb
-F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.csprojResolveAssemblyReference.cache
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.dll.config
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.dll
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.pdb
@@ -28,3 +18,12 @@ C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\I
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.dll
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.pdb
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.csprojResolveAssemblyReference.cache
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.dll.config
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.dll
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\ImagenRepoEntities.pdb
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.dll
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.SqlServer.dll
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.xml
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.SqlServer.xml
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.dll
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.pdb

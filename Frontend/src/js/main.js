@@ -4,8 +4,6 @@ var tagsApiUrl = baseUrl + 'api/Tags/';
 var postImageUrl = imagesApiUrl + 'PostImage';
 var uploadImageUrl = imagesApiUrl + 'UploadImage';
 var getImageUrl = imagesApiUrl + 'GetImages';
-var markFavouriteUrl = imagesApiUrl + 'MarkImagesAsFavourite'
-var removeTagUrl = imagesApiUrl + 'RemoveTag';
 var putImageUrl = imagesApiUrl + 'PutImagen/';
 var putTagUrl = tagsApiUrl + 'PutTag/';
 
@@ -331,27 +329,24 @@ function bindEvents() {
 		var imageId = $(this).attr('data-image-id');
 		var tagId = $(this).attr('data-tag-id');
 		var self = this;
+		var image = getImageById(imageId);
+
+		for (var i = 0; i < image.Tags.length; i++) {
+			if (image.Tags[i].Id == tagId) {
+				image.Tags.splice(i, 1);
+				break;
+			}
+		}
 
 		$.ajax({
-			url: removeTagUrl,
-			data: { tagId: tagId, imageId: imageId},
-			type: 'POST',
-			success: function(succeded) {
-				if (succeded) {
-					$(self).closest('li.sidebar-tag-line').remove();
-
-					var updatedImage = getImageById(imageId);
-					for (var i = 0; i < updatedImage.Tags.length; i++) {
-						if (updatedImage.Tags[i].Id == tagId) {
-							updatedImage.Tags.splice(i, 1);
-							updateImage(updatedImage);
-							break;
-						}
-					}
-
-				}
+			url: putImageUrl + image.Id,
+			data: image,
+			type: 'PUT',
+			success: function(data) {
+				$(self).closest('li.sidebar-tag-line').remove();
+				updateImage(image);
 			},
-			error: function(data) {
+			error: function() {
 				$.Notify({
 					style: {background: '##9a1616', color: 'white'},
 					caption: 'Ups...',
@@ -402,40 +397,35 @@ function bindEvents() {
 			return;
 		}
 
-		var selectedIds = [];
-
-		getSelectedImagesHTMLContainer().each(function(index, container){
-			selectedIds.push(container.id.split('-')[1]);
-		});
-
-		jQuery.ajaxSettings.traditional = true;
+		var selectedImage = getFirstSelectedImage();
+		selectedImage.IsFavourite = !selectedImage.IsFavourite;
 
 		$.ajax({
-			type: "POST",
-			url: markFavouriteUrl,
-			data: { imagesIds : selectedIds },
+			type: "PUT",
+			url: putImageUrl + selectedImage.Id,
+			data: selectedImage,
 			success: function(data) {
-				$.each(data, function(index, id){
-					var image = getImageById(id);
+				console.log(data);
+				var image = data;
 
-					if (image.IsFavourite) {
-						console.log('remove:', image)
-						removeImageFromSecondaryBoard(image.Id);
-					} else {
-						console.log('add:', image)
-						addImageToSecondaryBoard(image);
-					}
-
-					image.IsFavourite = !image.IsFavourite;
-					updateImage(image);
-
-				});
-
-				if (getFirstSelectedImage().IsFavourite) {
+				if (image.IsFavourite) {
 					setFavouriteSelectedIcon();
+					addImageToSecondaryBoard(image);
+				} else {
+					removeImageFromSecondaryBoard(image.Id);
+					removeFavouriteSelectedIcon();
 				}
+
+				updateImage(image);
+
 			},
 			error: function() {
+				$.Notify({
+					style: {background: '##9a1616', color: 'white'},
+					caption: 'Ups...',
+					content: "No se pudo marcar a la imagen como favorita. Intentalo nuevamente.",
+					timeout: 5000
+				});
 			}
 		});
 

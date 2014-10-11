@@ -58,6 +58,7 @@ SOLUCIONADOS:
 
 
 DEUDA TECNICA:
+- Function para mostrar las notificaciones de errores
 - Mover logica de los controladores a los servicios
 - Obtener autocomplete de tags del servidor
 - EF

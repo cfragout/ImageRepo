@@ -72,86 +72,20 @@ namespace ImagenRepositorio.Controllers
                 return BadRequest(ModelState);
             }
 
-            var originalImage = this.imagenService.Get(imagen.Id);
-            if (originalImage != null)
-            {
-                originalImage = ConvertFromDto(imagen);
+                                                    // Este get trae una imagen que es trackeada por EF. Cuando en el repositorio quiero guardar la imagen,
+            // se trula porque estoy trayendo de nuevo la misma imagen con el metodo  this.context.Entry<T>(entityToEdit);
+            //var originalImage = this.imagenService.Get(imagen.Id);
+            //if (originalImage != null)
+            //{
+                var originalImage = ConvertFromDto(imagen);
                 this.imagenService.Update(originalImage);
                 return Ok(ConvertToDto(originalImage));
-            }
-            else
-            {
-                return NotFound();
-            }
+            //}
+            //else
+            //{
+            //    return NotFound();
+            //}
         }
-
-        //Esto deberia hacerse al modificar la imagen en el put. La imagen llega con los datos nuevos y se hace un update en la base.
-        // POST: api/Imagenes/RemoveTag
-       /* public bool RemoveTag()
-        {
-            var request = HttpContext.Current.Request;
-
-
-            if ((request.Form["imageId"] == null) || (request.Form["tagId"] == null))
-            {
-                return false;
-            }
-
-            int imgId = Convert.ToInt32(request.Form["imageId"]);
-            int tagId = Convert.ToInt32(request.Form["tagId"]);
-
-            if (ImagenExists(imgId))
-            {
-                Imagen imagen = db.Imagenes.Find(imgId);
-
-                // There must be an easier way!
-                imagen.Tags = imagen.Tags.ToList().FindAll(t => t.Id != tagId);
-
-                db.Entry(imagen).State = EntityState.Modified;
-
-                db.SaveChanges(); 
-
-                return true;
-
-            }
-
-            return false;
-        }*/
-
-        //Esto deberia hacerse al modificar la imagen en el put. La imagen llega con los datos nuevos y se hace un update en la base.
-
-        // POST: api/Imagenes/MarkImagesAsFavourite
-        /*public List<int> MarkImagesAsFavourite()
-        {
-
-            var request = HttpContext.Current.Request;
-            List<int> modifiedImagesIds = new List<int>();
-
-            if (request.Form["imagesIds"] == null)
-            {
-                return modifiedImagesIds;
-            }
-
-            string[] ids = request.Form["imagesIds"].Split(',');
-
-            for (int i = 0; i < ids.Length; i++)
-            {
-                var id = Convert.ToInt32(ids[i]);
-                if (ImagenExists(id))
-                {
-                    Imagen imagen = db.Imagenes.Find(id);
-                    imagen.IsFavourite = !imagen.IsFavourite;
-                    db.Entry(imagen).State = EntityState.Modified;
-
-                    modifiedImagesIds.Add(id);
-                }
-
-            }
-
-            db.SaveChanges();
-
-            return modifiedImagesIds;
-        }*/
 
         // POST: api/Imagenes
         [ResponseType(typeof(ImagenDto))]
