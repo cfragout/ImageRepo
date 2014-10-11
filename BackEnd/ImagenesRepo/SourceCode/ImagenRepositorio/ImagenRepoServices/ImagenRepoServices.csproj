@@ -36,6 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +54,10 @@
     <Compile Include="Services\TagService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ImagenRepoDomain\ImagenRepoDomain.csproj">
+      <Project>{3a11b927-a19a-48c3-9f8c-8d4fb8446227}</Project>
+      <Name>ImagenRepoDomain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImagenRepoEntities\ImagenRepoEntities.csproj">
       <Project>{f6842f27-687e-4ad5-af23-e34ed1208483}</Project>
       <Name>ImagenRepoEntities</Name>

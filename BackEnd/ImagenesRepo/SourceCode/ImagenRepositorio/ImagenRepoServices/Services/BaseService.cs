@@ -28,22 +28,22 @@ namespace ImagenRepoServices.Services
 
         public T Get(int id)
         {
-            throw new NotImplementedException();
+            return this.repository.Get(id);
         }
 
         public T Create(T entityToCreate)
         {
-            throw new NotImplementedException();
+            return this.repository.Create(entityToCreate);
         }
 
         public void Update(T entityToUpdate)
         {
-            throw new NotImplementedException();
+            this.repository.Edit(entityToUpdate);
         }
 
         public void Delete(T entityToDelete)
         {
-            throw new NotImplementedException();
+            this.repository.Delete(entityToDelete);
         }
     }
 }

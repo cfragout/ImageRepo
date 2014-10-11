@@ -1,4 +1,5 @@
-﻿using ImagenRepoEntities.Models;
+﻿using ImagenRepoEntities.Entities;
+using ImagenRepoEntities.Models;
 using ImagenRepoRepository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace ImagenRepoRepository.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> 
-        where T : class
+        where T : BaseEntity
     {
 
         private ModelContainer context;
@@ -22,7 +23,9 @@ namespace ImagenRepoRepository.Repository
 
         public IEnumerable<T> Get()
         {
-          return this.context.Set<T>().ToList();
+          return this.context.Set<T>()
+              .Where(item => item.IsDeleted != true)
+              .ToList();
         }
        
         public T Get(int id)
@@ -33,8 +36,10 @@ namespace ImagenRepoRepository.Repository
         
         public T Create(T entityToCreate)
         {
+            entityToCreate.IsDeleted = false;
             this.context.Set<T>().Add(entityToCreate);
             this.context.SaveChanges();
+
             //Esto es por si necesitas usar el Id de la entidad creada. Como es identity lo tenes luego de que lo persiste
             return entityToCreate;
         }
@@ -48,8 +53,8 @@ namespace ImagenRepoRepository.Repository
 
         public void Delete(T entityToDelete)
         {
-            this.context.Set<T>().Remove(entityToDelete);
-            this.context.SaveChanges();
+            entityToDelete.IsDeleted = true;
+            this.Edit(entityToDelete);
         }
 
         protected ModelContainer GetContext()

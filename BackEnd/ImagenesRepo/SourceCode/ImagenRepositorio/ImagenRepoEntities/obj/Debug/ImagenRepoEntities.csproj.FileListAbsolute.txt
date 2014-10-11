@@ -25,6 +25,6 @@ C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\I
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.xml
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.csprojResolveAssemblyReference.cache
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.dll
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.pdb
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoEntities\obj\Debug\ImagenRepoEntities.csprojResolveAssemblyReference.cache

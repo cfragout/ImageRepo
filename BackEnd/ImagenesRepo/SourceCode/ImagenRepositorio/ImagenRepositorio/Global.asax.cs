@@ -7,6 +7,7 @@ using ImagenRepoRepository.IRepository;
 using ImagenRepoRepository.Repository;
 using ImagenRepoServices.IServices;
 using ImagenRepoServices.Services;
+using ImagenRepositorio.Automapper;
 using ImagenRepositorio.Windsor;
 using System;
 using System.Collections.Generic;
@@ -30,9 +31,7 @@ namespace ImagenRepositorio
 
         protected void Application_Start()
         {
-          
             AreaRegistration.RegisterAllAreas();
-
             this.RegisterDependencyResolver();
             this.InstallDependencies();
             this.RegisterServices();
@@ -41,7 +40,7 @@ namespace ImagenRepositorio
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            AutomapperDomainRegistration.Register();
             System.Data.Entity.Database.SetInitializer(new ModelInitializer());
         }
 
@@ -49,15 +48,13 @@ namespace ImagenRepositorio
         {
             container.Register(Component.For<IGenericRepository<Imagen>>().ImplementedBy<GenericRepository<Imagen>>().LifeStyle.PerWebRequest);
             container.Register(Component.For<IGenericRepository<Tag>>().ImplementedBy<GenericRepository<Tag>>().LifeStyle.PerWebRequest);
-
         }
 
         private void RegisterServices()
         {
             container.Register(Component.For<ModelContainer>().LifestylePerWebRequest());
-            container.Register(Component.For<IImagenService<Imagen>>().ImplementedBy<ImagenService>().LifeStyle.PerWebRequest);
-            container.Register(Component.For<ITagService<Tag>>().ImplementedBy<TagService>().LifeStyle.PerWebRequest);
-
+            container.Register(Component.For<IImagenService>().ImplementedBy<ImagenService>().LifeStyle.PerWebRequest);
+            container.Register(Component.For<ITagService>().ImplementedBy<TagService>().LifeStyle.PerWebRequest);
         }
 
         private void InstallDependencies()
@@ -69,7 +66,5 @@ namespace ImagenRepositorio
         {
             GlobalConfiguration.Configuration.DependencyResolver = new WindsorDependencyResolver(this.container.Kernel);
         }
-
-
     }
 }

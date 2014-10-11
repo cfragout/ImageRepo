@@ -15,115 +15,79 @@ using ImagenRepoServices.Services;
 using System.IO;
 using System.Web;
 using System.Threading.Tasks;
-using ImagenRepositorio.ViewModels;
+using System.Web.Http.Cors;
+using ImagenRepoDomain.Dtos;
+using AutoMapper;
 
 namespace ImagenRepositorio.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ImagenesController : ApiController
     {
-        private ModelContainer db = new ModelContainer();
-
-        private IImagenService<Imagen> imagenService;
-        
+        private IImagenService imagenService;
+        private ITagService tagService;
 
         public ImagenesController(
-            IImagenService<Imagen> imagenService)
+            IImagenService imagenService,
+            ITagService tagService)
         {
             this.imagenService = imagenService;
+            this.tagService = tagService;
         }
 
         // GET: api/Imagenes
-        [ResponseType(typeof(IEnumerable<ImageViewModel>))]
+        [ResponseType(typeof(IEnumerable<ImagenDto>))]
         public IHttpActionResult GetImages()
         {
-            // Find a way to tell EF not to bring Images list on tag objects.
-            var images = this.imagenService.GetAll().ToList();
-            List<ImageViewModel> resultImages = new List<ImageViewModel>();
+            var images = this.imagenService.GetAll().Select(ConvertToDto).ToList();
 
-            foreach (Imagen img in images)
-            {
-                ImageViewModel imgVM = new ImageViewModel {
-                    Path = img.Path,
-                    Name = img.Name,
-                    IsFavourite = img.IsFavourite,
-                    IsDeleted = img.IsDeleted,
-                    Id = img.Id,
-                    Created = img.Created,
-                    OriginalUrl = img.OriginalUrl,
-                    UserUploaded = img.UserUploaded
-                };
-
-                img.Tags.ToList().ForEach(t => imgVM.Tags.Add(new TagViewModel{
-                    Id = t.Id,
-                    IsHidden = t.IsHidden,
-                    Name = t.Name
-                }));
-
-
-                resultImages.Add(imgVM);
-            }
-
-
-            /**********************************************/
-            return Ok(resultImages);
+            return Ok(images);
         }
 
         // GET: api/Imagenes/GetLatestImages
-        public IEnumerable<Imagen> GetLatestImages()
+        public IEnumerable<ImagenDto> GetLatestImages()
         {
-            return this.imagenService.GetLatestImagenes();
+            return this.imagenService.GetLatestImagenes().Select(ConvertToDto).ToList();
         }
 
         // GET: api/Imagenes/5
-        [ResponseType(typeof(Imagen))]
+        [ResponseType(typeof(ImagenDto))]
         public IHttpActionResult GetImagen(int id)
         {
-            Imagen imagen = db.Imagenes.Find(id);
+            Imagen imagen = this.imagenService.Get(id);
             if (imagen == null)
             {
                 return NotFound();
             }
 
-            return Ok(imagen);
+            return Ok(ConvertToDto(imagen));
         }
 
         // PUT: api/Imagenes/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutImagen(int id, Imagen imagen)
+        [ResponseType(typeof(ImagenDto))]
+        public IHttpActionResult PutImagen(ImagenDto imagen)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != imagen.Id)
+            var originalImage = this.imagenService.Get(imagen.Id);
+            if (originalImage != null)
             {
-                return BadRequest();
+                originalImage = ConvertFromDto(imagen);
+                this.imagenService.Update(originalImage);
+                return Ok(ConvertToDto(originalImage));
             }
-
-            db.Entry(imagen).State = EntityState.Modified;
-
-            try
+            else
             {
-                db.SaveChanges();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ImagenExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
 
+        //Esto deberia hacerse al modificar la imagen en el put. La imagen llega con los datos nuevos y se hace un update en la base.
         // POST: api/Imagenes/RemoveTag
-        public bool RemoveTag()
+       /* public bool RemoveTag()
         {
             var request = HttpContext.Current.Request;
 
@@ -152,11 +116,14 @@ namespace ImagenRepositorio.Controllers
             }
 
             return false;
-        }
+        }*/
+
+        //Esto deberia hacerse al modificar la imagen en el put. La imagen llega con los datos nuevos y se hace un update en la base.
 
         // POST: api/Imagenes/MarkImagesAsFavourite
-        public List<int> MarkImagesAsFavourite()
+        /*public List<int> MarkImagesAsFavourite()
         {
+
             var request = HttpContext.Current.Request;
             List<int> modifiedImagesIds = new List<int>();
 
@@ -184,43 +151,29 @@ namespace ImagenRepositorio.Controllers
             db.SaveChanges();
 
             return modifiedImagesIds;
-        }
+        }*/
 
         // POST: api/Imagenes
-        [ResponseType(typeof(Imagen))]
-        public IHttpActionResult PostImage(Imagen imagen)
+        [ResponseType(typeof(ImagenDto))]
+        public IHttpActionResult PostImage(ImagenDto imagen)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            WebClient webClient = new WebClient();
-
-            string remoteFileUrl = imagen.OriginalUrl;
-            string serverUrl = "http://localhost:55069/Content/Images/";
-            string localFilePath = getLocalFilePath() + getLocalFileName(imagen);
-
-            imagen.Path = serverUrl + getLocalFileName(imagen);
-            imagen.Created = DateTime.Today;
-            imagen.IsDeleted = false;
-
-            //Refactor
-            var tags = imagen.Tags;
-            imagen.Tags = new List<Tag>();
-            setTagsToInternetFetchedImage(tags, imagen);
-
+            imagen.Path = this.imagenService.GetImagePath(imagen);
             try
             {
                 if (imagen.UserUploaded == false)
                 {
-                    webClient.DownloadFile(remoteFileUrl, localFilePath);
+                    this.imagenService.DownloadImage(imagen);
                 }
 
-                db.Imagenes.Add(imagen);
-                db.SaveChanges();
+                imagen.Created = DateTime.Now;
+                var createdImage = this.imagenService.Create(ConvertFromDto(imagen));
 
-                return Ok(imagen);
+                return Ok(ConvertToDto(createdImage));
             }
             catch
             {
@@ -229,10 +182,9 @@ namespace ImagenRepositorio.Controllers
         }
 
         // POST: api/Imagenes/UploadImage
-        [ResponseType(typeof(Imagen))]
+        [ResponseType(typeof(ImagenDto))]
         public IHttpActionResult UploadImage()
         {
-
             var request = HttpContext.Current.Request;
             HttpPostedFile file = request.Files["pcFile"];
 
@@ -240,24 +192,24 @@ namespace ImagenRepositorio.Controllers
             {
                 string serverUrl = "http://localhost:55069/Content/Images/";
 
-                Imagen newImage = new Imagen { 
+                var newImage = new Imagen 
+                { 
                     Name = request.Form["imageName"],
                     OriginalUrl = request.Form["url"],
-                    Created = DateTime.Today,
-                    IsDeleted = false,
+                    Created = DateTime.Now,
                     UserUploaded = true
                 };
 
-                setTagsToUserUploadedImage(request.Form["tags"], newImage);
+                SetTagsToUserUploadedImage(request.Form["tags"], newImage);
 
-                string pic = getLocalFileName(newImage);
-                string localPath = Path.Combine(getLocalFilePath(), pic);
+                string pic = GetLocalFileName(newImage);
+                string localPath = Path.Combine(GetLocalFilePath(), pic);
                 newImage.Path = serverUrl + pic;
 
                 // file is uploaded and info stored in the DB
                 file.SaveAs(localPath);
-                db.Imagenes.Add(newImage);
-                db.SaveChanges();
+
+                var createdImage = this.imagenService.Create(newImage);
 
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -265,8 +217,7 @@ namespace ImagenRepositorio.Controllers
                     byte[] array = ms.GetBuffer();
                 }
 
-                return Ok(newImage);
-
+                return Ok(ConvertToDto(createdImage));
             }
 
             // after successfully uploading redirect the user
@@ -274,42 +225,39 @@ namespace ImagenRepositorio.Controllers
         }
 
         // DELETE: api/Imagenes/5
-        [ResponseType(typeof(Imagen))]
+        [ResponseType(typeof(ImagenDto))]
         public IHttpActionResult DeleteImagen(int id)
         {
-            Imagen imagen = db.Imagenes.Find(id);
+            var imagen = this.imagenService.Get(id);
             if (imagen == null)
             {
                 return NotFound();
             }
 
-            db.Imagenes.Remove(imagen);
-            db.SaveChanges();
-
+            this.imagenService.Delete(imagen);
+           
             return Ok(imagen);
         }
 
-        protected override void Dispose(bool disposing)
+        private void MapEditedToOriginal(Imagen originalImage, Imagen imagen)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            originalImage.IsDeleted = imagen.IsDeleted;
+            originalImage.Created = imagen.Created;
+            originalImage.IsFavourite = imagen.IsFavourite;
+            originalImage.Name = imagen.Name;
+            originalImage.OriginalUrl = imagen.OriginalUrl;
+            originalImage.Path = imagen.Path;
+            originalImage.Tags = imagen.Tags;
+            originalImage.UserUploaded = imagen.UserUploaded;
         }
 
-        private bool ImagenExists(int id)
-        {
-            return db.Imagenes.Count(e => e.Id == id) > 0;
-        }
-
-        private string getLocalFilePath()
+        private string GetLocalFilePath()
         {
             string imageDirPath = "Content/Images/";
             return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath;
         }
 
-        private string getLocalFileName(Imagen imagen)
+        private string GetLocalFileName(Imagen imagen)
         {
             string username = "CFR";
             string datetime = DateTime.Today.ToString();
@@ -325,7 +273,7 @@ namespace ImagenRepositorio.Controllers
         }
 
         // Refactor
-        private void setTagsToUserUploadedImage(string tags, Imagen img)
+        private void SetTagsToUserUploadedImage(string tags, Imagen img)
         {
             List<Tag> tagCollection = new List<Tag>();
 
@@ -335,59 +283,64 @@ namespace ImagenRepositorio.Controllers
 
                 foreach (var currentTag in tagsArray)
                 {
-                    var queryResult = db.Tags.Where(t => t.Name == currentTag);
-                    Tag tag;
+                    var originalTag = this.tagService.GetTagByName(currentTag);
 
-                    if (queryResult.Count() > 0)
+                    if (originalTag != null)
                     {
-                        tag = queryResult.FirstOrDefault();
+                        img.Tags.Add(originalTag);
                     }
                     else
                     {
-                        tag = new Tag();
-                        tag.Name = currentTag;
+                        var tag = new Tag() 
+                        {
+                            Name = currentTag,
+                        };
+
+                        img.Tags.Add(tag);
                     }
-
-                    //tag.Imagenes.Add(img);
-                    img.Tags.Add(tag);
                 }
- 
             }
-
-
-            return;
         }
 
         // Refactor
-        private void setTagsToInternetFetchedImage(ICollection<Tag> tags, Imagen img)
+        private void SetTagsToInternetFetchedImage(ICollection<Tag> tags, Imagen img)
         {
             List<Tag> tagCollection = new List<Tag>();
 
                 foreach (var currentTag in tags)
                 {
-                    var queryResult = db.Tags.Where(t => t.Name == currentTag.Name);
-                    Tag tag;
+                    //var queryResult = db.Tags.Where(t => t.Name == currentTag.Name);
+                    //Tag tag;
 
-                    if (queryResult.Count() > 0)
-                    {
-                        tag = queryResult.FirstOrDefault();
-                    }
-                    else
-                    {
-                        tag = new Tag();
-                        tag = currentTag;
-                    }
+                    //if (queryResult.Count() > 0)
+                    //{
+                    //    tag = queryResult.FirstOrDefault();
+                    //}
+                    //else
+                    //{
+                    //    tag = new Tag();
+                    //    tag = currentTag;
+                    //}
 
-                    //tag.Imagenes.Add(img);
-                    img.Tags.Add(tag);
+                    ////tag.Imagenes.Add(img);
+                    //img.Tags.Add(tag);
                 }
 
             return;
         }
 
-        private void saveTag()
+        private void SaveTag()
         {
+        }
 
+        private static ImagenDto ConvertToDto(Imagen bill)
+        {
+            return Mapper.Map<ImagenDto>(bill);
+        }
+
+        private static Imagen ConvertFromDto(ImagenDto billDto)
+        {
+            return Mapper.Map<Imagen>(billDto);
         }
     }
 }

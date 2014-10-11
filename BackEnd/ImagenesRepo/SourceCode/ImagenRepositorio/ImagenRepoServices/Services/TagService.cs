@@ -9,12 +9,18 @@ using System.Threading.Tasks;
 
 namespace ImagenRepoServices.Services
 {
-    public class TagService: BaseService<Tag>, ITagService<Tag>
+    public class TagService: BaseService<Tag>, ITagService
     {
         public TagService(IGenericRepository<Tag> genericRepo)
             : base(genericRepo)
         {
 
+        }
+
+
+        public Tag GetTagByName(string name)
+        {
+            return this.GetAll().Where(tag => tag.Name == name).FirstOrDefault();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace ImagenRepoEntities.Models
 {
-    public class ModelInitializer : DropCreateDatabaseIfModelChanges<ModelContainer>
+    public class ModelInitializer : DropCreateDatabaseAlways<ModelContainer>
     {
         protected override void Seed(ModelContainer context)
         {
@@ -27,6 +27,16 @@ namespace ImagenRepoEntities.Models
                 Name = "audi",
                 Path = " http://localhost:55069/Content/Images/audi.jpg",
                 IsDeleted = false,
+                Created = DateTime.Today,
+                OriginalUrl = "sldkjjautoloco.jpg",
+            };
+
+            var imagen3 = new Imagen
+            {
+                UserUploaded = true,
+                Name = "audi",
+                Path = " http://localhost:55069/Content/Images/audi.jpg",
+                IsDeleted = true,
                 Created = DateTime.Today,
                 OriginalUrl = "sldkjjautoloco.jpg",
             };
@@ -67,6 +77,8 @@ namespace ImagenRepoEntities.Models
 
             imagen1.Tags.Add(tag1);
             imagen2.Tags.Add(tag1);
+            imagen2.Tags.Add(tag8);
+            imagen2.Tags.Add(tag5);
 
             context.Imagenes.Add(imagen1);
             context.Imagenes.Add(imagen2);

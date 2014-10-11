@@ -1,0 +1,5 @@
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\bin\Debug\ImagenRepoDomain.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\bin\Debug\ImagenRepoDomain.pdb
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\obj\Debug\ImagenRepoDomain.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\obj\Debug\ImagenRepoDomain.pdb
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\obj\Debug\ImagenRepoDomain.csprojResolveAssemblyReference.cache

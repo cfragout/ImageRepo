@@ -11,25 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImagenRepoRepository", "Ima
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImagenRepoEntities", "ImagenRepoEntities\ImagenRepoEntities.csproj", "{F6842F27-687E-4AD5-AF23-E34ED1208483}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImagenRepoDomain", "ImagenRepoDomain\ImagenRepoDomain.csproj", "{3A11B927-A19A-48C3-9F8C-8D4FB8446227}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://cfbarragan.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ImagenRepositorio\\ImagenRepositorio.csproj
-		SccProjectName1 = ImagenRepositorio
-		SccLocalPath1 = ImagenRepositorio
-		SccProjectUniqueName2 = ImagenRepoServices\\ImagenRepoServices.csproj
-		SccProjectName2 = ImagenRepoServices
-		SccLocalPath2 = ImagenRepoServices
-		SccProjectUniqueName3 = ImagenRepoRepository\\ImagenRepoRepository.csproj
-		SccProjectName3 = ImagenRepoRepository
-		SccLocalPath3 = ImagenRepoRepository
-		SccProjectUniqueName4 = ImagenRepoEntities\\ImagenRepoEntities.csproj
-		SccProjectName4 = ImagenRepoEntities
-		SccLocalPath4 = ImagenRepoEntities
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -51,6 +35,10 @@ Global
 		{F6842F27-687E-4AD5-AF23-E34ED1208483}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6842F27-687E-4AD5-AF23-E34ED1208483}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6842F27-687E-4AD5-AF23-E34ED1208483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A11B927-A19A-48C3-9F8C-8D4FB8446227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A11B927-A19A-48C3-9F8C-8D4FB8446227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A11B927-A19A-48C3-9F8C-8D4FB8446227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A11B927-A19A-48C3-9F8C-8D4FB8446227}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

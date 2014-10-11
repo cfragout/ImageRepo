@@ -13,8 +13,6 @@
     {
         private readonly IKernel container;
 
-        private readonly IDependencyResolver resolver;
-
         private readonly IDisposable scope;
 
         public WindsorDependencyScope(IKernel container)

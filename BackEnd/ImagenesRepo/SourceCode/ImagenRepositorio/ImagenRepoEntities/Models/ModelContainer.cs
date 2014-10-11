@@ -11,19 +11,17 @@ namespace ImagenRepoEntities.Models
     public class ModelContainer : DbContext
     {
         public ModelContainer()
-            : base("name=ImageRepoFrapanDesktop")
+            : base("name=repoLaburo")
         {
-            base.Configuration.ProxyCreationEnabled = true; 
+            base.Configuration.ProxyCreationEnabled = true;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-
+            base.Configuration.ProxyCreationEnabled = true;
+            
             #region Entities Mapping
-
-           
-
 
             #endregion
 
@@ -31,8 +29,9 @@ namespace ImagenRepoEntities.Models
         }
 
         public IDbSet<Imagen> Imagenes { get; set; }
+
         public IDbSet<Tag> Tags { get; set; }
-               
+
 
     }
 }
