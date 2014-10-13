@@ -22,7 +22,7 @@ namespace ImagenRepositorio
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional, action = RouteParameter.Optional }
+                defaults: new { controller = "Imagenes", action = "GetImages", id = RouteParameter.Optional }
             );
 
             var json = config.Formatters.JsonFormatter;
