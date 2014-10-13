@@ -236,33 +236,6 @@ namespace ImagenRepositorio.Controllers
             }
         }
 
-        // Refactor
-        private void SetTagsToInternetFetchedImage(ICollection<Tag> tags, Imagen img)
-        {
-            List<Tag> tagCollection = new List<Tag>();
-
-                foreach (var currentTag in tags)
-                {
-                    //var queryResult = db.Tags.Where(t => t.Name == currentTag.Name);
-                    //Tag tag;
-
-                    //if (queryResult.Count() > 0)
-                    //{
-                    //    tag = queryResult.FirstOrDefault();
-                    //}
-                    //else
-                    //{
-                    //    tag = new Tag();
-                    //    tag = currentTag;
-                    //}
-
-                    ////tag.Imagenes.Add(img);
-                    //img.Tags.Add(tag);
-                }
-
-            return;
-        }
-
         private void SaveTag()
         {
         }
