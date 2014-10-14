@@ -1,12 +1,13 @@
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepositorio/Content/*
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepoDomain/obj/*
+BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepoDomain/bin/*
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepoEntities/bin/*
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepoEntities/obj/*
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepoRepository/bin/*
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepoServices/obj/*
+BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepoServices/bin/*
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepositorio/obj/*
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepositorio/bin/*
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepoRepository/bin/*
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepoRepository/obj/*
 BackEnd/ImagenesRepo/SourceCode/ImagenRepositorio/ImagenRepositorio.v12.suo
-
