@@ -1,4 +1,5 @@
 ﻿using ImagenRepoEntities.Entities;
+using ImagenRepoEntities.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,7 +12,7 @@ namespace ImagenRepoEntities.Models
     public class ModelContainer : DbContext
     {
         public ModelContainer()
-            : base("name=ImageRepoFrapanDesktop")
+            : base("name=repoLaburo")
         {
             base.Configuration.ProxyCreationEnabled = true;
         }
@@ -22,6 +23,8 @@ namespace ImagenRepoEntities.Models
             base.Configuration.ProxyCreationEnabled = true;
             
             #region Entities Mapping
+            
+           // modelBuilder.Configurations.Add(new ImagenMap());
 
             #endregion
 

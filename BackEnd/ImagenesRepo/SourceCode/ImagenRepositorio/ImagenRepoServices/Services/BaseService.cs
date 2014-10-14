@@ -36,7 +36,7 @@ namespace ImagenRepoServices.Services
             return this.repository.Create(entityToCreate);
         }
 
-        public void Update(T entityToUpdate)
+        public virtual void Update(T entityToUpdate)
         {
             this.repository.Edit(entityToUpdate);
         }

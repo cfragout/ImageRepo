@@ -15,10 +15,12 @@ namespace ImagenRepoServices.Services
 {
     public class ImagenService: BaseService<Imagen> , IImagenService
     {
-        public ImagenService(IGenericRepository<Imagen> genericRepo)
+        IGenericRepository<Tag> TagGenericRepo;
+
+        public ImagenService(IGenericRepository<Imagen> genericRepo, IGenericRepository<Tag> TagGenericRepo)
             : base(genericRepo)
         {
-
+            this.TagGenericRepo = TagGenericRepo;
         }
 
         public override IEnumerable<Imagen> GetAll()
@@ -36,9 +38,12 @@ namespace ImagenRepoServices.Services
                 }
             }
 
-
-
             return filteredImages;
+        }
+
+        public override void Update(Imagen imagenToEdit)
+        {
+            base.Update(imagenToEdit);
         }
 
         public IEnumerable<Imagen> GetLatestImagenes()
