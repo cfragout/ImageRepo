@@ -34,11 +34,11 @@ namespace ImagenRepoEntities.Models
             var imagen3 = new Imagen
             {
                 UserUploaded = true,
-                Name = "audi",
-                Path = " http://localhost:55069/Content/Images/audi.jpg",
-                IsDeleted = true,
+                Name = "Nokia 920",
+                Path = " http://localhost:55069/Content/username/Images/nokia-920.jpg",
+                IsDeleted = false,
                 Created = DateTime.Today,
-                OriginalUrl = "sldkjjautoloco.jpg",
+                OriginalUrl = "nokia-920.jpg",
             };
 
             var tag1 = new Tag() 
@@ -79,9 +79,11 @@ namespace ImagenRepoEntities.Models
             imagen2.Tags.Add(tag1);
             imagen2.Tags.Add(tag8);
             imagen2.Tags.Add(tag5);
+            imagen3.Tags.Add(tag6);
 
             context.Imagenes.Add(imagen1);
             context.Imagenes.Add(imagen2);
+            context.Imagenes.Add(imagen3);
 
             context.Tags.Add(tag2);
             context.Tags.Add(tag3);
