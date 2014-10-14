@@ -6,6 +6,8 @@ var uploadImageUrl = imagesApiUrl + 'UploadImage';
 var getImageUrl = imagesApiUrl + 'GetImages';
 var putImageUrl = imagesApiUrl + 'PutImagen/';
 var putTagUrl = tagsApiUrl + 'PutTag/';
+var getTagsUrl = tagsApiUrl + 'GetTags/';
+var backupUrl = baseUrl + 'api/Values/GetRepoBackup';
 
 function storeImages(images) {
 	var imgs = [];

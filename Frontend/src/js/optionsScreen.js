@@ -5,7 +5,6 @@ function getDropdownSelectedItems(dropdownId) {
 	var selectedItemsIds = [];
 	$('#'+ dropdownId +' :selected').each(function(i, selected) {
 		selectedItemsIds[i] = selected;
-		$(selected).remove();
 	});
 
 	$('#' + dropdownId).trigger('click');
@@ -19,6 +18,7 @@ function addOptionToDropdown(dropdownId, optionValue, optionText) {
 }
 
 function sendPUTTag(option, hide, selectID) {
+	console.log("$(option).val()", option)
 	$.ajax({
 		url: putTagUrl + $(option).val(),
 		contentType: "application/json; charset=utf-8",
@@ -30,6 +30,7 @@ function sendPUTTag(option, hide, selectID) {
 		type: 'PUT',
 		success: function(data) {
 			addOptionToDropdown(selectID, $(option).val(), $(option).text());
+			$(option).remove();
 			shouldUpdate = true;
 		},
 		error: function() {
@@ -42,6 +43,27 @@ function sendPUTTag(option, hide, selectID) {
 		}
 	});
 }
+
+// Options section: backup
+$('#backupButton').click(function(){
+	$.ajax({
+		url: backupUrl,
+		type: 'GET',
+		success: function(data) {
+			console.log(data);
+			$('#REMOVEME').append('<a id="backupDownloadLink" href="'+ data +'">Descargar imagenes<a/>');
+		},
+		error: function() {
+			$.Notify({
+				style: {background: '##9a1616', color: 'white'},
+				caption: 'Ups...',
+				content: "Hubo un problema al completar el backup. Intenta mas tarde",
+				timeout: 5000
+			});
+		}
+	});
+});
+
 
 // Options section: close
 $('#closeOptionsScreenContainer').click(function(){
@@ -58,12 +80,14 @@ $('#closeOptionsScreenContainer').click(function(){
 	if (shouldUpdate) {
 		resetBoard();
 	}
+
+	$('#backupDownloadLink').remove();
 });
 
 // Options section: open
 $('#showOptions').click(function(){
 	$.ajax({
-		url: tagsApiUrl,
+		url: getTagsUrl,
 		success: function(data) {
 			$('#hidden-tags-list option, #visible-tags-list option').remove();
 

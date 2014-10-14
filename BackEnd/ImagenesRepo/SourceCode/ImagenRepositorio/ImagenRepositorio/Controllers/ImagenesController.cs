@@ -124,7 +124,7 @@ namespace ImagenRepositorio.Controllers
 
             if (file != null)
             {
-                string serverUrl = "http://localhost:55069/Content/Images/";
+                string serverUrl = "http://localhost:55069/Content/username/Images/";
 
                 var newImage = new Imagen 
                 { 
@@ -185,12 +185,14 @@ namespace ImagenRepositorio.Controllers
             originalImage.UserUploaded = imagen.UserUploaded;
         }
 
+        // Codigo duplicado
         private string GetLocalFilePath()
         {
-            string imageDirPath = "Content/Images/";
+            string imageDirPath = "Content/username/Images/";
             return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath;
         }
 
+        // Codigo duplicado
         private string GetLocalFileName(Imagen imagen)
         {
             string username = "CFR";

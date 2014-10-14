@@ -5,5 +5,6 @@ C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\I
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\obj\Debug\ImagenRepoDomain.csprojResolveAssemblyReference.cache
 F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\bin\Debug\ImagenRepoDomain.dll
 F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\bin\Debug\ImagenRepoDomain.pdb
+F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\obj\Debug\ImagenRepoDomain.csprojResolveAssemblyReference.cache
 F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\obj\Debug\ImagenRepoDomain.dll
 F:\DevProjects\ImageRepo\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoDomain\obj\Debug\ImagenRepoDomain.pdb

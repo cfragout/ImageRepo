@@ -27,6 +27,7 @@ BUGS:
 - Las imagenes favoritas deberian cargar siempre anes (sin necesidad de scroll)
 - Cuando hay muchas imagenes que no se pueden cargar, las imagenes placeholder de error se solapan
 - cuando el preview de la imagen es muy grande tapa a los botones -> SOLUCIONADO -> RE ABIERTO
+- cuando hago backup me devuelve imagenes borradas!!
 
 HECHO:
 - loader para cuando apretas "agregar" en add image modal -> HECHO
@@ -66,3 +67,4 @@ DEUDA TECNICA:
 - EF
 	- referencias circulares
 	- eliminacion de tags: debe haber un metodo de borrado mas simple
+- Obtener en el initialCatalog la url del servidor de una clase (en lugar de tenerla hardcodeada).

@@ -55,9 +55,10 @@ namespace ImagenRepoServices.Services
             webClient.DownloadFile(remoteFileUrl, localFilePath);
         }
 
+        // Mover a helper?
         public string GetImagePath(ImagenDto imagen)
         {
-            string serverUrl = "http://localhost:55069/Content/Images/";
+            string serverUrl = "http://localhost:55069/Content/username/Images/";
             return serverUrl + GetLocalFileName(imagen);
         }
 
@@ -78,7 +79,7 @@ namespace ImagenRepoServices.Services
 
         private string GetLocalFilePath()
         {
-            string imageDirPath = "Content/Images/";
+            string imageDirPath = "Content/username/Images/";
             return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath;
         }
 

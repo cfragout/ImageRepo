@@ -44,19 +44,19 @@ namespace ImagenRepositorio.Controllers
         public IHttpActionResult GetRepoBackup()
         {
             // Zip user directory, not complete images directory
-            string userImagesDirectory = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "Content/images";
+            string userImagesDirectory = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "Content/username/images";
             DirectoryInfo directorySelected = new DirectoryInfo(userImagesDirectory);
-            string zipFile = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "Content/"+ "username_images_date.zip";
+            string zipFilePath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "Content/username/"+ "username_images_date.zip";
 
             using (ZipFile zip = new ZipFile())
             {
                 zip.AddDirectory(userImagesDirectory);
                 zip.Comment = "Imagenes de USUARIO " + System.DateTime.Now.ToString("G");
-                zip.Save(zipFile);
+                zip.Save(zipFilePath);
             }
 
             // Return url for downloading the zip file
-            return Ok("some url");
+            return Ok(zipFilePath);
         }
     }
 }

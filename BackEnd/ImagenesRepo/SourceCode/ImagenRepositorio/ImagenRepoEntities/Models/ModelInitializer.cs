@@ -15,7 +15,7 @@ namespace ImagenRepoEntities.Models
             var imagen1 = new Imagen() 
             {
                 Name = "lambourghini",
-                Path = " http://localhost:55069/Content/Images/Lambourghini.jpg",
+                Path = " http://localhost:55069/Content/username/Images/Lambourghini.jpg",
                 IsDeleted = false,
                 Created = DateTime.Today,
                 OriginalUrl = "http://www.hdwallpaperscool.com/wp-content/uploads/2013/11/gallardo-sports-cars-hd-images-widescreen-top-wallpapers.jpg",
@@ -25,7 +25,7 @@ namespace ImagenRepoEntities.Models
             {
                 UserUploaded = true,
                 Name = "audi",
-                Path = " http://localhost:55069/Content/Images/audi.jpg",
+                Path = " http://localhost:55069/Content/username/Images/audi.jpg",
                 IsDeleted = false,
                 Created = DateTime.Today,
                 OriginalUrl = "sldkjjautoloco.jpg",
