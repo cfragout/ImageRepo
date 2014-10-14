@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Imagen.cs" />
+    <Compile Include="Mappings\ImagenMap.cs" />
     <Compile Include="Models\ModelContainer.cs" />
     <Compile Include="Models\ModelInitializer.cs" />
     <Compile Include="Entities\Tag.cs" />
