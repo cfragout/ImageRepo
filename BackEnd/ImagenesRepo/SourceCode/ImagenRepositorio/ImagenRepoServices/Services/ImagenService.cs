@@ -63,7 +63,7 @@ namespace ImagenRepoServices.Services
         // Mover a helper?
         public string GetImagePath(ImagenDto imagen)
         {
-            string serverUrl = "http://localhost:55069/Content/username/Images/";
+            string serverUrl = "http://localhost:55069/Content/users/test_user@hotmail.com/images/";
             return serverUrl + GetLocalFileName(imagen);
         }
 
@@ -84,7 +84,7 @@ namespace ImagenRepoServices.Services
 
         private string GetLocalFilePath()
         {
-            string imageDirPath = "Content/username/Images/";
+            string imageDirPath = "Content/users/test_user@hotmail.com/images/";
             return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath;
         }
 

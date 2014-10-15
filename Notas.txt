@@ -28,6 +28,10 @@ BUGS:
 - Cuando hay muchas imagenes que no se pueden cargar, las imagenes placeholder de error se solapan
 - cuando el preview de la imagen es muy grande tapa a los botones -> SOLUCIONADO -> RE ABIERTO
 - cuando hago backup me devuelve imagenes borradas!!
+- Gif no se estan cargando cuando autoplay es false.
+- Las imagenes que no se pueden cargar aparecen para todas las busquedas.
+- Habria que agregar la data (como los tags) de las imagenes que no se pudieron cargar.
+- Las imagenes que no se pueden cargar no se pueden borrar
 
 HECHO:
 - loader para cuando apretas "agregar" en add image modal -> HECHO
