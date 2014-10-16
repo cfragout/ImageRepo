@@ -86,6 +86,8 @@ $('#closeOptionsScreenContainer').click(function(){
 
 // Options section: open
 $('#showOptions').click(function(){
+	shouldUpdate = false;
+
 	$.ajax({
 		url: getTagsUrl,
 		success: function(data) {
@@ -183,8 +185,6 @@ $('#profilePictureFileInput').on('change', function(){
 	var name = file.name;
 	var size = file.size;
 	var type = file.type;
-	console.log("file",file);
 	filename = name;
-	console.log("asdasd", filename);
 	readURL(this, $('#profilePicture'));
 });

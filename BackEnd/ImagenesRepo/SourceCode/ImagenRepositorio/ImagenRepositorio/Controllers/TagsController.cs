@@ -11,6 +11,8 @@ using System.Web.Http.Description;
 using ImagenRepoEntities.Entities;
 using ImagenRepoEntities.Models;
 using ImagenRepoServices.IServices;
+using ImagenRepoDomain.Dtos;
+using AutoMapper;
 
 namespace ImagenRepositorio.Controllers
 {
@@ -26,9 +28,10 @@ namespace ImagenRepositorio.Controllers
         }
 
         // GET: api/Tags
-        public IEnumerable<Tag> GetTags()
+        public IEnumerable<TagDto> GetTags()
         {
-            return this.tagService.GetAll();
+            var tags = this.tagService.GetAll().Select(ConvertToDto).ToList();
+            return tags;
         }
 
         // GET: api/Tags/5
@@ -46,7 +49,7 @@ namespace ImagenRepositorio.Controllers
 
         // PUT: api/Tags/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutTag(int id, Tag tag)
+        public IHttpActionResult PutTag(int id, TagDto tag)
         {
             if (!ModelState.IsValid)
             {
@@ -58,25 +61,29 @@ namespace ImagenRepositorio.Controllers
                 return BadRequest();
             }
 
-            db.Entry(tag).State = EntityState.Modified;
+            var originalTag = ConvertFromDto(tag);
+            this.tagService.Update(originalTag);
+            return Ok(ConvertToDto(originalTag));
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TagExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            //db.Entry(tag).State = EntityState.Modified;
 
-            return StatusCode(HttpStatusCode.NoContent);
+            //try
+            //{
+            //    db.SaveChanges();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!TagExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            //return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/Tags
@@ -123,6 +130,16 @@ namespace ImagenRepositorio.Controllers
         private bool TagExists(int id)
         {
             return db.Tags.Count(e => e.Id == id) > 0;
+        }
+
+        private static TagDto ConvertToDto(Tag tag)
+        {
+            return Mapper.Map<TagDto>(tag);
+        }
+
+        private static Tag ConvertFromDto(TagDto tagDto)
+        {
+            return Mapper.Map<Tag>(tagDto);
         }
     }
 }

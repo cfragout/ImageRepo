@@ -31,6 +31,9 @@ namespace ImagenRepoDomain.Dtos
         public bool UserUploaded { get; set; }
 
         [DataMember]
+        public bool IsDeleted { get; set; }
+
+        [DataMember]
         public string OriginalUrl { get; set; }
 
         [DataMember]

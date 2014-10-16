@@ -122,7 +122,7 @@ namespace ImagenRepoEntities.Models
             };
             var imagen13 = new Imagen()
             {
-                Name = "auto gif 1",
+                Name = "viejo",
                 Path = "http://localhost:55069/Content/users/test_user@hotmail.com/images/auto gif 1.gif",
                 IsDeleted = false,
                 Created = DateTime.Today,

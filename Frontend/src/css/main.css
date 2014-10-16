@@ -434,6 +434,33 @@ ul.ui-widget-content.ui-autocomplete {
 	margin-left:60px;
 }
 
+.image-container.selected-error {
+	border: 4px #9a1616 solid;
+}
+
+.image-container.selected-error:before {
+	position: absolute;
+	display: block;
+	content: "\e003";
+	color: #fff;
+	right: 0;
+	font-family: 'metroSysIcons';
+	font-size: 9pt;
+	font-weight: normal;
+	z-index: 102;
+	top: 0;
+}
+
+.image-container.selected-error:after {
+	position: absolute;
+	display: block;
+	border-top: 28px solid #9a1616;
+	border-left: 28px solid transparent;
+	right: 0;
+	content: "";
+	top: 0;
+	z-index: 101;
+}
 
 .tag-arrow-container {
 	display: inline-block;

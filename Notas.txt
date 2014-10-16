@@ -28,10 +28,8 @@ BUGS:
 - Cuando hay muchas imagenes que no se pueden cargar, las imagenes placeholder de error se solapan
 - cuando el preview de la imagen es muy grande tapa a los botones -> SOLUCIONADO -> RE ABIERTO
 - cuando hago backup me devuelve imagenes borradas!!
-- Gif no se estan cargando cuando autoplay es false.
 - Las imagenes que no se pueden cargar aparecen para todas las busquedas.
-- Habria que agregar la data (como los tags) de las imagenes que no se pudieron cargar.
-- Las imagenes que no se pueden cargar no se pueden borrar
+- La funcion para resetear el board no funciona bien (sacar el animate)
 
 HECHO:
 - loader para cuando apretas "agregar" en add image modal -> HECHO
@@ -49,7 +47,9 @@ HECHO:
 	.por tags -> HECHO
 
 SOLUCIONADOS:
-- add image modal
+- Las imagenes que no se pueden cargar no se pueden borrar -> SOLUCIONADO
+- Habria que agregar la data (como los tags) de las imagenes que no se pudieron cargar. -> SOLUCIONADO
+- add image modal -> SOLUCIONADO
 - cuando recien se carga una imagen no se puede favoritear ni agregar al secondary image board -> SOLUCIONADO
 - Cuando se modifica una entidad, solo se ve reflejado el cambio cuando se para la aplicacion y se la vuelve a correr. -> SOLUCIONADO
 - tags: cuando se agrega un tag que no esta recien creado, se agrega una referencia al tag en lugar del tag mismo. -> SOLUCIONADO

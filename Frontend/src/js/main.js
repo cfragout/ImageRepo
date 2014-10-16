@@ -9,6 +9,8 @@ var putTagUrl = tagsApiUrl + 'PutTag/';
 var getTagsUrl = tagsApiUrl + 'GetTags/';
 var backupUrl = baseUrl + 'api/Values/GetRepoBackup';
 
+var bLazy;
+
 function storeImages(images) {
 	var imgs = [];
 	$.each(images, function(index, img){
@@ -34,8 +36,6 @@ function getImageById(id) {
 
 	return "";
 }
-
-
 
 function getImageIdbyImageHTML(imageHTML) {
 	return imageHTML.id.split('-')[1];
@@ -108,7 +108,7 @@ function initImageBoard(imagesObjArray) {
 
 	$('#image-board').append(imageArray);
 
-	var bLazy = new Blazy({
+	bLazy = new Blazy({
 		container: '#image-board',
 		success: function(ele) {
 			if (isGifImage(ele) && (localStorage.autoPlayGifs == "false")) {
@@ -124,7 +124,7 @@ function initImageBoard(imagesObjArray) {
 			if (addedImg.IsFavourite) {
 				addImageToSecondaryBoard(addedImg);
 			}
-        },
+		},
 		error: function(ele, msg) {
 			console.log("error", ele);
 
@@ -143,13 +143,19 @@ function initImageBoard(imagesObjArray) {
 
 function resetBoard() {
 	$('#image-board-loader-container').show();
-
 	var $container = $('#image-board');
 	var items = $container.isotope('getItemElements');
 
     $container.isotope('remove', items);
+
     initIsotope();
 	loadImages();
+
+// fire scroll so blazy loads images. FIND BETTER WAY OF DOING THIS
+$('#image-board').css('height', '100%')
+$('html, body').animate({
+        scrollTop: 1000
+    }, 2000);
 }
 
 function loadImages() {
@@ -223,11 +229,11 @@ function filterByTagName(imageContainer, query, strict) {
 function filterByImageName(imageContainer, query, strict) {
 	// isotope Filter
 	var q = query || '';
-	var imageAlt =  $(imageContainer).children().attr('alt');
+	var imageAlt =  $(imageContainer).find('img').attr('alt');
 
 	if (!strict) {
 		q = q.toLowerCase();
-		imageAlt = imageAlt.toLowerCase();
+		imageAlt = imageAlt != null? imageAlt.toLowerCase() : '';
 
 		return imageAlt.indexOf(q) > -1
 	}
@@ -290,7 +296,10 @@ function removeFavouriteSelectedIcon() {
 
 function unselectImages() {
 	// Remove .selected
-	$('.image-container.selected').trigger('click');
+	$('.image-element.selected').removeClass('selected');
+	$('#sidebar-image-name').text('-');
+	$('.image-container.selected-error').removeClass('selected-error');
+	updateSidebarTagList();
 }
 
 function createTagListElement(tag, imageId) {
@@ -320,6 +329,12 @@ function initIsotope(){
 			columnWidth: 5
 		}
 	});
+}
+
+function disableQuickActions() {
+	removeFavouriteSelectedIcon();
+	$('.actions span').addClass('fg-gray no-hover');
+	$('.actions').addClass('no-hover');
 }
 
 function isStrictSearch(q) {
@@ -381,7 +396,9 @@ function bindEvents() {
 			return;
 		}
 
-		var image = getFirstSelectedImage();
+		var container = $('.image-container.selected-error')[0] || $('.image-container.selected')[0];
+		var image = getImageObjectByImageHTML(getImageHTMLFromImageContainer(container));
+
 		image.IsDeleted = true;
 
 		$.ajax({
@@ -392,7 +409,7 @@ function bindEvents() {
 			success: function(data) {
 				updateImage(image);
 				$container = $('#image-board');
-				$container.isotope('remove', $('.image-container.selected')[0]);
+				$container.isotope('remove', container);
 				$container.isotope('layout');
 				unselectImages();
 			},
@@ -421,7 +438,6 @@ function bindEvents() {
 			url: putImageUrl + selectedImage.Id,
 			data: selectedImage,
 			success: function(data) {
-				console.log(data);
 				var image = data;
 
 				if (image.IsFavourite) {
@@ -555,18 +571,22 @@ function bindEvents() {
 
 	// Primary board: image click
 	$('#image-board').on('click', '.image-element', function(){
-		$(this).toggleClass('selected');
+
+		var currentIsSelected = $(this).hasClass('selected');
+		unselectImages();
+
+		if (!currentIsSelected) {
+			$(this).addClass('selected');
+		}
 
 		var selectedCount = getSelectedImagesHTMLContainer().length;
 		var selectedImage = getFirstSelectedImageHTMLContainer();
 
 		if (selectedCount == 0) {
-			removeFavouriteSelectedIcon();
 			updateSidebarTagList();
 			$('#copy-image-url').val('');
 			$('#sidebar-image-name').text('-');
-			$('.actions span').addClass('fg-gray no-hover');
-			$('.actions').addClass('no-hover');
+			disableQuickActions();
 		} else if (selectedCount == 1) {
 
 			$('.actions span').removeClass('fg-gray no-hover');
@@ -583,17 +603,39 @@ function bindEvents() {
 			$('#copy-image-url').val(image.Path).select();
 			$('#sidebar-image-name').text(image.Name);
 
-
-
 		} else if (selectedCount > 1) {
+			// Currently there cannot be more than one image selected
 			$('.actions .icon-link').addClass('fg-gray no-hover');
 			$('.actions span.icon-link').closest('.actions').addClass('no-hover');
-		} else {
-			$('.actions span').addClass('fg-gray no-hover');
-			$('.actions').addClass('no-hover');
 		}
 
 	});
+
+	// Primary board: error image click
+	$('#image-board').on('click', '.img-load-error', function(){
+		var container = $(this).parent();
+		var currentIsSelected = $(container).hasClass('selected-error');
+
+		unselectImages();
+		disableQuickActions();
+
+		$('#copy-image-url').val('');
+
+		if (currentIsSelected) {
+			updateSidebarTagList();
+			$(container).removeClass('selected-error');
+			$('#sidebar-image-name').text('-');
+		} else {
+			$(this).parent().addClass('selected-error');
+			var image = getImageObjectByImageHTML(this);
+			updateSidebarTagList(image);
+			$('#sidebar-image-name').text(image.Name);
+			// Enable delete quick action
+			$('#deleteImage').parent().removeClass('no-hover');
+			$('#deleteImage').children().removeClass('fg-gray no-hover');
+		}
+	});
+
 
 
 	// Quick actions: link
@@ -683,7 +725,6 @@ function freezeGif(image) {
 	var noPreviewSrc = '../assets/images/previewNotAvailable.png';
 	c.width = 180;
 	c.height = 240;
-
 
 	if (imageLoaded) {
 		c.width = image.width;
