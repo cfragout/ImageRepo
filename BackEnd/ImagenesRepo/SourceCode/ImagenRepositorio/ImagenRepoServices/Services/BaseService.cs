@@ -31,7 +31,7 @@ namespace ImagenRepoServices.Services
             return this.repository.Get(id);
         }
 
-        public T Create(T entityToCreate)
+        public virtual T Create(T entityToCreate)
         {
             return this.repository.Create(entityToCreate);
         }

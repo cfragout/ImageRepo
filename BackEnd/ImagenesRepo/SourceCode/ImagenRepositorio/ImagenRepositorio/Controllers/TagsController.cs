@@ -13,9 +13,11 @@ using ImagenRepoEntities.Models;
 using ImagenRepoServices.IServices;
 using ImagenRepoDomain.Dtos;
 using AutoMapper;
+using System.Web.Http.Cors;
 
 namespace ImagenRepositorio.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TagsController : ApiController
     {
         private ModelContainer db = new ModelContainer();
@@ -35,16 +37,16 @@ namespace ImagenRepositorio.Controllers
         }
 
         // GET: api/Tags/5
-        [ResponseType(typeof(Tag))]
+        [ResponseType(typeof(TagDto))]
         public IHttpActionResult GetTag(int id)
         {
-            Tag tag = db.Tags.Find(id);
+            var tag = this.tagService.Get(id);
             if (tag == null)
             {
                 return NotFound();
             }
 
-            return Ok(tag);
+            return Ok(ConvertToDto(tag));
         }
 
         // PUT: api/Tags/5
@@ -65,25 +67,6 @@ namespace ImagenRepositorio.Controllers
             this.tagService.Update(originalTag);
             return Ok(ConvertToDto(originalTag));
 
-            //db.Entry(tag).State = EntityState.Modified;
-
-            //try
-            //{
-            //    db.SaveChanges();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!TagExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
-            //return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/Tags

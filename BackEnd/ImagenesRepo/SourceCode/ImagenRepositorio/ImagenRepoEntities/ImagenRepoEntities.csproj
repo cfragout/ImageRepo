@@ -54,11 +54,16 @@
   <ItemGroup>
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Imagen.cs" />
+    <Compile Include="Entities\ImagenTag.cs" />
     <Compile Include="Mappings\ImagenMap.cs" />
     <Compile Include="Models\ModelContainer.cs" />
     <Compile Include="Models\ModelInitializer.cs" />
     <Compile Include="Entities\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UoW\IEntityFrameworkUnitOfWork.cs" />
+    <Compile Include="UoW\IImagenRepoUnitOfWork.cs" />
+    <Compile Include="UoW\ImagenRepoUnitOfWork.cs" />
+    <Compile Include="UoW\IUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

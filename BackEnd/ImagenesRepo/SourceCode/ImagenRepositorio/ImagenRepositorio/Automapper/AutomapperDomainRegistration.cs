@@ -27,11 +27,11 @@ namespace ImagenRepositorio.Automapper
 
         private static void RegisterImagenMapping()
         {
-            Mapper.CreateMap<Imagen, ImagenDto>();
+            Mapper.CreateMap<Imagen, ImagenDto>()
+                .ForMember(x => x.Tags, opt => opt.Ignore()); ;
 
-            Mapper.CreateMap<ImagenDto, Imagen>();
-
-            //.ForMember(x => x.Factura, opt => opt.MapFrom(c => c.Factura))
+            Mapper.CreateMap<ImagenDto, Imagen>()
+                .ForMember(x => x.ImagenTags, opt => opt.Ignore());
         }
     }
 }
