@@ -1,8 +1,8 @@
-TODO:
+﻿TODO:
 - ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW) -> HECHO
 	-cuando hago un cambio en las configuraciones (paso un tag de visible a hidden o vice versa) deberia verse aplicado. -> HECHO?
 - tags
-	-eliminar tags -> HECHO
+	-eliminar tags -> HECHO --> RE RE ABIERTO
 	-al cliquear en un tag en la sidebar me tiene que traer mas imagenes con ese tag asociado -> HECHO
 	-dar estilo al autocomplete -> HECHO
 	-placeholder en la sidebar cuando la imagen seleccionada no tiene tag
@@ -30,6 +30,7 @@ BUGS:
 - cuando hago backup me devuelve imagenes borradas!!
 - Las imagenes que no se pueden cargar aparecen para todas las busquedas.
 - La funcion para resetear el board no funciona bien (sacar el animate)
+- Al cargar una imagen del HD no se visualizan los tagas hasta que no se recargue la página. Esto se soluciona creando una clase que mapee la entidad al dto y resuelva las colecciones.
 
 HECHO:
 - loader para cuando apretas "agregar" en add image modal -> HECHO
@@ -72,3 +73,4 @@ DEUDA TECNICA:
 	- referencias circulares
 	- eliminacion de tags: debe haber un metodo de borrado mas simple
 - Obtener en el initialCatalog la url del servidor de una clase (en lugar de tenerla hardcodeada).
+- Hay que crear clases que se encarguen de los mapeos de entidades para resolver el problema de las colecciones.

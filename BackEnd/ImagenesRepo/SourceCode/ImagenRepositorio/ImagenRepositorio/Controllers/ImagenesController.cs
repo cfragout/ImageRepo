@@ -123,7 +123,7 @@ namespace ImagenRepositorio.Controllers
 
                 imagenDto.Created = DateTime.Now;
                 var createdImage = this.imagenService.CreateImage(imagenDto);
-
+                imagenDto.Id = createdImage.Id;
                 return Ok(imagenDto);
             }
             catch
@@ -228,8 +228,6 @@ namespace ImagenRepositorio.Controllers
         // Refactor
         private void SetTagsToUserUploadedImage(string tags, Imagen img)
         {
-            List<Tag> tagCollection = new List<Tag>();
-
             if (!String.IsNullOrEmpty(tags))
             {
                 var tagsArray = tags.Split(',');
@@ -237,10 +235,10 @@ namespace ImagenRepositorio.Controllers
                 foreach (var currentTag in tagsArray)
                 {
                     var originalTag = this.tagService.GetTagByName(currentTag);
-
+                    var imagenTag = new ImagenTag();
                     if (originalTag != null)
                     {
-                        //img.Tags.Add(originalTag);
+                        imagenTag.Tag = originalTag;
                     }
                     else
                     {
@@ -248,9 +246,9 @@ namespace ImagenRepositorio.Controllers
                         {
                             Name = currentTag,
                         };
-
-                      //  img.Tags.Add(tag);
+                        imagenTag.Tag = tag;
                     }
+                    img.ImagenTags.Add(imagenTag);
                 }
             }
         }

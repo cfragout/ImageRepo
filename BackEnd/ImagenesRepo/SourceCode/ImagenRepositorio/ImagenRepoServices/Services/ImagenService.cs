@@ -59,20 +59,52 @@ namespace ImagenRepoServices.Services
             return base.Create(imageToCreate);
         }
 
+        public override Imagen Create(Imagen entityToCreate)
+        {
+          
+
+            return base.Create(entityToCreate);
+        }
+
         public void Update(ImagenDto imagenDto, Imagen originalImagen)
         {
+            //Este metodo mapea las propiedades simples como hidden o favorito
             MapSimplePropertiesToEntity(imagenDto, originalImagen);
 
             var TagsNames = imagenDto.Tags.Select(tag => tag.Name).ToList();
+            var TagsToRemove = new Dictionary<int,int>();
 
-            foreach (var item in originalImagen.ImagenTags)
-            {
-                if (TagsNames.Contains(item.Tag.Name))
+            //Hago esto para remover de la coleccion original aquellos tags que fueron borrados en la vista
+            originalImagen.ImagenTags.ToList().ForEach(imagenTag =>
                 {
-                    
+                    if (!TagsNames.Contains(imagenTag.Tag.Name))
+                    {
+                        TagsToRemove.Add(imagenTag.Tag.Id, imagenTag.Imagen.Id);
+                    }
                 }
-            }
+            );
 
+            TagsToRemove.ToList().ForEach(item => 
+                {
+                    imagenTagService.DeleteTag(item.Key, item.Value);
+                }
+            );
+
+            //foreach (var item in originalImagen.ImagenTags)
+            //{
+            //    if (!TagsNames.Contains(item.Tag.Name))
+            //    {
+            //        TagsToRemove.Add(item.Tag.Id, item.Imagen.Id);
+            //    }
+            //}
+
+            //foreach (var item in TagsToRemove)
+            //{
+            //    imagenTagService.DeleteTag(item.Key, item.Value);
+            //}
+            
+            //Hago esto para ver si se agregaron tags nuevos.
+            AddNewTagsToOriginalImage(imagenDto, originalImagen);
 
             base.Update(originalImagen);
         }
@@ -99,6 +131,41 @@ namespace ImagenRepoServices.Services
         }
 
         #region Private Methods
+
+        private void AddNewTagsToOriginalImage(ImagenDto imagenDto, Imagen originalImagen)
+        {
+            var originalTagsNames = originalImagen.ImagenTags.Select(originalTag => originalTag.Tag.Name);
+            foreach (var tagDto in imagenDto.Tags)
+            {
+                //Sino lo contiene tengo que ver si exise o si tengo que crear un tag nuevo
+                if (!originalTagsNames.Contains(tagDto.Name))
+                {
+                    var imagenTag = new ImagenTag();
+                    //Busco el tag por el nombre
+                    var originalTag = tagService.GetTagByName(tagDto.Name);
+                    //Me fijo que si encontró el tag
+                    if (originalTag != null)
+                    {
+                        //Si lo encontro lo asigno
+                        imagenTag.Tag = originalTag;
+                    }
+                    else
+                    {
+                        //Sino lo encontró entonces creo un tag nuevo
+                        var tag = new Tag()
+                        {
+                            IsHidden = tagDto.IsHidden,
+                            Name = tagDto.Name
+                        };
+                        //Asigno el tag
+                        imagenTag.Tag = tag;
+
+                    }
+                    //Le agrego el tag a la imagenOriginal
+                    originalImagen.ImagenTags.Add(imagenTag);
+                }
+            }
+        }
 
         private ImagenDto createImageDto(Imagen image)
         {

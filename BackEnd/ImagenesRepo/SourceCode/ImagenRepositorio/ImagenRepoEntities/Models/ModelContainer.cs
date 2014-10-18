@@ -36,6 +36,8 @@ namespace ImagenRepoEntities.Models
 
         public IDbSet<Tag> Tags { get; set; }
 
+        public IDbSet<ImagenTag> ImagenTags { get; set; }
+
 
     }
 }

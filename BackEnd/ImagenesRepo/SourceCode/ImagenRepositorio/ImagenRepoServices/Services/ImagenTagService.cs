@@ -9,14 +9,18 @@ using System.Threading.Tasks;
 
 namespace ImagenRepoServices.Services
 {
-    public class ImagenTagService: BaseService<ImagenTag>, IImagenTagService
+    public class ImagenTagService: IImagenTagService
     {
-        IGenericRepository<ImagenTag> imagenTagGenericRepo;
+        IImagenTagRepository imagenTagRepo;
 
-        public ImagenTagService(IGenericRepository<ImagenTag> imagenTagGenericRepo, IGenericRepository<Tag> TagGenericRepo)
-            : base(imagenTagGenericRepo)
+        public ImagenTagService(IImagenTagRepository imagenTagRepo)
         {
-            this.imagenTagGenericRepo = imagenTagGenericRepo;
+            this.imagenTagRepo = imagenTagRepo;
+        }
+
+        public void DeleteTag(int tagId , int imagenId)
+        {
+            this.imagenTagRepo.Delete(tagId, imagenId);
         }
     }
 }

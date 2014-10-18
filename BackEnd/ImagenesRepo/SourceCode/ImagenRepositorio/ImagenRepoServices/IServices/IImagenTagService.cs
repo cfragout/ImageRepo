@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace ImagenRepoServices.IServices
 {
-    public interface IImagenTagService: IBaseService<ImagenTag>
+    public interface IImagenTagService
     {
+        void DeleteTag(int tagId, int imageId);
     }
 }

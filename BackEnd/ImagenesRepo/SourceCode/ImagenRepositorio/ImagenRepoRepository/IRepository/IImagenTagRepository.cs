@@ -8,5 +8,6 @@ namespace ImagenRepoRepository.IRepository
 {
     public interface IImagenTagRepository
     {
+        void Delete(int tagId, int imagenId);
     }
 }
