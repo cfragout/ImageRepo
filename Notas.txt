@@ -1,4 +1,4 @@
-﻿TODO:
+TODO:
 - ocultar imagenes por tag (por ejemplo ocultar imagenes con tag NSFW) -> HECHO
 	-cuando hago un cambio en las configuraciones (paso un tag de visible a hidden o vice versa) deberia verse aplicado. -> HECHO?
 - tags
@@ -9,6 +9,7 @@
 - agregados recientemente
 - vistas: vista de tags, vista de imagenes
 - usuarios
+	- pantalla de login
 - avisar cuando una imagen no se puede encontrar
 - historial de eventos (icono de la campana)
 - ordenar por criterios (tag, fecha, animadas)
@@ -18,6 +19,8 @@
 - Seccion configuraciones
 	- guardar configuraciones en la base y cargarlas en localStorage
 - tags mas usados
+- editar imagenes
+- pantalla backup (va a ser un modal)
 
 BUGS:
 - Estilo del scroll bar de tags
@@ -74,3 +77,4 @@ DEUDA TECNICA:
 	- eliminacion de tags: debe haber un metodo de borrado mas simple
 - Obtener en el initialCatalog la url del servidor de una clase (en lugar de tenerla hardcodeada).
 - Hay que crear clases que se encarguen de los mapeos de entidades para resolver el problema de las colecciones.
+- Clase estatica para obtener paths y urls. -> HECHO
