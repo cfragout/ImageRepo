@@ -53,7 +53,8 @@ $('#backupButton').click(function(){
 			console.log(data);
 			$('#REMOVEME').append('<a id="backupDownloadLink" href="'+ data +'">Descargar imagenes<a/>');
 		},
-		error: function() {
+		error: function(err) {
+			console.log(err)
 			$.Notify({
 				style: {background: '##9a1616', color: 'white'},
 				caption: 'Ups...',

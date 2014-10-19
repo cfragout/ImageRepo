@@ -12,6 +12,7 @@ using ImagenRepoEntities.Models;
 using ImagenRepoEntities.Entities;
 using ImagenRepoServices.IServices;
 using ImagenRepoServices.Services;
+using ImagenRepoHelpers;
 using System.IO;
 using System.Web;
 using System.Threading.Tasks;
@@ -114,6 +115,7 @@ namespace ImagenRepositorio.Controllers
             }
 
             imagenDto.Path = this.imagenService.GetImagePath(imagenDto);
+
             try
             {
                 if (imagenDto.UserUploaded == false)
@@ -141,7 +143,7 @@ namespace ImagenRepositorio.Controllers
 
             if (file != null)
             {
-                string serverUrl = "http://localhost:55069/Content/users/test_user@hotmail.com/images/";
+                //string serverImagesDirectoryForCurrentUserUrl = PathsAndUrlsHelper.GetCurrentUserImagesDirectoryFullPath();
 
                 var newImage = new Imagen 
                 { 
@@ -153,9 +155,10 @@ namespace ImagenRepositorio.Controllers
 
                 SetTagsToUserUploadedImage(request.Form["tags"], newImage);
 
-                string pic = GetLocalFileName(newImage);
-                string localPath = Path.Combine(GetLocalFilePath(), pic);
-                newImage.Path = serverUrl + pic;
+
+                string pic = PathsAndUrlsHelper.CreateLocalFileName(newImage.Name, newImage.OriginalUrl);
+                string localPath = Path.Combine(PathsAndUrlsHelper.GetLocalImagesDirectoryPathForCurrentLoggedInUser(), pic);
+                newImage.Path = PathsAndUrlsHelper.CreateImageFullUrl(newImage.Name, newImage.OriginalUrl);
 
                 // file is uploaded and info stored in the DB
                 file.SaveAs(localPath);
@@ -200,29 +203,6 @@ namespace ImagenRepositorio.Controllers
             originalImage.Path = imagen.Path;
            // originalImage.Tags = imagen.Tags;
             originalImage.UserUploaded = imagen.UserUploaded;
-        }
-
-        // Codigo duplicado
-        private string GetLocalFilePath()
-        {
-            string imageDirPath = "Content/users/test_user@hotmail.com/images/";
-            return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath;
-        }
-
-        // Codigo duplicado
-        private string GetLocalFileName(Imagen imagen)
-        {
-            string username = "CFR";
-            string datetime = DateTime.Today.ToString();
-            string originalUrl = imagen.OriginalUrl;
-
-            if (originalUrl.IndexOf('?') > -1)
-            {
-                originalUrl = originalUrl.Remove(originalUrl.IndexOf('?'));
-            }
-
-            datetime = datetime.Replace('/', '_').Replace('.', '_').Replace(':', '_').Replace(' ', '_').Replace('?', '_');
-            return username + "_" + imagen.Name + "_" + datetime + Path.GetExtension(originalUrl);
         }
 
         // Refactor

@@ -250,6 +250,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\ImagenRepoHelpers.csproj">
+      <Project>{ebaa5dca-4aa3-426e-bbcd-9ef327da0816}</Project>
+      <Name>ImagenRepoHelpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImagenRepoDomain\ImagenRepoDomain.csproj">
       <Project>{3a11b927-a19a-48c3-9f8c-8d4fb8446227}</Project>
       <Name>ImagenRepoDomain</Name>

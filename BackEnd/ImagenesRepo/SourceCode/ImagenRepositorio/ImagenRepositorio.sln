@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImagenRepositorio", "ImagenRepositorio\ImagenRepositorio.csproj", "{51896D17-F4D6-476E-A83B-F0A733907F8E}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImagenRepoEntities", "ImagenRepoEntities\ImagenRepoEntities.csproj", "{F6842F27-687E-4AD5-AF23-E34ED1208483}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImagenRepoDomain", "ImagenRepoDomain\ImagenRepoDomain.csproj", "{3A11B927-A19A-48C3-9F8C-8D4FB8446227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImagenRepoHelpers", "ClassLibrary1\ImagenRepoHelpers.csproj", "{EBAA5DCA-4AA3-426E-BBCD-9EF327DA0816}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{3A11B927-A19A-48C3-9F8C-8D4FB8446227}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A11B927-A19A-48C3-9F8C-8D4FB8446227}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A11B927-A19A-48C3-9F8C-8D4FB8446227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBAA5DCA-4AA3-426E-BBCD-9EF327DA0816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBAA5DCA-4AA3-426E-BBCD-9EF327DA0816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBAA5DCA-4AA3-426E-BBCD-9EF327DA0816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBAA5DCA-4AA3-426E-BBCD-9EF327DA0816}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

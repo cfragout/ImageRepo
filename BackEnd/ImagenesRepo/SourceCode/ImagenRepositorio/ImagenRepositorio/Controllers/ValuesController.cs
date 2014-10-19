@@ -1,4 +1,5 @@
-﻿using Ionic.Zip;
+﻿using ImagenRepoHelpers;
+using Ionic.Zip;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,9 +45,9 @@ namespace ImagenRepositorio.Controllers
         public IHttpActionResult GetRepoBackup()
         {
             // Zip user directory, not complete images directory
-            string userImagesDirectory = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "Content/username/images";
+            string userImagesDirectory = PathsAndUrlsHelper.GetLocalImagesDirectoryPathForCurrentLoggedInUser();
             DirectoryInfo directorySelected = new DirectoryInfo(userImagesDirectory);
-            string zipFilePath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "Content/username/"+ "username_images_date.zip";
+            string zipFilePath = PathsAndUrlsHelper.GetCurrentUserBackupDirectoryFullPath() + "username_images_date.zip"; // System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "Content/username/" ;
 
             using (ZipFile zip = new ZipFile())
             {
