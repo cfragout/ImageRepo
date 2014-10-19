@@ -12,7 +12,6 @@ TODO:
 - avisar cuando una imagen no se puede encontrar
 - historial de eventos (icono de la campana)
 - ordenar por criterios (tag, fecha, animadas)
-- eliminar imagen
 - estadisticas: cantidad de imagenes, cantidad de imagenes por tag, etc
 - compartir board: compartir todo, solo por tag, una sola img (link publico), un grupo de img
 - Acciones rapidas
@@ -24,11 +23,10 @@ BUGS:
 - Estilo del scroll bar de tags
 - flecha del boton agregar imagenes es muy grande
 - Cuando se abre el secondary image board deberia achicar el primary porque quedan imagenes ocultas y no se puede scrollear
-- Las imagenes favoritas deberian cargar siempre anes (sin necesidad de scroll)
+- Las imagenes favoritas deberian cargar siempre antes (sin necesidad de scroll)
 - Cuando hay muchas imagenes que no se pueden cargar, las imagenes placeholder de error se solapan
 - cuando el preview de la imagen es muy grande tapa a los botones -> SOLUCIONADO -> RE ABIERTO
 - cuando hago backup me devuelve imagenes borradas!!
-- Las imagenes que no se pueden cargar aparecen para todas las busquedas.
 - La funcion para resetear el board no funciona bien (sacar el animate)
 
 HECHO:
@@ -42,6 +40,7 @@ HECHO:
 - validaciones en add image modal -> HECHO
 - gif: habilitar o deshabilitar animacion -> HECHO
 - favoritos -> HECHO
+- eliminar imagen -> HECHO
 - busquedas en image board
 	.por nombre -> HECHO
 	.por tags -> HECHO
@@ -49,6 +48,7 @@ HECHO:
 SOLUCIONADOS:
 - Las imagenes que no se pueden cargar no se pueden borrar -> SOLUCIONADO
 - Habria que agregar la data (como los tags) de las imagenes que no se pudieron cargar. -> SOLUCIONADO
+- Las imagenes que no se pueden cargar aparecen para todas las busquedas. -> SOLUCIONADO
 - add image modal -> SOLUCIONADO
 - cuando recien se carga una imagen no se puede favoritear ni agregar al secondary image board -> SOLUCIONADO
 - Cuando se modifica una entidad, solo se ve reflejado el cambio cuando se para la aplicacion y se la vuelve a correr. -> SOLUCIONADO
