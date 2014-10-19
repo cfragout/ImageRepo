@@ -12,8 +12,8 @@ namespace ImagenRepoEntities.Models
     public class ModelContainer : DbContext
     {
         public ModelContainer()
-            //: base("name=repoLaburo")
-            : base("name=ImageRepoFrapanDesktop")
+            : base("name=repoLaburo")
+            //: base("name=ImageRepoFrapanDesktop")
         {
             base.Configuration.ProxyCreationEnabled = true;
         }
@@ -35,6 +35,8 @@ namespace ImagenRepoEntities.Models
         public IDbSet<Imagen> Imagenes { get; set; }
 
         public IDbSet<Tag> Tags { get; set; }
+
+        public IDbSet<ImagenTag> ImagenTags { get; set; }
 
 
     }

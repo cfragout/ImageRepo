@@ -39,7 +39,7 @@ namespace ImagenRepositorio.Controllers
         [ResponseType(typeof(IEnumerable<ImagenDto>))]
         public IHttpActionResult GetImages()
         {
-            var images = this.imagenService.GetAll().Select(ConvertToDto).ToList();
+            var images = this.imagenService.GetAll().ToList();
 
             return Ok(images);
         }
@@ -60,54 +60,71 @@ namespace ImagenRepositorio.Controllers
                 return NotFound();
             }
 
-            return Ok(ConvertToDto(imagen));
+            var tags = new List<TagDto>();
+
+            var imagentDto = ConvertToDto(imagen);
+
+            foreach (var item in imagen.ImagenTags)
+            {
+                var tagDto = new TagDto()
+                {
+                 IsHidden = item.Tag.IsHidden,
+                 Name = item.Tag.Name
+
+                };
+                tags.Add(tagDto);
+            }
+
+            imagentDto.Tags = tags;
+            return Ok(imagentDto);
         }
 
         // PUT: api/Imagenes/5
         [ResponseType(typeof(ImagenDto))]
-        public IHttpActionResult PutImagen(ImagenDto imagen)
+        public IHttpActionResult PutImagen(ImagenDto imagenDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-                                                    // Este get trae una imagen que es trackeada por EF. Cuando en el repositorio quiero guardar la imagen,
+            // Este get trae una imagen que es trackeada por EF. Cuando en el repositorio quiero guardar la imagen,
             // se trula porque estoy trayendo de nuevo la misma imagen con el metodo  this.context.Entry<T>(entityToEdit);
-            //var originalImage = this.imagenService.Get(imagen.Id);
-            //if (originalImage != null)
-            //{
-                var originalImage = ConvertFromDto(imagen);
-                this.imagenService.Update(originalImage);
-                return Ok(ConvertToDto(originalImage));
-            //}
-            //else
-            //{
-            //    return NotFound();
-            //}
+            var originalImage = this.imagenService.Get(imagenDto.Id);
+            if (originalImage != null)
+            {
+               // originalImage = ConvertFromDto(imagen);
+
+                this.imagenService.Update(imagenDto,originalImage);
+                return Ok(imagenDto);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // POST: api/Imagenes
         [ResponseType(typeof(ImagenDto))]
-        public IHttpActionResult PostImage(ImagenDto imagen)
+        public IHttpActionResult PostImage(ImagenDto imagenDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            imagen.Path = this.imagenService.GetImagePath(imagen);
+            imagenDto.Path = this.imagenService.GetImagePath(imagenDto);
             try
             {
-                if (imagen.UserUploaded == false)
+                if (imagenDto.UserUploaded == false)
                 {
-                    this.imagenService.DownloadImage(imagen);
+                    this.imagenService.DownloadImage(imagenDto);
                 }
 
-                imagen.Created = DateTime.Now;
-                var createdImage = this.imagenService.Create(ConvertFromDto(imagen));
-
-                return Ok(ConvertToDto(createdImage));
+                imagenDto.Created = DateTime.Now;
+                var createdImage = this.imagenService.CreateImage(imagenDto);
+                imagenDto.Id = createdImage.Id;
+                return Ok(imagenDto);
             }
             catch
             {
@@ -181,7 +198,7 @@ namespace ImagenRepositorio.Controllers
             originalImage.Name = imagen.Name;
             originalImage.OriginalUrl = imagen.OriginalUrl;
             originalImage.Path = imagen.Path;
-            originalImage.Tags = imagen.Tags;
+           // originalImage.Tags = imagen.Tags;
             originalImage.UserUploaded = imagen.UserUploaded;
         }
 
@@ -211,8 +228,6 @@ namespace ImagenRepositorio.Controllers
         // Refactor
         private void SetTagsToUserUploadedImage(string tags, Imagen img)
         {
-            List<Tag> tagCollection = new List<Tag>();
-
             if (!String.IsNullOrEmpty(tags))
             {
                 var tagsArray = tags.Split(',');
@@ -220,10 +235,10 @@ namespace ImagenRepositorio.Controllers
                 foreach (var currentTag in tagsArray)
                 {
                     var originalTag = this.tagService.GetTagByName(currentTag);
-
+                    var imagenTag = new ImagenTag();
                     if (originalTag != null)
                     {
-                        img.Tags.Add(originalTag);
+                        imagenTag.Tag = originalTag;
                     }
                     else
                     {
@@ -231,9 +246,9 @@ namespace ImagenRepositorio.Controllers
                         {
                             Name = currentTag,
                         };
-
-                        img.Tags.Add(tag);
+                        imagenTag.Tag = tag;
                     }
+                    img.ImagenTags.Add(imagenTag);
                 }
             }
         }
@@ -242,14 +257,14 @@ namespace ImagenRepositorio.Controllers
         {
         }
 
-        private static ImagenDto ConvertToDto(Imagen bill)
+        private static ImagenDto ConvertToDto(Imagen imagen)
         {
-            return Mapper.Map<ImagenDto>(bill);
+            return Mapper.Map<ImagenDto>(imagen);
         }
 
-        private static Imagen ConvertFromDto(ImagenDto billDto)
+        private static Imagen ConvertFromDto(ImagenDto imagenDto)
         {
-            return Mapper.Map<Imagen>(billDto);
+            return Mapper.Map<Imagen>(imagenDto);
         }
     }
 }

@@ -12,8 +12,7 @@ namespace ImagenRepoEntities.Entities
     {
         public Tag()
         {
-            Images = new List<Imagen>();
-
+            ImagenTag = new List<ImagenTag>();
         }
 
         
@@ -21,11 +20,11 @@ namespace ImagenRepoEntities.Entities
         [DataMember]
         public string Name { get; set; }
 
-        [DataMember]
+        [Required]
         public bool IsHidden { get; set; }
 
-        [IgnoreDataMember] 
-        public ICollection<Imagen> Images { get; set; }
+        [Required] 
+        public ICollection<ImagenTag> ImagenTag { get; set; }
 
     }
 }

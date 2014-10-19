@@ -14,8 +14,8 @@ namespace ImagenRepoEntities.Mappings
         {
 
 
-            this.HasMany(p => p.Tags)
-                .WithMany(p => p.Images);
+            //this.HasMany(p => p.Tags)
+            //    .WithMany(p => p.Images);
 
         }
     }

@@ -15,35 +15,98 @@ namespace ImagenRepoServices.Services
 {
     public class ImagenService: BaseService<Imagen> , IImagenService
     {
-        IGenericRepository<Tag> TagGenericRepo;
+        ITagService tagService;
+        IImagenTagService imagenTagService;
 
-        public ImagenService(IGenericRepository<Imagen> genericRepo, IGenericRepository<Tag> TagGenericRepo)
+        public ImagenService(IGenericRepository<Imagen> genericRepo,
+            ITagService tagService,
+            IImagenTagService imagenTagService)
             : base(genericRepo)
         {
-            this.TagGenericRepo = TagGenericRepo;
+            this.tagService = tagService;
+            this.imagenTagService = imagenTagService;
         }
 
-        public override IEnumerable<Imagen> GetAll()
+        public IEnumerable<ImagenDto> GetAll()
         {
+            var oringinalImages = base.GetAll().ToList();
+            var filteredImages = new List<ImagenDto>();
 
-            var lista = base.GetAll().ToList();
-            List<Imagen> everyNonDeletedImage = base.GetAll().ToList();
-            List<Imagen> filteredImages = new List<Imagen>();
-
-            foreach (Imagen image in everyNonDeletedImage)
+            foreach (var image in oringinalImages)
             {
-                if (image.Tags.ToList().Where(t => t.IsHidden == true).Count() == 0)
-                {
-                    filteredImages.Add(image);
-                }
+                var imagenDto = createImageDto(image);
+                filteredImages.Add(imagenDto);
             }
 
             return filteredImages;
         }
 
-        public override void Update(Imagen imagenToEdit)
+        public Imagen CreateImage(ImagenDto entityToCreate)
         {
-            base.Update(imagenToEdit);
+            var imageToCreate = new Imagen();
+            MapSimplePropertiesToEntity(entityToCreate,imageToCreate);
+
+            foreach (var tag in entityToCreate.Tags)
+            {
+                var imagenTag = new ImagenTag() 
+                {
+                    Tag = MapTagDtoToTag(tag)
+                };
+
+                imageToCreate.ImagenTags.Add(imagenTag);
+            }
+
+            return base.Create(imageToCreate);
+        }
+
+        public override Imagen Create(Imagen entityToCreate)
+        {
+          
+
+            return base.Create(entityToCreate);
+        }
+
+        public void Update(ImagenDto imagenDto, Imagen originalImagen)
+        {
+            //Este metodo mapea las propiedades simples como hidden o favorito
+            MapSimplePropertiesToEntity(imagenDto, originalImagen);
+
+            var TagsNames = imagenDto.Tags.Select(tag => tag.Name).ToList();
+            var TagsToRemove = new Dictionary<int,int>();
+
+            //Hago esto para remover de la coleccion original aquellos tags que fueron borrados en la vista
+            originalImagen.ImagenTags.ToList().ForEach(imagenTag =>
+                {
+                    if (!TagsNames.Contains(imagenTag.Tag.Name))
+                    {
+                        TagsToRemove.Add(imagenTag.Tag.Id, imagenTag.Imagen.Id);
+                    }
+                }
+            );
+
+            TagsToRemove.ToList().ForEach(item => 
+                {
+                    imagenTagService.DeleteTag(item.Key, item.Value);
+                }
+            );
+
+            //foreach (var item in originalImagen.ImagenTags)
+            //{
+            //    if (!TagsNames.Contains(item.Tag.Name))
+            //    {
+            //        TagsToRemove.Add(item.Tag.Id, item.Imagen.Id);
+            //    }
+            //}
+
+            //foreach (var item in TagsToRemove)
+            //{
+            //    imagenTagService.DeleteTag(item.Key, item.Value);
+            //}
+            
+            //Hago esto para ver si se agregaron tags nuevos.
+            AddNewTagsToOriginalImage(imagenDto, originalImagen);
+
+            base.Update(originalImagen);
         }
 
         public IEnumerable<Imagen> GetLatestImagenes()
@@ -67,6 +130,105 @@ namespace ImagenRepoServices.Services
             return serverUrl + GetLocalFileName(imagen);
         }
 
+        #region Private Methods
+
+        private void AddNewTagsToOriginalImage(ImagenDto imagenDto, Imagen originalImagen)
+        {
+            var originalTagsNames = originalImagen.ImagenTags.Select(originalTag => originalTag.Tag.Name);
+            foreach (var tagDto in imagenDto.Tags)
+            {
+                //Sino lo contiene tengo que ver si exise o si tengo que crear un tag nuevo
+                if (!originalTagsNames.Contains(tagDto.Name))
+                {
+                    var imagenTag = new ImagenTag();
+                    //Busco el tag por el nombre
+                    var originalTag = tagService.GetTagByName(tagDto.Name);
+                    //Me fijo que si encontró el tag
+                    if (originalTag != null)
+                    {
+                        //Si lo encontro lo asigno
+                        imagenTag.Tag = originalTag;
+                    }
+                    else
+                    {
+                        //Sino lo encontró entonces creo un tag nuevo
+                        var tag = new Tag()
+                        {
+                            IsHidden = tagDto.IsHidden,
+                            Name = tagDto.Name
+                        };
+                        //Asigno el tag
+                        imagenTag.Tag = tag;
+
+                    }
+                    //Le agrego el tag a la imagenOriginal
+                    originalImagen.ImagenTags.Add(imagenTag);
+                }
+            }
+        }
+
+        private ImagenDto createImageDto(Imagen image)
+        {
+            var imageDto = new ImagenDto()
+            {
+                Created = image.Created,
+                Id = image.Id,
+                IsFavourite = image.IsFavourite,
+                Name = image.Name,
+                OriginalUrl = image.OriginalUrl,
+                Path = image.Path,
+                UserUploaded = image.UserUploaded
+            };
+
+            foreach (var imagenTag in image.ImagenTags)
+            {
+                var tagDto = createTagDto(imagenTag);
+                imageDto.Tags.Add(tagDto);
+            }
+
+            return imageDto;
+        }
+
+        private TagDto createTagDto(ImagenTag imagenTag)
+        {
+            var tagDto = new TagDto()
+            {
+                Id = imagenTag.Tag.Id,
+                IsHidden = imagenTag.Tag.IsHidden,
+                Name = imagenTag.Tag.Name
+            };
+
+            return tagDto;
+        }
+
+        private Tag MapTagDtoToTag(TagDto tagDto)
+        {
+            var tag = tagService.GetTagByName(tagDto.Name);
+            if (tag != null)
+            {
+                return tag;
+            }
+            else
+            {
+                return tag = new Tag()
+                {
+                    IsHidden = tagDto.IsHidden,
+                    Name = tagDto.Name
+                };
+            }
+        }
+
+        private void MapSimplePropertiesToEntity(ImagenDto entityToCreate, Imagen originalImage)
+        {
+            originalImage.Created = entityToCreate.Created;
+            originalImage.IsDeleted = entityToCreate.IsDeleted;
+            originalImage.IsFavourite = entityToCreate.IsFavourite;
+            originalImage.Name = entityToCreate.Name;
+            originalImage.OriginalUrl = entityToCreate.OriginalUrl;
+            originalImage.Path = entityToCreate.Path;
+            originalImage.UserUploaded = entityToCreate.UserUploaded;
+        }
+
         private string GetLocalFileName(ImagenDto imagen)
         {
             string username = "CFR";
@@ -87,6 +249,8 @@ namespace ImagenRepoServices.Services
             string imageDirPath = "Content/users/test_user@hotmail.com/images/";
             return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + imageDirPath;
         }
+
+        #endregion
 
     }
 }

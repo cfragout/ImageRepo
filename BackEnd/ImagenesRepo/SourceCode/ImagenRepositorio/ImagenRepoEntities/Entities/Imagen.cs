@@ -10,7 +10,7 @@ namespace ImagenRepoEntities.Entities
     {
         public Imagen()
         {
-            Tags = new List<Tag>();
+            ImagenTags = new List<ImagenTag>();
         }
 
         [Required]
@@ -27,6 +27,9 @@ namespace ImagenRepoEntities.Entities
 
         public DateTime Created {get; set;} 
        
-        public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<ImagenTag> ImagenTags { get; set; }
+
+        public bool IsDeleted { get; set; }
+
     }
 }

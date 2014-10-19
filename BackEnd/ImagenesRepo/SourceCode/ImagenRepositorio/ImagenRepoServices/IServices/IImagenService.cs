@@ -15,5 +15,11 @@ namespace ImagenRepoServices.IServices
         string GetImagePath(ImagenDto imagen);
 
         void DownloadImage(ImagenDto imagen);
+
+        Imagen CreateImage(ImagenDto entityToCreate);
+
+        IEnumerable<ImagenDto> GetAll();
+
+        void Update(ImagenDto imagenDto, Imagen originalImagen);
     }
 }

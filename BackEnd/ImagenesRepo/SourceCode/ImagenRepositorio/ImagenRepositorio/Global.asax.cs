@@ -3,6 +3,7 @@ using Castle.Windsor;
 using Castle.Windsor.Installer;
 using ImagenRepoEntities.Entities;
 using ImagenRepoEntities.Models;
+using ImagenRepoEntities.UoW;
 using ImagenRepoRepository.IRepository;
 using ImagenRepoRepository.Repository;
 using ImagenRepoServices.IServices;
@@ -48,13 +49,17 @@ namespace ImagenRepositorio
         {
             container.Register(Component.For<IGenericRepository<Imagen>>().ImplementedBy<GenericRepository<Imagen>>().LifeStyle.PerWebRequest);
             container.Register(Component.For<IGenericRepository<Tag>>().ImplementedBy<GenericRepository<Tag>>().LifeStyle.PerWebRequest);
+            container.Register(Component.For<IImagenTagRepository>().ImplementedBy<ImagenTagRepository>().LifeStyle.PerWebRequest);
+
         }
 
         private void RegisterServices()
         {
+            container.Register(Component.For<ImagenRepoUnitOfWork>().LifestylePerWebRequest());
             container.Register(Component.For<ModelContainer>().LifestylePerWebRequest());
             container.Register(Component.For<IImagenService>().ImplementedBy<ImagenService>().LifeStyle.PerWebRequest);
             container.Register(Component.For<ITagService>().ImplementedBy<TagService>().LifeStyle.PerWebRequest);
+            container.Register(Component.For<IImagenTagService>().ImplementedBy<ImagenTagService>().LifeStyle.PerWebRequest);
         }
 
         private void InstallDependencies()
