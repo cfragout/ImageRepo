@@ -7,8 +7,8 @@
     <ProjectGuid>{EBAA5DCA-4AA3-426E-BBCD-9EF327DA0816}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary1</RootNamespace>
-    <AssemblyName>ClassLibrary1</AssemblyName>
+    <RootNamespace>ImagenRepoHelpers</RootNamespace>
+    <AssemblyName>ImagenRepoHelpers</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

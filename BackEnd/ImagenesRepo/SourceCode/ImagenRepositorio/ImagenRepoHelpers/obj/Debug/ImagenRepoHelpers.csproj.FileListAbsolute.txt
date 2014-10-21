@@ -1,0 +1,5 @@
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\ImagenRepoHelpers.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\ImagenRepoHelpers.pdb
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\obj\Debug\ImagenRepoHelpers.csprojResolveAssemblyReference.cache
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\obj\Debug\ImagenRepoHelpers.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\obj\Debug\ImagenRepoHelpers.pdb

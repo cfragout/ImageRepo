@@ -56,10 +56,6 @@
     <Compile Include="Services\TagService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\ImagenRepoHelpers.csproj">
-      <Project>{ebaa5dca-4aa3-426e-bbcd-9ef327da0816}</Project>
-      <Name>ImagenRepoHelpers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ImagenRepoDomain\ImagenRepoDomain.csproj">
       <Project>{3a11b927-a19a-48c3-9f8c-8d4fb8446227}</Project>
       <Name>ImagenRepoDomain</Name>
@@ -67,6 +63,10 @@
     <ProjectReference Include="..\ImagenRepoEntities\ImagenRepoEntities.csproj">
       <Project>{f6842f27-687e-4ad5-af23-e34ed1208483}</Project>
       <Name>ImagenRepoEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImagenRepoHelpers\ImagenRepoHelpers.csproj">
+      <Project>{101695e4-f4c9-400a-b118-3ae1790fba82}</Project>
+      <Name>ImagenRepoHelpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\ImagenRepoRepository\ImagenRepoRepository.csproj">
       <Project>{80129f5f-092a-488d-a929-83939176fa47}</Project>
