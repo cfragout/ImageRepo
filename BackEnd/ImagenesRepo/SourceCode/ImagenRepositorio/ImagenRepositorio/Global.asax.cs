@@ -4,6 +4,8 @@ using Castle.Windsor.Installer;
 using ImagenRepoEntities.Entities;
 using ImagenRepoEntities.Models;
 using ImagenRepoEntities.UoW;
+using ImagenRepoHelpers.Automapper;
+using ImagenRepoHelpers.MappingHelpers;
 using ImagenRepoRepository.IRepository;
 using ImagenRepoRepository.Repository;
 using ImagenRepoServices.IServices;
@@ -37,12 +39,20 @@ namespace ImagenRepositorio
             this.InstallDependencies();
             this.RegisterServices();
             this.RegisterRepository();
+            this.RegisterHelpers();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AutomapperDomainRegistration.Register();
+           // AutomapperDomainRegistration.Register();
+            AutomapperMappingRegistration.Register();
             System.Data.Entity.Database.SetInitializer(new ModelInitializer());
+        }
+
+        private void RegisterHelpers()
+        {
+            container.Register(Component.For<ImagenMap>().LifeStyle.PerWebRequest);
+            container.Register(Component.For<TagMap>().LifeStyle.PerWebRequest);
         }
 
         private void RegisterRepository()

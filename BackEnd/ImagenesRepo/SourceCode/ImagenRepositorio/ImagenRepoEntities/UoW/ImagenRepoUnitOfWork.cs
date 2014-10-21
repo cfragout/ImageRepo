@@ -13,8 +13,8 @@ namespace ImagenRepoEntities.UoW
     public class ImagenRepoUnitOfWork : DbContext, IImagenRepoUnitOfWork
     {
         public ImagenRepoUnitOfWork()
-            //: base("name=repoLaburo")
-            : base("name=ImageRepoFrapanDesktop")
+            : base("name=repoLaburo")
+            //: base("name=ImageRepoFrapanDesktop")
         {
             base.Configuration.ProxyCreationEnabled = true;
    

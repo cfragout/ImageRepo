@@ -3,3 +3,14 @@ C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\I
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\obj\Debug\ImagenRepoHelpers.csprojResolveAssemblyReference.cache
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\obj\Debug\ImagenRepoHelpers.dll
 C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\obj\Debug\ImagenRepoHelpers.pdb
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\AutoMapper.Net4.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\AutoMapper.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\ImagenRepoDomain.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\ImagenRepoEntities.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\ImagenRepoRepository.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\EntityFramework.dll
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\ImagenRepoDomain.pdb
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\ImagenRepoEntities.pdb
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\ImagenRepoRepository.pdb
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\AutoMapper.xml
+C:\Users\fbarragan\Documents\Proyectos\Pruebas\ImagenRepoGit\ImageRepo\BackEnd\ImagenesRepo\SourceCode\ImagenRepositorio\ImagenRepoHelpers\bin\Debug\EntityFramework.xml

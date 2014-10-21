@@ -11,6 +11,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ImagenRepoHelpers;
+using ImagenRepoHelpers.MappingHelpers;
 
 namespace ImagenRepoServices.Services
 {
@@ -18,14 +19,17 @@ namespace ImagenRepoServices.Services
     {
         ITagService tagService;
         IImagenTagService imagenTagService;
+        ImagenMap imagenMap;
 
         public ImagenService(IGenericRepository<Imagen> genericRepo,
             ITagService tagService,
-            IImagenTagService imagenTagService)
+            IImagenTagService imagenTagService,
+            ImagenMap imagenMap)
             : base(genericRepo)
         {
             this.tagService = tagService;
             this.imagenTagService = imagenTagService;
+            this.imagenMap = imagenMap;
         }
 
         public IEnumerable<ImagenDto> GetAll()
@@ -45,26 +49,10 @@ namespace ImagenRepoServices.Services
         public Imagen CreateImage(ImagenDto entityToCreate)
         {
             var imageToCreate = new Imagen();
-            MapSimplePropertiesToEntity(entityToCreate,imageToCreate);
 
-            foreach (var tag in entityToCreate.Tags)
-            {
-                var imagenTag = new ImagenTag() 
-                {
-                    Tag = MapTagDtoToTag(tag)
-                };
-
-                imageToCreate.ImagenTags.Add(imagenTag);
-            }
+            imagenMap.ConvertToImagen(entityToCreate, imageToCreate);
 
             return base.Create(imageToCreate);
-        }
-
-        public override Imagen Create(Imagen entityToCreate)
-        {
-          
-
-            return base.Create(entityToCreate);
         }
 
         public void Update(ImagenDto imagenDto, Imagen originalImagen)
@@ -91,19 +79,6 @@ namespace ImagenRepoServices.Services
                 }
             );
 
-            //foreach (var item in originalImagen.ImagenTags)
-            //{
-            //    if (!TagsNames.Contains(item.Tag.Name))
-            //    {
-            //        TagsToRemove.Add(item.Tag.Id, item.Imagen.Id);
-            //    }
-            //}
-
-            //foreach (var item in TagsToRemove)
-            //{
-            //    imagenTagService.DeleteTag(item.Key, item.Value);
-            //}
-            
             //Hago esto para ver si se agregaron tags nuevos.
             AddNewTagsToOriginalImage(imagenDto, originalImagen);
 

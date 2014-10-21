@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,10 +45,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Automapper\AutomapperMappingRegistration.cs" />
+    <Compile Include="MappingHelpers\ImagenMap.cs" />
+    <Compile Include="MappingHelpers\TagMap.cs" />
     <Compile Include="PathsAndUrlsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImagenRepoDomain\ImagenRepoDomain.csproj">
+      <Project>{3a11b927-a19a-48c3-9f8c-8d4fb8446227}</Project>
+      <Name>ImagenRepoDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImagenRepoEntities\ImagenRepoEntities.csproj">
+      <Project>{f6842f27-687e-4ad5-af23-e34ed1208483}</Project>
+      <Name>ImagenRepoEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImagenRepoRepository\ImagenRepoRepository.csproj">
+      <Project>{80129f5f-092a-488d-a929-83939176fa47}</Project>
+      <Name>ImagenRepoRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
