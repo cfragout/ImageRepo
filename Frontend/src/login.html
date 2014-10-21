@@ -1,7 +1,7 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-			<title>ImageRepo</title>
+			<title>Login</title>
 			<link rel="stylesheet" href="../vendor/Metro UI/css/iconFont.min.css" type="text/css" />
 			<link rel="stylesheet" href="../vendor/Metro UI/css/metro-bootstrap.min.css" type="text/css" />
 			<link rel="stylesheet" href="../vendor/Metro UI/css/metro-bootstrap-responsive.min.css" type="text/css" />
@@ -16,7 +16,8 @@
 		</head>
 		<body class="metro">
 
-			<div style="color:white;border-style:solid; border-width:1px; border-color:black; height:300px; width:500px; margin-top:5%; margin-right:10%; float:right;" class="shadow">
+			<!-- Log in -->
+			<div style="color:white;border-style:solid; border-width:1px; border-color:black; width:500px; height:315px; margin-top:5%; margin-right:10%; float:right;" class="login-container shadow">
 				<div class="login-loader-container hidden">
 					<div id="loginImageLoader" class="circular-loader">
 						<div class="circle"></div>
@@ -26,7 +27,7 @@
 						<div class="circle"></div>
 					</div>
 				</div>
-				<div class="form-container" style="padding:20px">
+				<div id="loginFormContainer" class="form-container" style="padding:20px">
 					<form style="margin-bottom:50px;" class="">
 						<fieldset>
 							<label>Nombre de usuario o email</label>
@@ -42,12 +43,80 @@
 							<input id="submitButton" type="button" value="Entrar" class="pull-right bg-indigo" style="margin-top:15px; border-width:2px; border-color:white; color:white;">
 						</fieldset>
 					</form>
+					<a id="createAccountLink" href="#" class="">Crear una cuenta</a>
+					<div style="clear:both; margin-bottom:5px;"></div>
 					<a id="cannotLoginLink" href="" class="">No podes iniciar sesion?</a>
 				</div>
 			</div>
+			<!-- End log in -->
+
+			<div class="signup-title hidden">
+				<h1 style="text-align: center;color: white;margin-bottom: 30px;">ImageRepo</h1>
+			</div>
+
+			<!-- Sign up -->
+			<div class="signup-container hidden" style="color:white; width:735px; margin:0 auto;">
+
+				<!-- Back arrow -->
+				<div id="backArrowContainer" style="text-align:center;">
+					<div class="icon-arrow-left-3" style="color: white;font-size: 38px;float: left;margin-right: 50px;margin-top: 25px; cursor:pointer;"></div>
+				</div>
+				<!-- End back arrow -->
+
+				<div class="profile-image-container" style="float: left;width: 280px;margin-top: 25px;">
+					<img id="profilePicture" src="../assets/images/profile-image-placeholder.png" style="float:right; box-shadow: 0 2px 6px rgba(0,0,0,0.3),0 3px 8px rgba(0,0,0,0.2);">
+					<button id="browseProfilePicture" style="margin-top: 10px;float: right;">Examinar</button>
+					<input id="profilePictureFileInput" type="file" style="margin-left: -1900px">
+				</div>
+				<div class="sign-up-loader-container loader-container hidden" style="padding-top:10%;">
+					<div id="signUpImageLoader" class="circular-loader">
+						<div class="circle"></div>
+						<div class="circle"></div>
+						<div class="circle"></div>
+						<div class="circle"></div>
+						<div class="circle"></div>
+					</div>
+				</div>
+				<div class="form-container sign-up-form" style="padding:20px; float:right;">
+					<form style="margin-bottom:50px;" class="">
+						<fieldset>
+							<label>Nombre de usuario</label>
+							<div class="input-control text" data-role="input-control">
+								<input type="text">
+								<button class="btn-clear" tabindex="-1" type="button"></button>
+							</div>
+							<label>Direccion de mail</label>
+							<div class="input-control text" data-role="input-control">
+								<input type="text">
+								<button class="btn-clear" tabindex="-1" type="button"></button>
+							</div>
+							<label>Confirma tu direccion de mail</label>
+							<div class="input-control text" data-role="input-control">
+								<input type="text">
+								<button class="btn-clear" tabindex="-1" type="button"></button>
+							</div>
+							<label>Contraseña</label>
+							<div class="input-control password" data-role="input-control">
+								<input type="password" autofocus="">
+								<button class="btn-reveal" tabindex="-1" type="button"></button>
+							</div>
+							<label>Confirma tu contraseña</label>
+							<div class="input-control password" data-role="input-control">
+								<input type="password" autofocus="">
+								<button class="btn-reveal" tabindex="-1" type="button"></button>
+							</div>
+
+
+							<input id="createAccount" type="button" value="Crear cuenta" class="pull-right bg-indigo" style="margin-top:15px; border-width:2px; border-color:white; color:white;">
+						</fieldset>
+					</form>
+				</div>
+			</div>
+			<!-- End sign up -->
 
 			<script type="text/javascript" src="../vendor/jquery-2.1.1.min.js"></script>
 
+			<script type="text/javascript" src="js/common.js"></script>
 			<script type="text/javascript" src="js/login.js"></script>
 
 		</body>

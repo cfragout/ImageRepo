@@ -157,20 +157,6 @@ $('#addImagesButton').click(function(){
 	});
 });
 
-// Image from pc: show preview
-//MOVE TO HELPER
-function readURL(inputHTML, imageHTML) {
-	if (inputHTML.files && inputHTML.files[0]) {
-		var reader = new FileReader();
-
-		reader.onload = function (e) {
-			$(imageHTML).attr('src', e.target.result);
-		}
-
-		reader.readAsDataURL(inputHTML.files[0]);
-	}
-}
-
 function showLoadingScreen(show) {
 	if (show) {
 		$($('.add-image-loading-screen')[1]).fadeIn();

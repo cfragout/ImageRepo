@@ -10,6 +10,9 @@ TODO:
 - vistas: vista de tags, vista de imagenes
 - usuarios
 	- pantalla de login
+		- Sacar estilos de login.html
+		- validaciones
+		- Mejorar animacion login/sign up
 - avisar cuando una imagen no se puede encontrar
 - historial de eventos (icono de la campana)
 - ordenar por criterios (tag, fecha, animadas)
