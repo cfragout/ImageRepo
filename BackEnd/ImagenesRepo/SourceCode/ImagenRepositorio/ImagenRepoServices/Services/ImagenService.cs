@@ -39,7 +39,7 @@ namespace ImagenRepoServices.Services
 
             foreach (var image in oringinalImages)
             {
-                var imagenDto = createImageDto(image);
+                var imagenDto = imagenMap.CreateImagenDto(image);
                 filteredImages.Add(imagenDto);
             }
 
@@ -48,9 +48,9 @@ namespace ImagenRepoServices.Services
 
         public Imagen CreateImage(ImagenDto entityToCreate)
         {
-            var imageToCreate = new Imagen();
+            var imageToCreate = imagenMap.CreateImagenFromDto(entityToCreate);
 
-            imagenMap.ConvertToImagen(entityToCreate, imageToCreate);
+            //imagenMap.ConvertToImagen(entityToCreate, imageToCreate);
 
             return base.Create(imageToCreate);
         }
@@ -141,39 +141,39 @@ namespace ImagenRepoServices.Services
             }
         }
 
-        private ImagenDto createImageDto(Imagen image)
-        {
-            var imageDto = new ImagenDto()
-            {
-                Created = image.Created,
-                Id = image.Id,
-                IsFavourite = image.IsFavourite,
-                Name = image.Name,
-                OriginalUrl = image.OriginalUrl,
-                Path = image.Path,
-                UserUploaded = image.UserUploaded
-            };
+        //private ImagenDto createImageDto(Imagen image)
+        //{
+        //    var imageDto = new ImagenDto()
+        //    {
+        //        Created = image.Created,
+        //        Id = image.Id,
+        //        IsFavourite = image.IsFavourite,
+        //        Name = image.Name,
+        //        OriginalUrl = image.OriginalUrl,
+        //        Path = image.Path,
+        //        UserUploaded = image.UserUploaded
+        //    };
 
-            foreach (var imagenTag in image.ImagenTags)
-            {
-                var tagDto = createTagDto(imagenTag);
-                imageDto.Tags.Add(tagDto);
-            }
+        //    foreach (var imagenTag in image.ImagenTags)
+        //    {
+        //        var tagDto = createTagDto(imagenTag);
+        //        imageDto.Tags.Add(tagDto);
+        //    }
 
-            return imageDto;
-        }
+        //    return imageDto;
+        //}
 
-        private TagDto createTagDto(ImagenTag imagenTag)
-        {
-            var tagDto = new TagDto()
-            {
-                Id = imagenTag.Tag.Id,
-                IsHidden = imagenTag.Tag.IsHidden,
-                Name = imagenTag.Tag.Name
-            };
+        //private TagDto createTagDto(ImagenTag imagenTag)
+        //{
+        //    var tagDto = new TagDto()
+        //    {
+        //        Id = imagenTag.Tag.Id,
+        //        IsHidden = imagenTag.Tag.IsHidden,
+        //        Name = imagenTag.Tag.Name
+        //    };
 
-            return tagDto;
-        }
+        //    return tagDto;
+        //}
 
         private Tag MapTagDtoToTag(TagDto tagDto)
         {

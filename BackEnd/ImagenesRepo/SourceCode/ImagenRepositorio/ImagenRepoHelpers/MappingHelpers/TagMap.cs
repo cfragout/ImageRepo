@@ -1,4 +1,5 @@
-﻿using ImagenRepoDomain.Dtos;
+﻿using AutoMapper;
+using ImagenRepoDomain.Dtos;
 using ImagenRepoEntities.Entities;
 using ImagenRepoRepository.IRepository;
 using System;
@@ -11,7 +12,7 @@ namespace ImagenRepoHelpers.MappingHelpers
 {
     public class TagMap
     {
-        IGenericRepository<Tag> tagRepo;
+        private IGenericRepository<Tag> tagRepo;
 
         public TagMap(IGenericRepository<Tag> tagRepo)
         {
@@ -40,5 +41,11 @@ namespace ImagenRepoHelpers.MappingHelpers
             return tagDto;
         }
 
+        public TagDto CreateTagDto(ImagenTag imagenTag)
+        {
+            var tagDto = Mapper.Map<TagDto>(imagenTag.Tag);
+
+            return tagDto;
+        }
     }
 }

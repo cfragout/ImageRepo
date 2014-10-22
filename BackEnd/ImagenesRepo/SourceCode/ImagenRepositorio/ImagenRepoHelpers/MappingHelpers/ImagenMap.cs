@@ -1,4 +1,5 @@
-﻿using ImagenRepoDomain.Dtos;
+﻿using AutoMapper;
+using ImagenRepoDomain.Dtos;
 using ImagenRepoEntities.Entities;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,38 @@ namespace ImagenRepoHelpers.MappingHelpers
 
         public Imagen ConvertToImagen(ImagenDto imagenDto, Imagen imagen)
         {
-            MapSimplePropertiesToEntity(imagenDto, imagen);
+            Mapper.Map(imagenDto, imagen);
 
             ConvertTagDtoToImagenTag(imagenDto, imagen);
 
             return imagen;
+        }
+
+        public Imagen CreateImagenFromDto(ImagenDto imagenDto) 
+        {
+            var imagen = Mapper.Map<Imagen>(imagenDto);
+
+            ConvertTagDtoToImagenTag(imagenDto, imagen);
+
+            return imagen;
+        }
+
+        public ImagenDto ConvertToImagenDto(Imagen imagen, ImagenDto imagenDto)
+        {
+            Mapper.Map(imagen, imagenDto);
+
+            CreateTagDtoFromImagenTag(imagen, imagenDto);
+
+            return imagenDto;
+        }
+
+        public ImagenDto CreateImagenDto(Imagen imagen)
+        {
+            var imageDto = Mapper.Map<ImagenDto>(imagen);
+
+            CreateTagDtoFromImagenTag(imagen, imageDto);
+
+            return imageDto;
         }
 
         private void ConvertTagDtoToImagenTag(ImagenDto imagenDto, Imagen imagen)
@@ -39,13 +67,19 @@ namespace ImagenRepoHelpers.MappingHelpers
             }
         }
 
-        public ImagenDto ConvertToImagenDto(Imagen imagen , ImagenDto imagenDto)
+        private void CreateTagDtoFromImagenTag(Imagen imagen, ImagenDto imageDto)
         {
-            return imagenDto;
+            foreach (var imagenTag in imagen.ImagenTags)
+            {
+                var tagDto = tagMap.CreateTagDto(imagenTag);
+                imageDto.Tags.Add(tagDto);
+            }
         }
 
         private void MapSimplePropertiesToEntity(ImagenDto entityToCreate, Imagen originalImage)
         {
+            Mapper.Map(entityToCreate, originalImage);
+
             originalImage.Created = entityToCreate.Created;
             originalImage.IsDeleted = entityToCreate.IsDeleted;
             originalImage.IsFavourite = entityToCreate.IsFavourite;

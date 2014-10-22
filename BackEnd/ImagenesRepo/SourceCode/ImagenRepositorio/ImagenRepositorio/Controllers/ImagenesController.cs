@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Cors;
 using ImagenRepoDomain.Dtos;
 using AutoMapper;
+using ImagenRepoHelpers.MappingHelpers;
 
 namespace ImagenRepositorio.Controllers
 {
@@ -27,13 +28,16 @@ namespace ImagenRepositorio.Controllers
     {
         private IImagenService imagenService;
         private ITagService tagService;
+        private ImagenMap imagenMap;
 
         public ImagenesController(
             IImagenService imagenService,
-            ITagService tagService)
+            ITagService tagService,
+            ImagenMap imagenMap)
         {
             this.imagenService = imagenService;
             this.tagService = tagService;
+            this.imagenMap = imagenMap;
         }
 
         // GET: api/Imagenes
@@ -171,7 +175,8 @@ namespace ImagenRepositorio.Controllers
                     byte[] array = ms.GetBuffer();
                 }
 
-                return Ok(ConvertToDto(createdImage));
+
+                return Ok(imagenMap.CreateImagenDto(createdImage));
             }
 
             // after successfully uploading redirect the user
